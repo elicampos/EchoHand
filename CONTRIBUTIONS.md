@@ -4,4 +4,4 @@ Anton Rushevich, Eli Campos, Gabriella Conde, Michael Knauf, Shawn Rhoads | 10/0
 Eli Campos | 10/02/2025 | 99:99 PM | 99:99 PM | 0:00 | Work on Draft Schematic.
 Eli Campos | 10/03/2025 | 99:99 PM | 99:99 PM | 0:00 | Work on Draft Schematic and High-Level System Diagram.
 Eli Campos | 10/11/2025 | 99:99 PM | 99:99 PM | 0:00 | Work on sourcing and ordering parts.
-Michael Knauf | 10/15/2025 | 7:27 PM | 99:99 PM | 0:00 | Work on Environmental Sustainability section for Design Plan revision, revising time sheet
+Michael Knauf | 10/15/2025 | 7:27 PM | 8:09 PM | 0:40 | Work on Environmental Sustainability section for Design Plan revision, revising time sheet
