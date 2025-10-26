@@ -33,7 +33,7 @@ void setup()
   xTaskCreate(
     TaskBluetoothSerial,   // Fucntion name of Task
     "BluetoothSerial",     // Name of Task
-    2048,             // Stack size (bytes) for task
+    8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)
     NULL              // Task handle(for RTOS API maniuplation)
@@ -60,19 +60,25 @@ void TaskAnalogRead(void *pvParameters)
   // To not get compiler unused variable error
   (void) pvParameters;
 
-  // Fetch analog data from sensors forever
-  for (;;) 
-  {
-    int thumbAngle = analogRead(thumbPin)*resistor_to_angle_constant;
+  int thumbAngle = analogRead(thumbPin)*resistor_to_angle_constant;
     int indexAngle = analogRead(indexPin)*resistor_to_angle_constant;
     int middleAngle = analogRead(middlePin)*resistor_to_angle_constant;
     int ringAngle = analogRead(ringPin)*resistor_to_angle_constant;
     int pinkeAngle = analogRead(pinkePin)*resistor_to_angle_constant;
-    Serial.println("Thumb Angle: " + String(thumbAngle) + 
-    " Index Angle: " + String(indexAngle) +  
-    " Middle Finger Angle: " + String(middleAngle) +
-    " Ring Finger Angle: " + String(ringAngle) +
-    " Pinkie Finger Angle: " + String(pinkeAngle));
+  // Fetch analog data from sensors forever
+  for (;;) 
+  {
+    thumbAngle = analogRead(thumbPin)*resistor_to_angle_constant;
+    indexAngle = analogRead(indexPin)*resistor_to_angle_constant;
+    middleAngle = analogRead(middlePin)*resistor_to_angle_constant;
+    ringAngle = analogRead(ringPin)*resistor_to_angle_constant;
+    pinkeAngle = analogRead(pinkePin)*resistor_to_angle_constant;
+    
+    // Serial.println("Thumb Angle: " + String(thumbAngle) + 
+    // " Index Angle: " + String(indexAngle) +  
+    // " Middle Finger Angle: " + String(middleAngle) +
+    // " Ring Finger Angle: " + String(ringAngle) +
+    // " Pinkie Finger Angle: " + String(pinkeAngle));
     vTaskDelay(1); 
   }
 }
