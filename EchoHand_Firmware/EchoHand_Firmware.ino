@@ -1,6 +1,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+#include "Bluetooth_task.h"
+
 // After mechincal structure is placed, we will calculate with the constant is
 #define resistor_to_angle_constant 1
 
@@ -22,6 +24,15 @@ void setup()
   xTaskCreate(
     TaskAnalogRead,   // Fucntion name of Task
     "AnalogRead",     // Name of Task
+    2048,             // Stack size (bytes) for task
+    NULL,             // Parameters(none)
+    1,                // Priority level(1->highest)
+    NULL              // Task handle(for RTOS API maniuplation)
+  );
+
+  xTaskCreate(
+    TaskBluetoothSerial,   // Fucntion name of Task
+    "BluetoothSerial",     // Name of Task
     2048,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)

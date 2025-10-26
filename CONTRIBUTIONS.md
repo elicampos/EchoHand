@@ -7,4 +7,4 @@ Eli Campos | 10/11/2025 | 99:99 PM | 99:99 PM | 0:00 | Work on sourcing and orde
 Michael Knauf | 10/15/2025 | 7:27 PM | 8:09 PM | 0:40 | Work on Environmental Sustainability section for Design Plan revision, revising time sheet
 Gabriella Conde | 10/18/2025 | 5:16 AM | 6:24 AM | 01:08 | Research and write repairability section of Design Draft.
 Eli Campos | 10/19/2025 | 12:00 AM | 4:17 AM | 4:17 | Research and write risk section of Design Draft. 
-Michael Knauf | 10/25/2025 | 8:05 PM | ----- | ---- | Setting up Arduino environment and starting work on Bluetooth Serial 
+Michael Knauf | 10/25/2025 | 8:05 PM | 10:00 PM | 1:55 | Set up Arduino environment and tested and showed that Bluetooth Serial failed
