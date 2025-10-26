@@ -56,17 +56,16 @@ void TaskBluetoothSerial(void *pvParameters){
       // read the raw bytes the client wrote to the outputs characteristic
       const std::string& v = c->getValue();
 
-      // Data validation:
+      // DATA VALIDATION/INFORMATION HANDLING (if we need to more here, move elsewhere? I'm not sure if a checksum is needed or if BLE handles that)
       // validate the payload is at least the size of our packed OutputsPayload
       if (v.size() < sizeof(OutputsPayload)) return;
+      // DATA VALIDATION END
 
       // copy the bytes into a local OutputsPayload
       OutputsPayload p;
       memcpy(&p, v.data(), sizeof(OutputsPayload));
 
-      // Apply each finger's outputs to the persistent state:
-      // vibrationRPMs[i] - target RPM for vibration motor i
-      // servoTargetAngles[i] - target servo angle (radians) for finger i
+      // Apply each finger's outputs to the persistent state
       for (uint8_t i = 0; i < 5; ++i) {
         PersistentState::instance().setVibrationRPM(i, p.vibrationRPMs[i]);
         PersistentState::instance().setServoTargetAngle(i, p.servoTargetAngles[i]);
