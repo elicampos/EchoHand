@@ -17,6 +17,9 @@ void setup()
   // Wait for serial device to finish initalizing
   while(!Serial);
 
+  //bluetooth init
+  BLEInit();
+
   //Debug Print
   Serial.println("Starting FreeRTOS task...");
 
@@ -30,14 +33,9 @@ void setup()
     NULL              // Task handle(for RTOS API maniuplation)
   );
 
-  xTaskCreate(
-    TaskBluetoothSerial,   // Fucntion name of Task
-    "BluetoothSerial",     // Name of Task
-    2048,             // Stack size (bytes) for task
-    NULL,             // Parameters(none)
-    1,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
-  );
+
+
+  
 }
 
 void loop() 
