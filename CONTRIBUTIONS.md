@@ -9,3 +9,4 @@ Gabriella Conde | 10/18/2025 | 5:16 AM | 6:24 AM | 01:08 | Research and write re
 Eli Campos | 10/19/2025 | 12:00 AM | 4:17 AM | 4:17 | Research and write risk section of Design Draft. 
 Michael Knauf | 10/25/2025 | 8:05 PM | 10:00 PM | 1:55 | Set up Arduino environment and tested and showed that Bluetooth Serial failed
 Michael Knauf | 10/25/2025 | 1:12 PM | ---------|------| Making BLE Pre-alpha setup
+Shawn Rhoads | 10/26/2025 | 11:38 AM | 5:32 PM | 5:56 | Initial data store code and BLE integration
