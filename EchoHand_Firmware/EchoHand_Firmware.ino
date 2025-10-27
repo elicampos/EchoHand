@@ -2,7 +2,7 @@
 #include "freertos/task.h"
 
 #include "Bluetooth_task.h"
-
+#include "PersistentState.h"
 // After mechincal structure is placed, we will calculate with the constant is
 #define resistor_to_angle_constant 1
 
@@ -55,25 +55,27 @@ void TaskAnalogRead(void *pvParameters)
   const int indexPin = 12;  // Example ADC pin (adjust for your board)
   const int middlePin = 11;  // Example ADC pin (adjust for your board)
   const int ringPin = 10;  // Example ADC pin (adjust for your board)
-  const int pinkePin = 9;  // Example ADC pin (adjust for your board)
+  const int pinkiePin = 9;  // Example ADC pin (adjust for your board)
 
   // To not get compiler unused variable error
   (void) pvParameters;
 
-  int thumbAngle = analogRead(thumbPin)*resistor_to_angle_constant;
-    int indexAngle = analogRead(indexPin)*resistor_to_angle_constant;
-    int middleAngle = analogRead(middlePin)*resistor_to_angle_constant;
-    int ringAngle = analogRead(ringPin)*resistor_to_angle_constant;
-    int pinkeAngle = analogRead(pinkePin)*resistor_to_angle_constant;
   // Fetch analog data from sensors forever
   for (;;) 
   {
-    thumbAngle = analogRead(thumbPin)*resistor_to_angle_constant;
-    indexAngle = analogRead(indexPin)*resistor_to_angle_constant;
-    middleAngle = analogRead(middlePin)*resistor_to_angle_constant;
-    ringAngle = analogRead(ringPin)*resistor_to_angle_constant;
-    pinkeAngle = analogRead(pinkePin)*resistor_to_angle_constant;
+    int thumbAngle = map(analogRead(thumbPin), 0, 4000, 0, 90);
+    int indexAngle = map(analogRead(indexPin), 0, 4000, 0, 90);
+    int middleAngle = map(analogRead(middlePin), 0, 4000, 0, 90);
+    int ringAngle = map(analogRead(ringPin), 0, 4000, 0, 90);
+    int pinkeAngle = map(analogRead(pinkeAngle),0,4000,0,90);
     
+    //Send Data to Persistant State
+    PersistentState::instance().setFingerAngle(0, thumbAngle);
+    PersistentState::instance().setFingerAngle(1, indexAngle);
+    PersistentState::instance().setFingerAngle(2, middleAngle);
+    PersistentState::instance().setFingerAngle(3, ringAngle);   
+    PersistentState::instance().setFingerAngle(4, pinkeAngle);
+
     Serial.println("Thumb Angle: " + String(thumbAngle) + 
     " Index Angle: " + String(indexAngle) +  
     " Middle Finger Angle: " + String(middleAngle) +
