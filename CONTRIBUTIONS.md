@@ -13,3 +13,4 @@ Michael Knauf | 10/25/2025 | 1:12 PM | ---------|------| Making BLE Pre-alpha se
 Shawn Rhoads | 10/26/2025 | 11:38 AM | 5:32 PM | 5:56 | Initial data store code and BLE integration
 Eli Campos | 10/26/2025 | 3:00 PM | 12:00 AM | 9:00 | Finializing adc polling code, tweaking circuit and purchasing more components. 
 Shawn Rhoads | 10/26/2025 | 9:00 PM | 11:59 PM | 2:59 | Fixing data store / BLE issues, coordinating team coding efforts 
+Anton Rushevich | 10/26/2025 | 4:23 PM | 11:35 PM | 07:12 | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
