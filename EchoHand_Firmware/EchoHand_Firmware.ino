@@ -52,10 +52,10 @@ void TaskAnalogRead(void *pvParameters)
 {
   //Pin locations for fingers
   const int thumbPin = 13; 
-  const int indexPin = 12;  // Example ADC pin (adjust for your board)
-  const int middlePin = 11;  // Example ADC pin (adjust for your board)
-  const int ringPin = 10;  // Example ADC pin (adjust for your board)
-  const int pinkiePin = 9;  // Example ADC pin (adjust for your board)
+  const int indexPin = 12; 
+  const int middlePin = 11;  
+  const int ringPin = 10; 
+  const int pinkiePin = 9; 
 
   // To not get compiler unused variable error
   (void) pvParameters;
