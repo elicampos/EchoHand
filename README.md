@@ -8,7 +8,7 @@ EchoHand is a wearable haptic glove that captures hand and finger movements usin
 
 ## System Architecture
 
-### 5.1 External Interface
+### External Interface
 
 The external interface layer is implemented in `EchoHand_Firmware.ino` and handles all sensor data acquisition. This component:
 
@@ -16,7 +16,7 @@ The external interface layer is implemented in `EchoHand_Firmware.ino` and handl
 - Configures the FreeRTOS settings, including task stack sizes and priorities
 - Configures serial communication settings for debugging and monitoring
 
-### 5.2 Persistent State
+### Persistent State
 
 Data storage is managed through `PersistentState.h`, which implements a singleton pattern for centralized state management. This component:
 
@@ -25,7 +25,7 @@ Data storage is managed through `PersistentState.h`, which implements a singleto
 - Implements a snapshot mechanism with revision counters for consistent multi-field reads
 - Stores current values for finger angles, servo positions, vibration motor RPMs, and joystick inputs
 
-### 5.3 Internal Systems
+### Internal Systems
 
 The internal processing layer handles data transformation and control logic. This component performs:
 
@@ -34,7 +34,7 @@ The internal processing layer handles data transformation and control logic. Thi
 - **State Updates**: Continuously updates the PersistentState with processed sensor data
 - **Haptic Control**: Manages the relationship between virtual interactions and physical feedback through servo and vibration systems
 
-### 5.4 Information Handling
+### Information Handling
 
 Data integrity is maintained through:
 
@@ -42,7 +42,7 @@ Data integrity is maintained through:
 - Validation of sensor data ranges before processing
 - Error checking on state updates to prevent corruption
 
-### 5.5 Communication
+### Communication
 
 Bluetooth Low Energy (BLE) communication is implemented using the NimBLE library.
 
@@ -51,7 +51,7 @@ Bluetooth Low Energy (BLE) communication is implemented using the NimBLE library
 - **Input Characteristic**: Receives haptic feedback commands for servos and vibration motors
 - **Pairing**: Secure encrypted connection prevents unauthorized access
 
-### 5.6 Integrity & Resilience
+### Integrity & Resilience
 
 Security and reliability features include:
 
