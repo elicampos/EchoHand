@@ -10,4 +10,4 @@ Eli Campos | 10/19/2025 | 12:00 AM | 4:17 AM | 4:17 | Research and write risk se
 Michael Knauf | 10/25/2025 | 8:05 PM | 10:00 PM | 1:55 | Set up Arduino environment and tested and showed that Bluetooth Serial failed
 Michael Knauf | 10/25/2025 | 1:12 PM | ---------|------| Making BLE Pre-alpha setup
 Shawn Rhoads | 10/26/2025 | 11:38 AM | 5:32 PM | 5:56 | Initial data store code and BLE integration
-Anton Rushevich | 10/26/2025 | 4:23 PM | 10:05 PM | 05:42 | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
+Anton Rushevich | 10/26/2025 | 4:23 PM | ---- | ---- | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
