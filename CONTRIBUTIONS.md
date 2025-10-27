@@ -12,3 +12,4 @@ Eli Campos | 10/25/2025 | 12:30 PM | 6:00pm | 5:30 | Reading ESP32 Docuementatio
 Michael Knauf | 10/25/2025 | 1:12 PM | ---------|------| Making BLE Pre-alpha setup
 Shawn Rhoads | 10/26/2025 | 11:38 AM | 5:32 PM | 5:56 | Initial data store code and BLE integration
 Eli Campos | 10/26/2025 | 3:00 PM | 12:00 AM | 9:00 | Finializing adc polling code, tweaking circuit and purchasing more components. 
+Shawn Rhoads | 10/26/2025 | 9:00 PM | 11:59 PM | 2:59 | Fixing data store / BLE issues, coordinating team coding efforts 
