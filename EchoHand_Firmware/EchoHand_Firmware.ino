@@ -74,11 +74,11 @@ void TaskAnalogRead(void *pvParameters)
     ringAngle = analogRead(ringPin)*resistor_to_angle_constant;
     pinkeAngle = analogRead(pinkePin)*resistor_to_angle_constant;
     
-    // Serial.println("Thumb Angle: " + String(thumbAngle) + 
-    // " Index Angle: " + String(indexAngle) +  
-    // " Middle Finger Angle: " + String(middleAngle) +
-    // " Ring Finger Angle: " + String(ringAngle) +
-    // " Pinkie Finger Angle: " + String(pinkeAngle));
+    Serial.println("Thumb Angle: " + String(thumbAngle) + 
+    " Index Angle: " + String(indexAngle) +  
+    " Middle Finger Angle: " + String(middleAngle) +
+    " Ring Finger Angle: " + String(ringAngle) +
+    " Pinkie Finger Angle: " + String(pinkeAngle));
     vTaskDelay(1); 
   }
 }
