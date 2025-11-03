@@ -16,3 +16,4 @@ Eli Campos | 10/26/2025 | 3:00 PM | 12:00 AM | 9:00 | Finializing adc polling co
 Shawn Rhoads | 10/26/2025 | 9:00 PM | 11:59 PM | 2:59 | Fixing data store / BLE issues, coordinating team coding efforts 
 Gabriella Conde | 10/26/2025 | 4:01 PM | 5:27 PM | 1:26 | Began expanding flex-sensor/esp32 circuit to incorporate joysticks, buttons, and servo motors.
 Anton Rushevich | 10/26/2025 | 4:23 PM | 11:35 PM | 07:12 | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
+Gabriella Conde | 2:43 AM | 3:52 AM | 1:09 | Assemble haptic spool prototype.
