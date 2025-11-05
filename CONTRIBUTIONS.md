@@ -18,4 +18,4 @@ Gabriella Conde | 10/26/2025 | 4:01 PM | 5:27 PM | 1:26 | Began expanding flex-s
 Anton Rushevich | 10/26/2025 | 4:23 PM | 11:35 PM | 07:12 | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
 Eli Campos | 11/02/2025 | 4:00 PM | 10:00 PM | 6:00 | Source tools and parts for prototype. Begin basic assembly. 
 Gabriella Conde | 11/03/2025 | 2:43 AM | 3:52 AM | 1:09 | Assemble haptic spool prototype.
-Michael Knauf | 11/04/2025 | 5:05 PM | -------- | ------ | code connection to Bluetooth serial periferal through UART
+Michael Knauf | 11/04/2025 | 5:05 PM | 7:00 | 1:55 | code connection to Bluetooth serial periferal through UART
