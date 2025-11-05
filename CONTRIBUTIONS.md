@@ -21,4 +21,4 @@ Gabriella Conde | 11/03/2025 | 2:43 AM | 3:52 AM | 1:09 | Assemble haptic spool 
 Michael Knauf | 11/04/2025 | 5:05 PM | 7:00 | 1:55 | code connection to Bluetooth serial periferal through UART
 Gabriella Conde | 11/04/2025 | 1:28 AM | 2:04 AM | 0:36 | Prepare 3-D printed parts for assembly.
 Michael knauf, Eli Campos | 11/05/2025 | 5:20 AM | 6:05 PM | 0:45 | working on debugging Bluetooth Serial Module
-Michael Knauf | 11/05/2025 | 6:22 PM | -- | - | working on getting BthS working with ESP32
+Michael Knauf | 11/05/2025 | 6:22 PM | 6:56 PM | 0:34 | working on getting BthS working with ESP32
