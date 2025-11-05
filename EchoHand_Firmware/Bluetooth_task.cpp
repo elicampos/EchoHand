@@ -49,54 +49,14 @@ void TaskBluetoothSerial(void *pvParameters){
 
   Serial.println("Initializing BLE...");
   // //bluetooth init
-  NimBLEDevice::init("Echo_Hand");
 
-  //security setup
-  NimBLEDevice::setSecurityAuth(true, true, false); //requires bonding, MITM, and BLE secure connections  
-
-  NimBLEServer* BLEServer = NimBLEDevice::createServer();
-
-  // EchoHand custom service + characteristic UUIDs
-  static const char* SVC_ECHOHAND = "069a410b-7344-4768-8568-f5a7073a0ab1";
-  static const char* CH_INPUTS   = "069a410b-7344-4768-8568-f5a7073a0ab2";
-  static const char* CH_OUTPUTS  = "069a410b-7344-4768-8568-f5a7073a0ab3";
-
-  NimBLEService* UserInputService = BLEServer->createService(SVC_ECHOHAND);
-
-  // Packed characteristics
-  // Inputs_Packed: glove -> PC (read/notify)
-  NimBLECharacteristic* inputsPacked =
-        UserInputService->createCharacteristic(CH_INPUTS, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::READ_ENC | NIMBLE_PROPERTY::READ_AUTHEN);
-  // Outputs_Packed: PC -> glove (write)
-  NimBLECharacteristic* outputsPacked =
-        UserInputService->createCharacteristic(CH_OUTPUTS, NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::WRITE_ENC | NIMBLE_PROPERTY::WRITE_AUTHEN);
-
-  outputsPacked->setCallbacks(&outputsCb);
-  UserInputService->start();
+  Serial1.begin(38400, SERIAL_8N1, 18, 17);
   
-  NimBLEAdvertising* advertising = NimBLEDevice::getAdvertising();
-  advertising->addServiceUUID(SVC_ECHOHAND);
-  advertising->start();
-  Serial.println("Started BLE advertising");
-
-  
-
-  // bluetooth task loop
-  uint32_t lastRevision = 0;
   for(;;){
-    EchoStateSnapshot s;
-    PersistentState::instance().takeSnapshot(s);
-    if (s.revision != lastRevision) {
-      // update packed inputs
-      InputsPayload in{};
-      for (uint8_t i = 0; i < 5; ++i) in.fingerAngles[i] = s.fingerAngles[i];
-      in.joystickXY[0] = s.joystickXY[0];
-      in.joystickXY[1] = s.joystickXY[1];
-      in.buttonsBitmask = s.buttonsBitmask;
-      in.batteryPercent = s.batteryPercent;
-      inputsPacked->setValue((uint8_t*)&in, sizeof(InputsPayload));
-      lastRevision = s.revision;
-    }
+    Serial1.print("AT\r\n");
+    if(Serial1.available())
+      Serial.print(Serial1.readString());
     vTaskDelay(1);
   }
+  
 }

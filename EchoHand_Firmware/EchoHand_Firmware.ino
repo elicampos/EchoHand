@@ -21,14 +21,14 @@ void setup()
   Serial.println("Starting FreeRTOS task...");
 
   // Create the task
-  xTaskCreate(
-    TaskAnalogRead,   // Fucntion name of Task
-    "AnalogRead",     // Name of Task
-    2048,             // Stack size (bytes) for task
-    NULL,             // Parameters(none)
-    1,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
-  );
+  // xTaskCreate(
+  //   TaskAnalogRead,   // Fucntion name of Task
+  //   "AnalogRead",     // Name of Task
+  //   2048,             // Stack size (bytes) for task
+  //   NULL,             // Parameters(none)
+  //   1,                // Priority level(1->highest)
+  //   NULL              // Task handle(for RTOS API maniuplation)
+  // );
 
   xTaskCreate(
     TaskBluetoothSerial,   // Fucntion name of Task
@@ -76,11 +76,11 @@ void TaskAnalogRead(void *pvParameters)
     PersistentState::instance().setFingerAngle(3, ringAngle);   
     PersistentState::instance().setFingerAngle(4, pinkeAngle);
 
-    Serial.println("Thumb Angle: " + String(thumbAngle) + 
-    " Index Angle: " + String(indexAngle) +  
-    " Middle Finger Angle: " + String(middleAngle) +
-    " Ring Finger Angle: " + String(ringAngle) +
-    " Pinkie Finger Angle: " + String(pinkeAngle));
+    // Serial.println("Thumb Angle: " + String(thumbAngle) + 
+    // " Index Angle: " + String(indexAngle) +  
+    // " Middle Finger Angle: " + String(middleAngle) +
+    // " Ring Finger Angle: " + String(ringAngle) +
+    // " Pinkie Finger Angle: " + String(pinkeAngle));
     vTaskDelay(1); 
   }
 }
