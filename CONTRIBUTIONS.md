@@ -20,3 +20,5 @@ Eli Campos | 11/02/2025 | 4:00 PM | 10:00 PM | 6:00 | Source tools and parts for
 Gabriella Conde | 11/03/2025 | 2:43 AM | 3:52 AM | 1:09 | Assemble haptic spool prototype.
 Michael Knauf | 11/04/2025 | 5:05 PM | 7:00 | 1:55 | code connection to Bluetooth serial periferal through UART
 Gabriella Conde | 11/04/2025 | 1:28 AM | 2:04 AM | 0:36 | Prepare 3-D printed parts for assembly.
+Michael knauf, Eli Campos | 11/05/2025 | 5:20 AM | ------ | ------ | working on debugging Bluetooth Serial Module
+
