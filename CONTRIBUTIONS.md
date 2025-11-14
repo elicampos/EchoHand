@@ -23,4 +23,7 @@ Gabriella Conde | 11/04/2025 | 1:28 AM | 2:04 AM | 0:36 | Prepare 3-D printed pa
 Michael knauf, Eli Campos | 11/05/2025 | 5:20 AM | 6:05 PM | 0:45 | working on debugging Bluetooth Serial Module
 Michael Knauf | 11/05/2025 | 6:22 PM | 6:56 PM | 0:34 | working on getting BthS working with ESP32
 Michael Knauf | 11/10/2025 | 6:48 PM | 7:02 PM | 0:14 | Changing main to use Bluetooth Serial
+Eli Campos | 11/12/2025 | 6:00 PM | 11:00 PM | 5:00 | Source additonal parts and set up haptic spools
 Gabriella Conde | 11/12/2025 | 5:16 AM | 7:20 AM | 2:04 | Assemble haptic spools.
+Eli Campos | 11/13/2025 | 6:00 PM | 9:00 PM  | 3:00 | Wire ESP32 to parts
+
