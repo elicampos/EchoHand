@@ -25,5 +25,6 @@ Michael Knauf | 11/05/2025 | 6:22 PM | 6:56 PM | 0:34 | working on getting BthS 
 Michael Knauf | 11/10/2025 | 6:48 PM | 7:02 PM | 0:14 | Changing main to use Bluetooth Serial
 Eli Campos | 11/12/2025 | 6:00 PM | 11:00 PM | 5:00 | Source additonal parts and set up haptic spools
 Gabriella Conde | 11/12/2025 | 5:16 AM | 7:20 AM | 2:04 | Assemble haptic spools.
-Eli Campos | 11/13/2025 | 6:00 PM | 9:00 PM  | 3:00 | Wire ESP32 to parts
+Eli Campos | 11/13/2025 | 6:00 PM | 9:00 PM  | 3:00 | Wire ESP32 to parts.
+Eli Campos | 11/14/2025 | 12:30 AM | 6:53 AM  | 6:23 | Add joystick, buttons and servos to microcontroller code.
 
