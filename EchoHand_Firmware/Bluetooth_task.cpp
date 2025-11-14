@@ -17,10 +17,11 @@ struct OutputsPayload {
 #pragma pack(pop) 
 
 void TaskBluetoothSerial(void *pvParameters){
+
   //uses parameter to avoid compiler error
   (void) pvParameters;
 
-  
+  /*
   Serial.println("Starting Bluetooth Serial...");
   Serial1.begin(38400, SERIAL_8N1, 18, 17);
   
@@ -28,12 +29,15 @@ void TaskBluetoothSerial(void *pvParameters){
   InputsPayload in{};
   OutputsPayload out{};
 
+  */
   // bluetooth task loop
   uint32_t lastRevision = 0;
   for(;;){
+      /*--Disabling for now--
+
     //if there's data available, read in the payload for outputs
     if(Serial1.available()){
-      Serial1.read(&out, sizeof(OutputsPayload));
+      Serial1.read((uint8_t*)&out, sizeof(OutputsPayload));
     }
 
     PersistentState::instance().takeSnapshot(s);
@@ -49,6 +53,9 @@ void TaskBluetoothSerial(void *pvParameters){
       Serial1.write((uint8_t*)&in, sizeof(InputsPayload));
       lastRevision = s.revision;
     }
+    */
     vTaskDelay(1);
+     
   }
+ 
 }
