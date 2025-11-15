@@ -21,23 +21,33 @@ void TaskBluetoothSerial(void *pvParameters){
   //uses parameter to avoid compiler error
   (void) pvParameters;
 
-  /*
-  Serial.println("Starting Bluetooth Serial...");
-  Serial1.begin(38400, SERIAL_8N1, 18, 17);
+  //swapping over to Serial port for now
+  // Serial.println("Starting Bluetooth Serial...");
+  // Serial1.begin(38400, SERIAL_8N1, 18, 17);
   
   EchoStateSnapshot s;
   InputsPayload in{};
   OutputsPayload out{};
+  OutputsPayload currentOutData{};
 
-  */
+  
   // bluetooth task loop
   uint32_t lastRevision = 0;
   for(;;){
-      /*--Disabling for now--
+
+    uint8_t currentByte;
 
     //if there's data available, read in the payload for outputs
-    if(Serial1.available()){
-      Serial1.read((uint8_t*)&out, sizeof(OutputsPayload));
+    if(Serial.available()){
+      Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
+      if(currentByte == START_BYTE){
+        Serial.read((uint8_t*)&currentOutData, sizeof(OutputsPayload));
+        Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
+        if(currentByte == END_BYTE){
+          out = currentOutData;
+        }
+          
+      }
     }
 
     PersistentState::instance().takeSnapshot(s);
@@ -53,7 +63,7 @@ void TaskBluetoothSerial(void *pvParameters){
       Serial1.write((uint8_t*)&in, sizeof(InputsPayload));
       lastRevision = s.revision;
     }
-    */
+    
     vTaskDelay(1);
      
   }
