@@ -1,6 +1,7 @@
 #include "Bluetooth_task.h"
 #include "PersistentState.h"
 #include <cstring>
+#include "config.h"
 
 // Defining packed payloads
 #pragma pack(push, 1) // pack the structs tp prevent padding between fields. this way the size of the struct is always the same.
@@ -38,15 +39,18 @@ void TaskBluetoothSerial(void *pvParameters){
     uint8_t currentByte;
 
     //if there's data available, read in the payload for outputs
-    if(Serial.available()){
-      Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
-      if(currentByte == START_BYTE){
-        Serial.read((uint8_t*)&currentOutData, sizeof(OutputsPayload));
+    if(!DEBUG_PRINT)
+    {
+      if(Serial.available()){
         Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
-        if(currentByte == END_BYTE){
-          out = currentOutData;
+        if(currentByte == START_BYTE){
+          Serial.read((uint8_t*)&currentOutData, sizeof(OutputsPayload));
+          Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
+          if(currentByte == END_BYTE){
+            out = currentOutData;
+          }
+            
         }
-          
       }
     }
 
@@ -60,7 +64,10 @@ void TaskBluetoothSerial(void *pvParameters){
       in.joystickXY[1] = s.joystickXY[1];
       in.buttonsBitmask = s.buttonsBitmask;
       in.batteryPercent = s.batteryPercent;
-      Serial1.write((uint8_t*)&in, sizeof(InputsPayload));
+      if(!DEBUG_PRINT)
+      {
+        Serial.write((uint8_t*)&in, sizeof(InputsPayload));
+      }
       lastRevision = s.revision;
     }
     

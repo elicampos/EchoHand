@@ -1,12 +1,9 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-
+#include "config.h"
 #include "Bluetooth_task.h"
 #include "PersistentState.h"
 #include "ESP32Servo.h"
-
-// After mechincal structure is placed, we will calculate with the constant is
-#define resistor_to_angle_constant 1
 
 // Declare Functions
 void TaskAnalogRead(void *pvParameters);
@@ -23,50 +20,55 @@ void setup()
   Serial.println("Starting FreeRTOS task...");
 
   // Create the task
-  xTaskCreate(
+  xTaskCreatePinnedToCore(
     TaskAnalogRead,   // Fucntion name of Task
     "AnalogRead",     // Name of Task
     2048,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
+    NULL,              // Task handle(for RTOS API maniuplation)
+    0                  // Run on core 0
   );
 
-  xTaskCreate(
+  xTaskCreatePinnedToCore(
     TaskBluetoothSerial,   // Fucntion name of Task
     "BluetoothSerial",     // Name of Task
     8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
+    NULL,              // Task handle(for RTOS API maniuplation)
+    0                  // Run on core 0
   );
 
   
-  xTaskCreate(
+  xTaskCreatePinnedToCore(
     TaskControllerButtons,   // Fucntion name of Task
     "ControllerButtons",     // Name of Task
     8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
+    NULL,              // Task handle(for RTOS API maniuplation)
+    0                  // Run on core 0
   );
 
-  xTaskCreate(
+  xTaskCreatePinnedToCore(
     TaskServoControl,   // Fucntion name of Task
     "ServoControl",     // Name of Task
     8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
+    NULL,              // Task handle(for RTOS API maniuplation)
+    0                  // Run on core 0
   );
 
-  xTaskCreate(
+  xTaskCreatePinnedToCore(
     TaskPersistentStatePrint,   // Fucntion name of Task
     "PersistentStatePrint",     // Name of Task
     8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)
-    NULL              // Task handle(for RTOS API maniuplation)
+    NULL,              // Task handle(for RTOS API maniuplation)
+    1                 // Run on core 1
   );
 }
 
@@ -107,13 +109,6 @@ void TaskAnalogRead(void *pvParameters)
     PersistentState::instance().setFingerAngle(3, ringAngle);   
     PersistentState::instance().setFingerAngle(4, pinkeAngle);
 
-    /*
-    Serial.println("Thumb Angle: " + String(thumbAngle) + 
-    " Index Angle: " + String(indexAngle) +  
-    " Middle Finger Angle: " + String(middleAngle) +
-    " Ring Finger Angle: " + String(ringAngle) +
-    " Pinkie Finger Angle: " + String(pinkeAngle));
-    */
     vTaskDelay(pdMS_TO_TICKS(10));; 
 
   }
@@ -136,8 +131,8 @@ void TaskControllerButtons(void *pvParameters)
   (void) pvParameters;
 
   pinMode(joystick_button_pin, INPUT_PULLUP);
-  pinMode(a_button_pin, INPUT_PULLUP);
-  pinMode(b_button_pin, INPUT_PULLUP);
+  pinMode(a_button_pin, INPUT);
+  pinMode(b_button_pin, INPUT);
 
   // Fetch analog data from sensors forever
   for (;;) 
@@ -155,13 +150,6 @@ void TaskControllerButtons(void *pvParameters)
     PersistentState::instance().setJoystick(joystick_x, joystick_y);
     PersistentState::instance().setButtonsBitmask(buttonMask);
 
-    /*
-    Serial.println(" Joystick X: " + String(joystick_x) + 
-    " Joystick Y: " + String(joystick_y) +  
-    " Joystick Pressed: " + String(joystick_pressed) +
-    " A button pressed: " + String(a_button) +
-    " B button pressed: " + String(b_button));
-    */
     vTaskDelay(pdMS_TO_TICKS(10));; 
   }
 
@@ -226,56 +214,58 @@ void TaskPersistentStatePrint(void *pvParameters)
 
   for(;;)
   {
-      Serial.println("\n=== PAYLOAD STATUS ===");
+      if(DEBUG_PRINT)
+      {
+        Serial.println("\n=== PAYLOAD STATUS ===");
 
-      // Finger angles
-      Serial.println("Finger Angles (deg):");
-      Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getFingerAngle(0));
-      Serial.printf("  Index : %.1f\n",  PersistentState::instance().getFingerAngle(1));
-      Serial.printf("  Middle: %.1f\n",  PersistentState::instance().getFingerAngle(2));
-      Serial.printf("  Ring  : %.1f\n",  PersistentState::instance().getFingerAngle(3));
-      Serial.printf("  Pinkie: %.1f\n",  PersistentState::instance().getFingerAngle(4));
-      Serial.println();
+        // Finger angles
+        Serial.println("Finger Angles (deg):");
+        Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getFingerAngle(0));
+        Serial.printf("  Index : %.1f\n",  PersistentState::instance().getFingerAngle(1));
+        Serial.printf("  Middle: %.1f\n",  PersistentState::instance().getFingerAngle(2));
+        Serial.printf("  Ring  : %.1f\n",  PersistentState::instance().getFingerAngle(3));
+        Serial.printf("  Pinkie: %.1f\n",  PersistentState::instance().getFingerAngle(4));
+        Serial.println();
 
-      // Servo targets
-      Serial.println("Servo Targets (deg):");
-      Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getServoTargetAngle(0));
-      Serial.printf("  Index : %.1f\n",  PersistentState::instance().getServoTargetAngle(1));
-      Serial.printf("  Middle: %.1f\n",  PersistentState::instance().getServoTargetAngle(2));
-      Serial.printf("  Ring  : %.1f\n",  PersistentState::instance().getServoTargetAngle(3));
-      Serial.printf("  Pinkie: %.1f\n",  PersistentState::instance().getServoTargetAngle(4));
-      Serial.println();
+        // Servo targets
+        Serial.println("Servo Targets (deg):");
+        Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getServoTargetAngle(0));
+        Serial.printf("  Index : %.1f\n",  PersistentState::instance().getServoTargetAngle(1));
+        Serial.printf("  Middle: %.1f\n",  PersistentState::instance().getServoTargetAngle(2));
+        Serial.printf("  Ring  : %.1f\n",  PersistentState::instance().getServoTargetAngle(3));
+        Serial.printf("  Pinkie: %.1f\n",  PersistentState::instance().getServoTargetAngle(4));
+        Serial.println();
 
-      // Vibration motors
-      Serial.println("Vibration RPM:");
-      Serial.printf("  Thumb : %d\n", PersistentState::instance().getVibrationRPM(0));
-      Serial.printf("  Index : %d\n", PersistentState::instance().getVibrationRPM(1));
-      Serial.printf("  Middle: %d\n", PersistentState::instance().getVibrationRPM(2));
-      Serial.printf("  Ring  : %d\n", PersistentState::instance().getVibrationRPM(3));
-      Serial.printf("  Pinkie: %d\n", PersistentState::instance().getVibrationRPM(4));
-      Serial.println();
+        // Vibration motors
+        Serial.println("Vibration RPM:");
+        Serial.printf("  Thumb : %d\n", PersistentState::instance().getVibrationRPM(0));
+        Serial.printf("  Index : %d\n", PersistentState::instance().getVibrationRPM(1));
+        Serial.printf("  Middle: %d\n", PersistentState::instance().getVibrationRPM(2));
+        Serial.printf("  Ring  : %d\n", PersistentState::instance().getVibrationRPM(3));
+        Serial.printf("  Pinkie: %d\n", PersistentState::instance().getVibrationRPM(4));
+        Serial.println();
 
-      // Joystick
-      float joyX, joyY;
-      PersistentState::instance().getJoystick(joyX, joyY);
-      Serial.println("Joystick:");
-      Serial.printf("  X: %.3f\n", joyX);
-      Serial.printf("  Y: %.3f\n", joyY);
-      Serial.println();
+        // Joystick
+        float joyX, joyY;
+        PersistentState::instance().getJoystick(joyX, joyY);
+        Serial.println("Joystick:");
+        Serial.printf("  X: %.3f\n", joyX);
+        Serial.printf("  Y: %.3f\n", joyY);
+        Serial.println();
 
-      // Buttons
-      uint32_t buttons = PersistentState::instance().getButtonsBitmask();
-      Serial.println("Buttons:");
-      Serial.printf("  Bitmask      : 0b%03d (0x%02X)\n", buttons, buttons);
-      Serial.printf("  Joystick Btn : %s\n", (buttons & 0b001) ? "PRESSED" : "released");
-      Serial.printf("  A Button     : %s\n", (buttons & 0b010) ? "PRESSED" : "released");
-      Serial.printf("  B Button     : %s\n", (buttons & 0b100) ? "PRESSED" : "released");
-      Serial.println();
+        // Buttons
+        uint32_t buttons = PersistentState::instance().getButtonsBitmask();
+        Serial.println("Buttons:");
+        Serial.printf("  Bitmask      : 0b%03d (0x%02X)\n", buttons, buttons);
+        Serial.printf("  Joystick Btn : %s\n", (buttons & 0b100) ? "released" : "PRESSED");
+        Serial.printf("  A Button     : %s\n", (buttons & 0b010) ? "PRESSED" : "released");
+        Serial.printf("  B Button     : %s\n", (buttons & 0b001) ? "PRESSED" : "released");
+        Serial.println();
 
-      // Battery
-      Serial.printf("Battery: %d%%\n", PersistentState::instance().getBatteryPercent());
-
-      vTaskDelay(pdMS_TO_TICKS(100)); 
+        // Battery
+        Serial.printf("Battery: %d%%\n", PersistentState::instance().getBatteryPercent());
+      }
+      vTaskDelay(pdMS_TO_TICKS(1000)); 
   }
 }
 
