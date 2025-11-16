@@ -28,28 +28,62 @@ void TaskBluetoothSerial(void *pvParameters){
   
   EchoStateSnapshot s;
   InputsPayload in{};
-  OutputsPayload out{};
-  OutputsPayload currentOutData{};
+  char outputsString[56];
+  char* currentByte;
+  char command;
+  int intValue;
+  float floatValue;
+  int8_t charCount = 0;
+
+  //set finger splay and leave it
+  printf("AB511BB511CB511DB511EB511\n");
 
   
   // bluetooth task loop
   uint32_t lastRevision = 0;
   for(;;){
-
-    uint8_t currentByte;
-
     //if there's data available, read in the payload for outputs
     if(!DEBUG_PRINT)
     {
       if(Serial.available()){
-        Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
-        if(currentByte == START_BYTE){
-          Serial.read((uint8_t*)&currentOutData, sizeof(OutputsPayload));
-          Serial.read((uint8_t*)&currentByte, sizeof(currentByte));
-          if(currentByte == END_BYTE){
-            out = currentOutData;
+        currentByte = outputsString;
+        Serial.read(currentByte, sizeof(char));
+
+        while(*currentByte != '\n' && currentByte != outputsString+ 55){
+          Serial.read(currentByte, sizeof(char));
+          if(*currentByte >= 65 && *currentByte <= 69){
+            command = *currentByte;
+            currentByte++;
+            while(*currentByte != '\n' && *currentByte < 65){
+              if(currentByte = outputsString + 55){
+                break;
+                break;
+              }
+              intValue *= 10;
+              intValue += *currentByte - 48;
+              currentByte++;
+            }
+            PersistentState::instance().setServoTargetAngle(command - 65, (180*intValue)/1000);
+          } else if(*currentByte == 'F'){
+            charCount = 0;
+            command = *currentByte;
+            currentByte++;
+            while(*currentByte != '\n' && *currentByte < 65){
+              if(currentByte = outputsString + 55){
+                break;
+                break;
+              }
+
+              if(charCount > 1){
+                floatValue += *currentByte * pow(10, (-1) * charCount);
+              }
+              charCount++;
+              currentByte++;
+            }
+            for(int i = 0;i < 5;i++){
+              PersistentState::instance().setVibrationRPM(i, floatValue*60);
+            }
           }
-            
         }
       }
     }
@@ -66,7 +100,16 @@ void TaskBluetoothSerial(void *pvParameters){
       in.batteryPercent = s.batteryPercent;
       if(!DEBUG_PRINT)
       {
-        Serial.write((uint8_t*)&in, sizeof(InputsPayload));
+        printf("A%dB%dC%dD%dE%d", in.fingerAngles[0], in.fingerAngles[1], in.fingerAngles[2], in.fingerAngles[3], in.fingerAngles[4]);
+        printf("F%dG%d", in.joystickXY[0], in.joystickXY[1]);
+        if(in.buttonsBitmask & JOYSTICK_BUTTON_BITMASK)
+          printf("H");
+        if(in.buttonsBitmask & A_BUTTON_BITMASK)
+          printf("J");
+        if(in.buttonsBitmask & B_BUTTON_BITMASK)
+          printf("K");
+        printf("\n");
+
       }
       lastRevision = s.revision;
     }
