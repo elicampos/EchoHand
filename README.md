@@ -83,7 +83,7 @@ Future security and reliability features include:
   - Provides active resistance feedback to simulate object interaction
   - Dual-sensor approach: flex sensors + servo encoders for improved angle accuracy
   - Addresses current 20% inaccuracy issue through sensor fusion
-  - 
+
 #### 3. Solder or PCB Development 
 - **Compact Size**: To be able to sit on the hand and arm comfortably, we will need to reduce the size of the circuit 
   - Allow better heat dissapation
