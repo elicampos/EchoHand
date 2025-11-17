@@ -6,14 +6,14 @@
 // Defining packed payloads
 #pragma pack(push, 1) // pack the structs tp prevent padding between fields. this way the size of the struct is always the same.
 struct InputsPayload {
-  float fingerAngles[5];
-  float joystickXY[2];
+  int fingerAngles[5];
+  int joystickXY[2];
   uint32_t buttonsBitmask;
   uint8_t batteryPercent;
 };
 struct OutputsPayload {
   uint16_t vibrationRPMs[5];
-  float servoTargetAngles[5];
+  int servoTargetAngles[5];
 };
 #pragma pack(pop) 
 
@@ -93,7 +93,7 @@ void TaskBluetoothSerial(void *pvParameters){
       // update packed inputs
       
       for (uint8_t i = 0; i < 5; ++i) 
-        in.fingerAngles[i] = s.fingerAngles[i];
+      in.fingerAngles[i] = s.fingerAngles[i];
       in.joystickXY[0] = s.joystickXY[0];
       in.joystickXY[1] = s.joystickXY[1];
       in.buttonsBitmask = s.buttonsBitmask;
@@ -102,11 +102,13 @@ void TaskBluetoothSerial(void *pvParameters){
       {
         printf("A%dB%dC%dD%dE%d", in.fingerAngles[0], in.fingerAngles[1], in.fingerAngles[2], in.fingerAngles[3], in.fingerAngles[4]);
         printf("F%dG%d", in.joystickXY[0], in.joystickXY[1]);
-        if(in.buttonsBitmask & JOYSTICK_BUTTON_BITMASK)
+        if((in.buttonsBitmask & TRIGGER_BUTTON_BITMASK))
+          printf("L");
+        if(!(in.buttonsBitmask & JOYSTICK_BUTTON_BITMASK))
           printf("H");
-        if(in.buttonsBitmask & A_BUTTON_BITMASK)
+        if((in.buttonsBitmask & A_BUTTON_BITMASK))
           printf("J");
-        if(in.buttonsBitmask & B_BUTTON_BITMASK)
+        if((in.buttonsBitmask & B_BUTTON_BITMASK))
           printf("K");
         printf("\n");
 
@@ -114,7 +116,7 @@ void TaskBluetoothSerial(void *pvParameters){
       lastRevision = s.revision;
     }
     
-    vTaskDelay(1);
+    vTaskDelay(50);
      
   }
  

@@ -11,6 +11,17 @@ void TaskControllerButtons(void* pvParameters);
 void TaskServoControl(void* pvParameters);
 void TaskPersistentStatePrint(void* pvParameters);
 
+// Average of finger reading angles
+int readSmooth(int pin) 
+{
+  long long sum = 0;
+  for (int i = 0; i < 500; i++) 
+  {
+    sum += abs(analogRead(pin));
+  }
+  return sum / 500;
+}
+
 void setup() 
 {
   // Set Fast BaudRate
@@ -27,7 +38,7 @@ void setup()
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
-    0                  // Run on core 0
+    1                  // Run on core 1
   );
 
   xTaskCreatePinnedToCore(
@@ -35,9 +46,9 @@ void setup()
     "BluetoothSerial",     // Name of Task
     8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
-    2,                // Priority level(1->highest)
+    1,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
-    0                  // Run on core 0
+    1                  // Run on core 1
   );
 
   
@@ -68,7 +79,7 @@ void setup()
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
-    1                 // Run on core 1
+    0                 // Run on core 0
   );
 }
 
@@ -86,22 +97,55 @@ void TaskAnalogRead(void *pvParameters)
   //Pin locations for fingers
   const int thumbPin = 13; 
   const int indexPin = 12; 
-  const int middlePin = 11;  
-  const int ringPin = 10; 
+  const int middlePin = 10;  
+  const int ringPin = 11; 
   const int pinkiePin = 9; 
 
   // To not get compiler unused variable error
   (void) pvParameters;
 
+  
+  // Finger Calibration value, no flex position is going to be assumbed when user flashes moule
+  int thumbCalibrationAngle = 4095 - readSmooth(thumbPin);
+  int indexCalibrationAngle = 4095 - readSmooth(indexPin);
+  int middleCalibrationAngle = 4095 - readSmooth(middlePin);
+  int ringCalibrationAngle = 4095 - readSmooth(ringPin);
+  int pinkieCalibrationAngle = 4095 - readSmooth(pinkiePin);
+  
+
   // Fetch analog data from sensors forever
   for (;;) 
   {
-    int thumbAngle = map(analogRead(thumbPin), 0, 4000, 0, 90);
-    int indexAngle = map(analogRead(indexPin), 0, 4000, 0, 90);
-    int middleAngle = map(analogRead(middlePin), 0, 4000, 0, 90);
-    int ringAngle = map(analogRead(ringPin), 0, 4000, 0, 90);
-    int pinkeAngle = map(analogRead(pinkiePin),0,4000,0,90);
     
+    //OpenGloves just wants raw adc val, however we will sample each pin 500 times and average the values, and subtract it by the calibration value, and if somehow negative,
+    //due to noise, we will simply round it up to 0
+    int thumbAngle = max(0, (4095 - readSmooth(thumbPin)) - thumbCalibrationAngle);
+    int indexAngle = max(0, (4095 - readSmooth(indexPin)) - indexCalibrationAngle);
+    int middleAngle = max(0, (4095 - readSmooth(middlePin)) - middleCalibrationAngle);
+    int ringAngle = max(0, (4095 - readSmooth(ringPin)) - ringCalibrationAngle);
+    int pinkeAngle = max(0, (4095 - readSmooth(pinkiePin)) - pinkieCalibrationAngle);
+    
+    // Calculate trigger button passed of value of bending
+    int pinkieAngle = PersistentState::instance().getFingerAngle(4);
+    uint32_t currentBitMask = PersistentState::instance().getButtonsBitmask();
+    if(pinkieAngle > 50)
+    {
+      // Set current 4 bit of bit mask to have trigger button
+      PersistentState::instance().setButtonsBitmask(currentBitMask | (0x01 << 3) );
+    }   
+
+    /* Debug Printing
+    Serial.print(thumbAngle);
+    Serial.print(", ");
+    Serial.print(indexAngle);
+    Serial.print(", ");
+    Serial.print(middleAngle);
+    Serial.print(", ");
+    Serial.print(ringAngle);
+    Serial.print(", ");
+    Serial.println(pinkeAngle);
+    */
+
     //Send Data to Persistant State
     PersistentState::instance().setFingerAngle(0, thumbAngle);
     PersistentState::instance().setFingerAngle(1, indexAngle);
@@ -109,7 +153,7 @@ void TaskAnalogRead(void *pvParameters)
     PersistentState::instance().setFingerAngle(3, ringAngle);   
     PersistentState::instance().setFingerAngle(4, pinkeAngle);
 
-    vTaskDelay(pdMS_TO_TICKS(10));; 
+    vTaskDelay(pdMS_TO_TICKS(50));; 
 
   }
 }
@@ -139,8 +183,8 @@ void TaskControllerButtons(void *pvParameters)
   {
 
     // Read controller button values 
-    float joystick_x = analogRead(joystick_x_pin);
-    float joystick_y = analogRead(joystick_y_pin);
+    float joystick_x = map(analogRead(joystick_x_pin),0,4095,0,1024);
+    float joystick_y = map(analogRead(joystick_y_pin),0,4095,0,1024);
     int joystick_pressed = digitalRead(joystick_button_pin);
     int a_button = digitalRead(a_button_pin);
     int b_button = digitalRead(b_button_pin);
@@ -150,7 +194,7 @@ void TaskControllerButtons(void *pvParameters)
     PersistentState::instance().setJoystick(joystick_x, joystick_y);
     PersistentState::instance().setButtonsBitmask(buttonMask);
 
-    vTaskDelay(pdMS_TO_TICKS(10));; 
+    vTaskDelay(pdMS_TO_TICKS(50));; 
   }
 
 }
@@ -188,11 +232,13 @@ void TaskServoControl(void *pvParameters)
   {
 
     /* For debugging*/
+    /*
     PersistentState::instance().setServoTargetAngle(0, 0);
     PersistentState::instance().setServoTargetAngle(1, 0);
     PersistentState::instance().setServoTargetAngle(2, 0);
     PersistentState::instance().setServoTargetAngle(3, 0);
     PersistentState::instance().setServoTargetAngle(4, 0);
+    */
 
     // Read persistant state and command servos
     thumbServo.write(PersistentState::instance().getServoTargetAngle(0));
@@ -200,7 +246,7 @@ void TaskServoControl(void *pvParameters)
     middleServo.write(PersistentState::instance().getServoTargetAngle(2));
     ringServo.write(PersistentState::instance().getServoTargetAngle(3));
     pinkieServo.write(PersistentState::instance().getServoTargetAngle(4));
-    vTaskDelay(pdMS_TO_TICKS(10));;
+    vTaskDelay(pdMS_TO_TICKS(50));;
   }
 }
 
@@ -214,6 +260,8 @@ void TaskPersistentStatePrint(void *pvParameters)
 
   for(;;)
   {
+      
+
       if(DEBUG_PRINT)
       {
         Serial.println("\n=== PAYLOAD STATUS ===");
@@ -264,8 +312,10 @@ void TaskPersistentStatePrint(void *pvParameters)
 
         // Battery
         Serial.printf("Battery: %d%%\n", PersistentState::instance().getBatteryPercent());
+
       }
-      vTaskDelay(pdMS_TO_TICKS(1000)); 
+      
+      vTaskDelay(pdMS_TO_TICKS(50)); 
   }
 }
 
