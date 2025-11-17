@@ -1,10 +1,10 @@
 # EchoHand
 
-A haptic feedback glove system for VR/AR applications using an ESP32 microcontroller with flex sensors, servo motors, and Bluetooth Low Energy (BLE) communication.
+A haptic feedback glove system for VR/AR applications using an ESP32 microcontroller with flex sensors, servo motors, and Serial communication.
 
 ## Project Overview
 
-EchoHand is a wearable haptic glove that captures hand and finger movements using flex sensors and provides tactile feedback through servo motors and vibration systems. The system communicates wirelessly via BLE to transmit real-time finger position data and receive haptic feedback commands.
+EchoHand is a wearable haptic glove that captures hand and finger movements using flex sensors and provides tactile feedback through servo motors and vibration systems. The system communicates wirelessly via USB Serial to transmit real-time finger position data and receive haptic feedback commands.
 
 ## System Architecture
 
@@ -23,28 +23,30 @@ Data storage is managed through `PersistentState.h`, which implements a singleto
 - Uses `volatile` data types to ensure real-time accessibility across all system components
 - Provides thread-safe getters and setters for all sensor and actuator values
 - Implements a snapshot mechanism with revision counters for consistent multi-field reads
-- Stores current values for finger angles, servo positions, vibration motor RPMs, and joystick inputs
+- Stores current values for finger angles, servo positions, vibration motor RPMs, and button inputs
 
 ### Internal Systems
 
 The internal processing layer handles data transformation and control logic. This component performs:
 
-- **Sensor Mapping**: Converts raw ADC values (0-4000) to finger angles (0-90 degrees)
-- **Command Translation**: Translates BLE commands into PWM signals for servo motor control
+- **Sensor Mapping**: Averages raw ADC values (0-4095) to get more accurate values
+- **Command Translation**: Translates serial commands PWM signals for servo motor control
 - **State Updates**: Continuously updates the PersistentState with processed sensor data
 - **Haptic Control**: Manages the relationship between virtual interactions and physical feedback through servo and vibration systems
 
 ### Information Handling
 
 Data integrity is maintained through:
-
-- Payload size verification for all BLE transmissions
 - Validation of sensor data ranges before processing
 - Error checking on state updates to prevent corruption
 
 ### Communication
 
-Bluetooth Low Energy (BLE) communication is implemented using the NimBLE library.
+Current communication is done through USB Serial. 
+- **Output Characteristic**: Transmits finger angle data and sensor readings
+- **Input Characteristic**: Receives haptic feedback commands for servos and vibration motors
+
+In the future, Bluetooth Low Energy (BLE) communication will be implemented using the NimBLE library.
 
 - **BLE Server**: ESP32 operates as a GATT server
 - **Output Characteristic**: Transmits finger angle data and sensor readings
@@ -53,30 +55,40 @@ Bluetooth Low Energy (BLE) communication is implemented using the NimBLE library
 
 ### Integrity & Resilience
 
-Security and reliability features include:
+Current security and reliability features include:
+- **RTOS Task Management**: FreeRTOS ensures deterministic behavior and prevents task conflicts
 
+Future security and reliability features include:
 - **Encryption**: All BLE packets are encrypted to prevent man-in-the-middle attacks
 - **Pairing Protocol**: Only authenticated devices can connect and exchange data
-- **RTOS Task Management**: FreeRTOS ensures deterministic behavior and prevents task conflicts
 
 ## Known Bugs
 
-### 1. BLE Connection Inconsistency
+### 1. Flex sensors are not securely attached 
+**Description**: Flex sensors need to be attached with a Amphenol FCI Clincher Connector (2 Position) to prevent disconnection.
+
+### 2. Joystick Drift
+**Description**: While the joystick is at the origin, the OpenHaptics program seem to be reading a small value in the X direction.
+
+### 3. BLE Connection Inconsistency
 **Description**: The BLE connection between the ESP32 and host device is not consistently stable.
 
-### 2. Flex Sensor Angle Inaccuracy
+### 4. Flex Sensor Angle Inaccuracy
 **Description**: Flex sensor readings have about 80% accuracy.
 
 ## Future Work
-#### 1. Input Controls
-- **Joystick Integration**: Add analog joystick for additional user input (navigation, menu control)
-- **Button Addition**: Integrate two programmable buttons for compability with most applications
 
-#### 2. Enhanced Haptic Feedback
+#### 1. Implement Haptic Feedback
 - **Servo Motor System**: Implement servo motors with spool-and-cable mechanism
   - Provides active resistance feedback to simulate object interaction
   - Dual-sensor approach: flex sensors + servo encoders for improved angle accuracy
   - Addresses current 20% inaccuracy issue through sensor fusion
+  - 
+#### 3. Solder or PCB Development 
+- **Compact Size**: To be able to sit on the hand and arm comfortably, we will need to reduce the size of the circuit 
+  - Allow better heat dissapation
+  - Lighter weight
+  - Less potential circuit damage from heavy use
 
 #### 3. Connectivity Options
 - **Dual-Mode Support**: Enable both wired (USB) and wireless (BLE) operation
