@@ -18,6 +18,7 @@ Gabriella Conde | 10/26/2025 | 4:01 PM | 5:27 PM | 1:26 | Began expanding flex-s
 Anton Rushevich | 10/26/2025 | 4:23 PM | 11:35 PM | 07:12 | Implemented InternalSystem.cpp to handle serial communication with the ESP32, sending simulated data and receiving state snapshots for testing internal system functionality.
 Eli Campos | 11/02/2025 | 4:00 PM | 10:00 PM | 6:00 | Source tools and parts for prototype. Begin basic assembly. 
 Gabriella Conde | 11/03/2025 | 2:43 AM | 3:52 AM | 1:09 | Assemble haptic spool prototype.
+Shawn Rhoads | 11/03/2025 | 1:00 PM | 5:00 PM | 3:00 | Test VR Headset in Custom Unity Environment
 Michael Knauf | 11/04/2025 | 5:05 PM | 7:00 | 1:55 | code connection to Bluetooth serial periferal through UART
 Gabriella Conde | 11/04/2025 | 1:28 AM | 2:04 AM | 0:36 | Prepare 3-D printed parts for assembly.
 Michael Knauf, Eli Campos | 11/05/2025 | 5:20 AM | 6:05 PM | 0:45 | working on debugging Bluetooth Serial Module
@@ -26,8 +27,10 @@ Michael Knauf | 11/10/2025 | 6:48 PM | 7:02 PM | 0:14 | Changing main to use Blu
 Eli Campos | 11/12/2025 | 6:00 PM | 11:00 PM | 5:00 | Source additonal parts and set up haptic spools
 Gabriella Conde | 11/12/2025 | 5:16 AM | 7:20 AM | 2:04 | Assemble haptic spools.
 Eli Campos | 11/13/2025 | 6:00 PM | 9:00 PM  | 3:00 | Wire ESP32 to parts.
+Shawn Rhoads | 11/13/2025 | 4:03 PM | 4:48 PM | 00:45 | Customize unity environment
 Eli Campos | 11/14/2025 | 12:30 AM | 6:53 AM  | 6:23 | Add joystick, buttons and servos to microcontroller code.
 Gabriella Conde | 11/14/2025 | 1:28 AM | 6:59 AM | 5:31 | Fix broken spool, assemble prototype wires and gloves
 Eli Campos | 11/16/2025 | 3:50 PM | 12:00 AM | 8:10 | Add openhaptics support
+Shawn Rhoads | 11/15/2025 | 10:30 AM | 12:00 PM | 1:30 | Working on integrating Unity with the physical glove
 Michael Knauf, Eli Campos | 4:49 | ---- | -- | Switching Bluetooth to Serial for prototype.
-Shawn Roades | 5:48 | - | - | Working on integrating Unity with the physical glove
+Shawn Rhoads | 11/16/2025 | 2:35 PM | 9:52 PM | 7:17 | Testing glove interaction in VR environment, fixing serial code with Eli
