@@ -96,7 +96,12 @@ Future security and reliability features include:
   - Wireless mode for freedom of movement
   - Automatic mode switching based on cable detection
 
-#### 4. 3D Printed Components
+#### 4. Vibration Motors
+Attach vibration motors on the fingertips of the user to simulate touching an object.
+- **Custom Unity Enviornment**: A custom Unity enviornment will send the current texture that the user's finger is touching, to the ESP32.
+- **ESP32 Hashamp**: The ESP32 will receive the texture along with the finger index, and lookup the appropriate rpm to send the vibration motor.  
+
+#### 5. 3D Printed Components
 Design and print custom mounting solutions:
 - **Adjustable Joystick Mount and Button Placement**: Ergonomic positioning based on hand size
   - Uses clamp mechanism around index finger
