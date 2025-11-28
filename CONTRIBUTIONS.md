@@ -34,3 +34,4 @@ Eli Campos | 11/16/2025 | 3:50 PM | 12:00 AM | 8:10 | Add openhaptics support
 Shawn Rhoads | 11/15/2025 | 10:30 AM | 12:00 PM | 1:30 | Working on integrating Unity with the physical glove
 Michael Knauf, Eli Campos | 4:49 | ---- | -- | Switching Bluetooth to Serial for prototype.
 Shawn Rhoads | 11/16/2025 | 2:35 PM | 9:52 PM | 7:17 | Testing glove interaction in VR environment, fixing serial code with Eli
+Gabriella Conde | 11/27/2025 | 11:39 PM | 12:19 AM | 0:40 | Debug flex sensors
