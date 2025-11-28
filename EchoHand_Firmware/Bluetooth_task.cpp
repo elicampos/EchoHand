@@ -69,7 +69,7 @@ void TaskBluetoothSerial(void *pvParameters){
             command = *currentByte;
             currentByte++;
             while(*currentByte != '\n' && *currentByte < 65){
-              if(currentByte = outputsString + 55){
+              if(currentByte == outputsString + 55){
                 break;
                 break;
               }
@@ -116,7 +116,7 @@ void TaskBluetoothSerial(void *pvParameters){
       lastRevision = s.revision;
     }
     
-    vTaskDelay(50);
+    vTaskDelay(20);
      
   }
  

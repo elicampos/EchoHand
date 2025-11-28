@@ -15,11 +15,34 @@ void TaskPersistentStatePrint(void* pvParameters);
 int readSmooth(int pin) 
 {
   long long sum = 0;
-  for (int i = 0; i < 500; i++) 
+  for (int i = 0; i < FLEX_SENSOR_SAMPLE_RATE; i++) 
   {
     sum += abs(analogRead(pin));
   }
-  return sum / 500;
+  return sum / FLEX_SENSOR_SAMPLE_RATE;
+}
+
+// Combined filter: blocks large anomalies AND small jitters
+int bandPassFilter(int newVal, int& lastVal) 
+{
+    // Get difference between values
+    int delta = abs(newVal - lastVal);
+    
+    // If change is too large, it's an anomaly
+    if (delta > MAX_FINGER_STEP) 
+    {
+      return lastVal;
+    }
+    
+    // If change is too small, it's just noise
+    if (delta <= DEADBAND) 
+    {
+      return lastVal;
+    }
+    
+    // Change is reasonable 
+    lastVal = newVal;
+    return newVal;
 }
 
 void setup() 
@@ -48,18 +71,7 @@ void setup()
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
-    1                  // Run on core 1
-  );
-
-  
-  xTaskCreatePinnedToCore(
-    TaskControllerButtons,   // Fucntion name of Task
-    "ControllerButtons",     // Name of Task
-    8192,             // Stack size (bytes) for task
-    NULL,             // Parameters(none)
-    2,                // Priority level(1->highest)
-    NULL,              // Task handle(for RTOS API maniuplation)
-    0                  // Run on core 0
+    1                 // Run on core 1
   );
 
   xTaskCreatePinnedToCore(
@@ -86,7 +98,7 @@ void setup()
 
 void loop() 
 {
-  // Empty — work is done in the FreeRTOS task
+  
 }
 
 //Description: Reads all Analog Data from sensors
@@ -94,12 +106,27 @@ void loop()
 //Return: none, it will simply pass the information on to the next core for processing
 void TaskAnalogRead(void *pvParameters) 
 {
+
+  // Create Static variable of lastFinger
+  static int lastFinger[5] = {0, 0, 0, 0, 0};
+
   //Pin locations for fingers
   const int thumbPin = 13; 
   const int indexPin = 12; 
-  const int middlePin = 10;  
-  const int ringPin = 11; 
+  const int middlePin = 11;  
+  const int ringPin = 10; 
   const int pinkiePin = 9; 
+
+  //Controller button pins
+  const int joystick_button_pin = 4; 
+  const int joystick_x_pin = 5; 
+  const int joystick_y_pin = 6;  
+  const int a_button_pin = 7;
+  const int b_button_pin = 15;
+
+  pinMode(joystick_button_pin, INPUT_PULLUP);
+  pinMode(a_button_pin, INPUT);
+  pinMode(b_button_pin, INPUT);
 
   // To not get compiler unused variable error
   (void) pvParameters;
@@ -112,26 +139,40 @@ void TaskAnalogRead(void *pvParameters)
   int ringCalibrationAngle = 4095 - readSmooth(ringPin);
   int pinkieCalibrationAngle = 4095 - readSmooth(pinkiePin);
   
-
   // Fetch analog data from sensors forever
   for (;;) 
   {
     
     //OpenGloves just wants raw adc val, however we will sample each pin 500 times and average the values, and subtract it by the calibration value, and if somehow negative,
     //due to noise, we will simply round it up to 0
-    int thumbAngle = max(0, (4095 - readSmooth(thumbPin)) - thumbCalibrationAngle);
-    int indexAngle = max(0, (4095 - readSmooth(indexPin)) - indexCalibrationAngle);
-    int middleAngle = max(0, (4095 - readSmooth(middlePin)) - middleCalibrationAngle);
-    int ringAngle = max(0, (4095 - readSmooth(ringPin)) - ringCalibrationAngle);
-    int pinkeAngle = max(0, (4095 - readSmooth(pinkiePin)) - pinkieCalibrationAngle);
-    
+    int rawThumb  = max(0, (4095 - readSmooth(thumbPin)) - thumbCalibrationAngle);
+    int rawIndex  = max(0, (4095 - readSmooth(indexPin)) - indexCalibrationAngle);
+    int rawMiddle = max(0, (4095 - readSmooth(middlePin)) - middleCalibrationAngle);
+    int rawRing   = max(0, (4095 - readSmooth(ringPin)) - ringCalibrationAngle);
+    int rawPinkie = max(0, (4095 - readSmooth(pinkiePin)) - pinkieCalibrationAngle);
+
+    // Filter anomolies from circuit and update lastFingers
+    int thumbAngle  = bandPassFilter(rawThumb, lastFinger[0]);
+    int indexAngle  = bandPassFilter(rawIndex, lastFinger[1]);
+    int middleAngle = bandPassFilter(rawMiddle, lastFinger[2]);
+    int ringAngle   = bandPassFilter(rawRing, lastFinger[3]);
+    int pinkieAngle = bandPassFilter(rawPinkie, lastFinger[4]);
+
+
+    // Read controller button values 
+    float joystick_x = map(analogRead(joystick_x_pin),0,4095,0,1024);
+    float joystick_y = map(analogRead(joystick_y_pin),0,4095,0,1024);
+    int joystick_pressed = digitalRead(joystick_button_pin);
+    int a_button = digitalRead(a_button_pin);
+    int b_button = digitalRead(b_button_pin);
+
+    uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) |(b_button);
+
     // Calculate trigger button passed of value of bending
-    int pinkieAngle = PersistentState::instance().getFingerAngle(4);
-    uint32_t currentBitMask = PersistentState::instance().getButtonsBitmask();
     if(pinkieAngle > 50)
     {
       // Set current 4 bit of bit mask to have trigger button
-      PersistentState::instance().setButtonsBitmask(currentBitMask | (0x01 << 3) );
+      buttonMask |= (1 << 3);
     }   
 
     /* Debug Printing
@@ -147,57 +188,18 @@ void TaskAnalogRead(void *pvParameters)
     */
 
     //Send Data to Persistant State
-    PersistentState::instance().setFingerAngle(0, thumbAngle);
-    PersistentState::instance().setFingerAngle(1, indexAngle);
-    PersistentState::instance().setFingerAngle(2, middleAngle);
-    PersistentState::instance().setFingerAngle(3, ringAngle);   
-    PersistentState::instance().setFingerAngle(4, pinkeAngle);
-
-    vTaskDelay(pdMS_TO_TICKS(50));; 
-
-  }
-}
-
-
-//Description: Reads all Analog and digital data from joysticks
-//Parameters: pvParameters which is a place holder for any pointer to any type
-//Return: none, it will simply pass the information on to the next core for processing
-void TaskControllerButtons(void *pvParameters) 
-{
-  //Controller button pins
-  const int joystick_button_pin = 4; 
-  const int joystick_x_pin = 5; 
-  const int joystick_y_pin = 6;  
-  const int a_button_pin = 7;
-  const int b_button_pin = 15;
-
-  // To not get compiler unused variable error
-  (void) pvParameters;
-
-  pinMode(joystick_button_pin, INPUT_PULLUP);
-  pinMode(a_button_pin, INPUT);
-  pinMode(b_button_pin, INPUT);
-
-  // Fetch analog data from sensors forever
-  for (;;) 
-  {
-
-    // Read controller button values 
-    float joystick_x = map(analogRead(joystick_x_pin),0,4095,0,1024);
-    float joystick_y = map(analogRead(joystick_y_pin),0,4095,0,1024);
-    int joystick_pressed = digitalRead(joystick_button_pin);
-    int a_button = digitalRead(a_button_pin);
-    int b_button = digitalRead(b_button_pin);
-    uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) |(b_button);
-
-    //Send Data to Persistant State
+    PersistentState::instance().setFingerAngle(0, (rawThumb));
+    PersistentState::instance().setFingerAngle(1, (rawIndex));
+    PersistentState::instance().setFingerAngle(2, (rawMiddle));
+    PersistentState::instance().setFingerAngle(3, (rawRing));   
+    PersistentState::instance().setFingerAngle(4, (rawPinkie));
     PersistentState::instance().setJoystick(joystick_x, joystick_y);
     PersistentState::instance().setButtonsBitmask(buttonMask);
 
-    vTaskDelay(pdMS_TO_TICKS(50));; 
+    vTaskDelay(pdMS_TO_TICKS(2));; 
   }
-
 }
+
 //Description: Commands all haptic spools
 //Parameters: pvParameters which is a place holder for any pointer to any type
 //Return: none, it will simply pass the information on to the next core for processing
@@ -315,7 +317,7 @@ void TaskPersistentStatePrint(void *pvParameters)
 
       }
       
-      vTaskDelay(pdMS_TO_TICKS(50)); 
+      vTaskDelay(pdMS_TO_TICKS(200)); 
   }
 }
 

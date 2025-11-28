@@ -3,7 +3,7 @@
 
 // This will be used as the basic data structure for the state of the EchoHand for when other tasks need to access the data
 struct EchoStateSnapshot {
-  float fingerAngles[5]; // in radians
+  int fingerAngles[5]; 
   float servoTargetAngles[5];
   uint16_t vibrationRPMs[5];
   float joystickXY[2];
@@ -46,7 +46,7 @@ class PersistentState {
   void setBatteryPercent(uint8_t percent) { batteryPercent_ = percent; incrementRevision(); }
 
   // Read APIs ( for single values)
-  float getFingerAngle(uint8_t index) const { return index < 5 ? fingerAngles_[index] : 0.0f; }
+  int getFingerAngle(uint8_t index) const { return index < 5 ? fingerAngles_[index] : 0.0f; }
   float getServoTargetAngle(uint8_t index) const { return index < 5 ? servoTargetAngles_[index] : 0.0f; }
   uint16_t getVibrationRPM(uint8_t index) const { return index < 5 ? vibrationRPMs_[index] : 0; }
   void getJoystick(float& x, float& y) const { x = joystickXY_[0]; y = joystickXY_[1]; }
