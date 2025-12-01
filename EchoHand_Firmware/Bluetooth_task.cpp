@@ -22,7 +22,7 @@ void TaskBluetoothSerial(void *pvParameters){
   //uses parameter to avoid compiler error
   (void) pvParameters;
 
-  //swapping over to Serial port for now
+  // swapping over to Serial port for now
   // Serial.println("Starting Bluetooth Serial...");
   // Serial1.begin(38400, SERIAL_8N1, 18, 17);
   

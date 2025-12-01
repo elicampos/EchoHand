@@ -4,6 +4,7 @@
 #include "Bluetooth_task.h"
 #include "PersistentState.h"
 #include "ESP32Servo.h"
+#include <WiFi.h>
 
 // Declare Functions
 void TaskAnalogRead(void *pvParameters);
@@ -11,7 +12,10 @@ void TaskControllerButtons(void* pvParameters);
 void TaskServoControl(void* pvParameters);
 void TaskPersistentStatePrint(void* pvParameters);
 
-// Average of finger reading angles
+//Description: Averages value read from an analog pin based off sample rate in config.h
+//Parameters: rawanalog pin
+//Return: sum value given sample rate
+//Note: This will be deprecated if we move to ExpressIf Ide as we can do this via hardware
 int readSmooth(int pin) 
 {
   long long sum = 0;
@@ -22,37 +26,35 @@ int readSmooth(int pin)
   return sum / FLEX_SENSOR_SAMPLE_RATE;
 }
 
-// Combined filter: blocks large anomalies AND small jitters
-int bandPassFilter(int newVal, int& lastVal) 
+//Description: Converts adc range of 400->1250 to 0->4250
+//Parameters: rawanalog Value
+//Return: value that matches range
+int mapFlex(int raw)
 {
-    // Get difference between values
-    int delta = abs(newVal - lastVal);
-    
-    // If change is too large, it's an anomaly
-    if (delta > MAX_FINGER_STEP) 
-    {
-      return lastVal;
-    }
-    
-    // If change is too small, it's just noise
-    if (delta <= DEADBAND) 
-    {
-      return lastVal;
-    }
-    
-    // Change is reasonable 
-    lastVal = newVal;
-    return newVal;
+  // Rought estimates from circuit
+  const int RAW_MIN = 400;  
+  const int RAW_MAX = 1250;  
+
+  // Clamp range to range expected for opengloves
+  if (raw < RAW_MIN) raw = RAW_MIN;
+  if (raw > RAW_MAX) raw = RAW_MAX;
+
+  // Map to 0–>4095 
+  return (raw - RAW_MIN) * 4095L / (RAW_MAX - RAW_MIN);
 }
+
 
 void setup() 
 {
-  // Set Fast BaudRate
+  // Set  BaudRate
   Serial.begin(115200); 
 
   //Debug Print
   Serial.println("Starting FreeRTOS task...");
 
+  // turn Wi-Fi off to make sure ADC2 doesn't get messed up
+  WiFi.mode(WIFI_OFF);     
+  
   // Create the task
   xTaskCreatePinnedToCore(
     TaskAnalogRead,   // Fucntion name of Task
@@ -91,14 +93,14 @@ void setup()
     NULL,             // Parameters(none)
     1,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
-    0                 // Run on core 0
+    1                 // Run on core 0
   );
 }
 
 
 void loop() 
 {
-  
+  // Nothing, Freertos runs in task
 }
 
 //Description: Reads all Analog Data from sensors
@@ -106,9 +108,6 @@ void loop()
 //Return: none, it will simply pass the information on to the next core for processing
 void TaskAnalogRead(void *pvParameters) 
 {
-
-  // Create Static variable of lastFinger
-  static int lastFinger[5] = {0, 0, 0, 0, 0};
 
   //Pin locations for fingers
   const int thumbPin = 13; 
@@ -131,13 +130,18 @@ void TaskAnalogRead(void *pvParameters)
   // To not get compiler unused variable error
   (void) pvParameters;
 
-  
+  // Get range from 0.0V to 3.3V
+  analogSetAttenuation(ADC_11db); 
+  analogReadResolution(12);
+
   // Finger Calibration value, no flex position is going to be assumbed when user flashes moule
-  int thumbCalibrationAngle = 4095 - readSmooth(thumbPin);
-  int indexCalibrationAngle = 4095 - readSmooth(indexPin);
-  int middleCalibrationAngle = 4095 - readSmooth(middlePin);
-  int ringCalibrationAngle = 4095 - readSmooth(ringPin);
-  int pinkieCalibrationAngle = 4095 - readSmooth(pinkiePin);
+  /*
+  int thumbCalibrationAngle = readSmooth(thumbPin);
+  int indexCalibrationAngle = readSmooth(indexPin);
+  int middleCalibrationAngle = readSmooth(middlePin);
+  int ringCalibrationAngle = readSmooth(ringPin);
+  int pinkieCalibrationAngle = readSmooth(pinkiePin);
+  */
   
   // Fetch analog data from sensors forever
   for (;;) 
@@ -145,19 +149,18 @@ void TaskAnalogRead(void *pvParameters)
     
     //OpenGloves just wants raw adc val, however we will sample each pin 500 times and average the values, and subtract it by the calibration value, and if somehow negative,
     //due to noise, we will simply round it up to 0
-    int rawThumb  = max(0, (4095 - readSmooth(thumbPin)) - thumbCalibrationAngle);
-    int rawIndex  = max(0, (4095 - readSmooth(indexPin)) - indexCalibrationAngle);
-    int rawMiddle = max(0, (4095 - readSmooth(middlePin)) - middleCalibrationAngle);
-    int rawRing   = max(0, (4095 - readSmooth(ringPin)) - ringCalibrationAngle);
-    int rawPinkie = max(0, (4095 - readSmooth(pinkiePin)) - pinkieCalibrationAngle);
+    int rawThumb  = max(0, (readSmooth(thumbPin)));
+    int rawIndex  = max(0, (readSmooth(indexPin)));
+    int rawMiddle = max(0, (readSmooth(middlePin)));
+    int rawRing   = max(0, (readSmooth(ringPin)));
+    int rawPinkie = max(0, (readSmooth(pinkiePin)));
 
-    // Filter anomolies from circuit and update lastFingers
-    int thumbAngle  = bandPassFilter(rawThumb, lastFinger[0]);
-    int indexAngle  = bandPassFilter(rawIndex, lastFinger[1]);
-    int middleAngle = bandPassFilter(rawMiddle, lastFinger[2]);
-    int ringAngle   = bandPassFilter(rawRing, lastFinger[3]);
-    int pinkieAngle = bandPassFilter(rawPinkie, lastFinger[4]);
-
+    // Convert angles to map to desired range for Opengloves(4095->0)
+    int thumbAngle  = max(0,(4095 - mapFlex(rawThumb)));
+    int indexAngle  = max(0,(4095 - mapFlex(rawIndex)));
+    int middleAngle = max(0,(4095 - mapFlex(rawMiddle)));
+    int ringAngle   = max(0,(4095 - mapFlex(rawRing)));
+    int pinkieAngle = max(0,(4095 - mapFlex(rawPinkie)));
 
     // Read controller button values 
     float joystick_x = map(analogRead(joystick_x_pin),0,4095,0,1024);
@@ -169,7 +172,7 @@ void TaskAnalogRead(void *pvParameters)
     uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) |(b_button);
 
     // Calculate trigger button passed of value of bending
-    if(pinkieAngle > 50)
+    if(thumbAngle > 50 && indexAngle > 50)
     {
       // Set current 4 bit of bit mask to have trigger button
       buttonMask |= (1 << 3);
@@ -188,11 +191,11 @@ void TaskAnalogRead(void *pvParameters)
     */
 
     //Send Data to Persistant State
-    PersistentState::instance().setFingerAngle(0, (rawThumb));
-    PersistentState::instance().setFingerAngle(1, (rawIndex));
-    PersistentState::instance().setFingerAngle(2, (rawMiddle));
-    PersistentState::instance().setFingerAngle(3, (rawRing));   
-    PersistentState::instance().setFingerAngle(4, (rawPinkie));
+    PersistentState::instance().setFingerAngle(0, (thumbAngle));
+    PersistentState::instance().setFingerAngle(1, (indexAngle));
+    PersistentState::instance().setFingerAngle(2, (middleAngle));
+    PersistentState::instance().setFingerAngle(3, (ringAngle));   
+    PersistentState::instance().setFingerAngle(4, (pinkieAngle));
     PersistentState::instance().setJoystick(joystick_x, joystick_y);
     PersistentState::instance().setButtonsBitmask(buttonMask);
 
@@ -263,21 +266,63 @@ void TaskPersistentStatePrint(void *pvParameters)
   for(;;)
   {
       
-
-      if(DEBUG_PRINT)
-      {
+    if(DEBUG_PRINT)
+    {
+        // Check if we should use plotter format 
+        #ifdef USE_SERIAL_PLOTTER
+      
+        // Serial Plotter format
+        Serial.printf("Thumb:%d Index:%d Middle:%d Ring:%d Pinkie:%d ",
+                      PersistentState::instance().getFingerAngle(0),
+                      PersistentState::instance().getFingerAngle(1),
+                      PersistentState::instance().getFingerAngle(2),
+                      PersistentState::instance().getFingerAngle(3),
+                      PersistentState::instance().getFingerAngle(4));
+        Serial.printf("\n");
+        /*
+        Serial.printf("Servo_Thumb:%.1f Servo_Index:%.1f Servo_Middle:%.1f Servo_Ring:%.1f Servo_Pinkie:%.1f ",
+                      PersistentState::instance().getServoTargetAngle(0),
+                      PersistentState::instance().getServoTargetAngle(1),
+                      PersistentState::instance().getServoTargetAngle(2),
+                      PersistentState::instance().getServoTargetAngle(3),
+                      PersistentState::instance().getServoTargetAngle(4));
+        
+        Serial.printf("Vib_Thumb:%d Vib_Index:%d Vib_Middle:%d Vib_Ring:%d Vib_Pinkie:%d ",
+                      PersistentState::instance().getVibrationRPM(0),
+                      PersistentState::instance().getVibrationRPM(1),
+                      PersistentState::instance().getVibrationRPM(2),
+                      PersistentState::instance().getVibrationRPM(3),
+                      PersistentState::instance().getVibrationRPM(4));
+        
+        float joyX, joyY;
+        PersistentState::instance().getJoystick(joyX, joyY);
+        Serial.printf("Joy_X:%.3f Joy_Y:%.3f ", joyX, joyY);
+        
+        uint32_t buttons = PersistentState::instance().getButtonsBitmask();
+        Serial.printf("Joy_Btn:%d A_Btn:%d B_Btn:%d Trigger:%d ",
+                      (buttons & 0b100) ? 0 : 1,  
+                      (buttons & 0b010) ? 1 : 0,
+                      (buttons & 0b001) ? 1 : 0,
+                      (buttons & 0b1000) ? 1 : 0);
+        
+        Serial.printf("Battery:%d\n", PersistentState::instance().getBatteryPercent());
+        */
+        #else
+        
+        // Original Serial Monitor format
         Serial.println("\n=== PAYLOAD STATUS ===");
 
         // Finger angles
         Serial.println("Finger Angles (deg):");
-        Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getFingerAngle(0));
-        Serial.printf("  Index : %.1f\n",  PersistentState::instance().getFingerAngle(1));
-        Serial.printf("  Middle: %.1f\n",  PersistentState::instance().getFingerAngle(2));
-        Serial.printf("  Ring  : %.1f\n",  PersistentState::instance().getFingerAngle(3));
-        Serial.printf("  Pinkie: %.1f\n",  PersistentState::instance().getFingerAngle(4));
+        Serial.printf("  Thumb : %d\n",  PersistentState::instance().getFingerAngle(0));
+        Serial.printf("  Index : %d\n",  PersistentState::instance().getFingerAngle(1));
+        Serial.printf("  Middle: %d\n",  PersistentState::instance().getFingerAngle(2));
+        Serial.printf("  Ring  : %d\n",  PersistentState::instance().getFingerAngle(3));
+        Serial.printf("  Pinkie: %d\n",  PersistentState::instance().getFingerAngle(4));
         Serial.println();
 
         // Servo targets
+        
         Serial.println("Servo Targets (deg):");
         Serial.printf("  Thumb : %.1f\n",  PersistentState::instance().getServoTargetAngle(0));
         Serial.printf("  Index : %.1f\n",  PersistentState::instance().getServoTargetAngle(1));
@@ -314,10 +359,10 @@ void TaskPersistentStatePrint(void *pvParameters)
 
         // Battery
         Serial.printf("Battery: %d%%\n", PersistentState::instance().getBatteryPercent());
-
-      }
-      
-      vTaskDelay(pdMS_TO_TICKS(200)); 
+        
+        #endif
+    }  
+    vTaskDelay(pdMS_TO_TICKS(20)); 
   }
 }
 
