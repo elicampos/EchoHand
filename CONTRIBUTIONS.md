@@ -37,3 +37,4 @@ Shawn Rhoads | 11/16/2025 | 2:35 PM | 9:52 PM | 7:17 | Testing glove interaction
 Gabriella Conde | 11/27/2025 | 11:39 PM | 12:19 AM | 0:40 | Debug flex sensors
 Eli Campos | 11/27/2025 | 6:00 PM | 12:19 AM | 6:19 | Debug flex sensors
 Eli Campos | 11/30/2025 | 10:00 PM | 12:54 AM | 2:54 | Noise filtering done through circuit now 
+Eli Campos | 12/2/2025 | 1:00 AM | 4:39 AM | 4:39 | Add more stable configuration through code and re-do tape attachments for demo
