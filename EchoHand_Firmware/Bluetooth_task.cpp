@@ -116,7 +116,7 @@ void TaskBluetoothSerial(void *pvParameters){
       lastRevision = s.revision;
     }
     
-    vTaskDelay(20);
+    vTaskDelay(50);
      
   }
  

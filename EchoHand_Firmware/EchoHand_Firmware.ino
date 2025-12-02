@@ -134,14 +134,12 @@ void TaskAnalogRead(void *pvParameters)
   analogSetAttenuation(ADC_11db); 
   analogReadResolution(12);
 
-  // Finger Calibration value, no flex position is going to be assumbed when user flashes moule
-  /*
-  int thumbCalibrationAngle = readSmooth(thumbPin);
-  int indexCalibrationAngle = readSmooth(indexPin);
-  int middleCalibrationAngle = readSmooth(middlePin);
-  int ringCalibrationAngle = readSmooth(ringPin);
-  int pinkieCalibrationAngle = readSmooth(pinkiePin);
-  */
+  // Finger Calibration value, max flex
+  int thumbClosed  = mapFlex(readSmooth(thumbPin));
+  int indexClosed  = mapFlex(readSmooth(indexPin));
+  int middleClosed = mapFlex(readSmooth(middlePin));
+  int ringClosed   = mapFlex(readSmooth(ringPin));
+  int pinkieClosed = mapFlex(readSmooth(pinkiePin));
   
   // Fetch analog data from sensors forever
   for (;;) 
@@ -172,7 +170,7 @@ void TaskAnalogRead(void *pvParameters)
     uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) |(b_button);
 
     // Calculate trigger button passed of value of bending
-    if(thumbAngle > 50 && indexAngle > 50)
+    if(thumbAngle > 150 && indexAngle > 150)
     {
       // Set current 4 bit of bit mask to have trigger button
       buttonMask |= (1 << 3);
@@ -199,7 +197,7 @@ void TaskAnalogRead(void *pvParameters)
     PersistentState::instance().setJoystick(joystick_x, joystick_y);
     PersistentState::instance().setButtonsBitmask(buttonMask);
 
-    vTaskDelay(pdMS_TO_TICKS(2));; 
+    vTaskDelay(pdMS_TO_TICKS(10));; 
   }
 }
 
