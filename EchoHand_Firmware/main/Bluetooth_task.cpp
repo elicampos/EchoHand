@@ -2,6 +2,11 @@
 #include "PersistentState.h"
 #include <cstring>
 #include "config.h"
+#include <cstdio>
+#include <Arduino.h>
+#include <math.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h> 
 
 // Defining packed payloads
 #pragma pack(push, 1) // pack the structs tp prevent padding between fields. this way the size of the struct is always the same.
@@ -31,8 +36,8 @@ void TaskBluetoothSerial(void *pvParameters){
   char outputsString[56];
   char* currentByte;
   char command;
-  int intValue;
-  float floatValue;
+  int intValue = 0;
+  float floatValue = 0.0f;
   int8_t charCount = 0;
 
   //set finger splay and leave it
@@ -55,7 +60,7 @@ void TaskBluetoothSerial(void *pvParameters){
             command = *currentByte;
             currentByte++;
             while(*currentByte != '\n' && *currentByte < 65){
-              if(currentByte = outputsString + 55){
+              if(currentByte == outputsString + 55){
                 break;
                 break;
               }

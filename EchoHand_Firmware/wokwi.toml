@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+firmware = 'build/flasher_args.json'
+elf = 'build/YOUR_EXACT_FILENAME_HERE.elf'
+rfc2217ServerPort = 4000

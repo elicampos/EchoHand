@@ -92,7 +92,7 @@ class PersistentState {
         buttonsBitmask_(0),
         batteryPercent_(100) {}
 
-  void incrementRevision() { revision_++; }
+  void incrementRevision() { revision_ = revision_ + 1; }
 
   volatile uint32_t revision_;
   volatile float fingerAngles_[5];

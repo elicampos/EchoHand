@@ -3,8 +3,9 @@
 #include "config.h"
 #include "Bluetooth_task.h"
 #include "PersistentState.h"
-#include "ESP32Servo.h"
+#include <ESP32Servo.h>
 #include <WiFi.h>
+#include <Arduino.h>
 
 // Declare Functions
 void TaskAnalogRead(void *pvParameters);
@@ -59,7 +60,7 @@ void setup()
   xTaskCreatePinnedToCore(
     TaskAnalogRead,   // Fucntion name of Task
     "AnalogRead",     // Name of Task
-    2048,             // Stack size (bytes) for task
+    8192,             // Stack size (bytes) for task
     NULL,             // Parameters(none)
     2,                // Priority level(1->highest)
     NULL,              // Task handle(for RTOS API maniuplation)
@@ -103,6 +104,21 @@ void loop()
   // Nothing, Freertos runs in task
 }
 
+extern "C" void app_main() 
+{
+    // Initialize the Arduino framework
+    initArduino();
+    
+    // Call your standard setup
+    setup();
+    
+    // Run the loop forever
+    while (true) 
+    {
+      loop();
+    }
+}
+
 //Description: Reads all Analog Data from sensors
 //Parameters: pvParameters which is a place holder for any pointer to any type
 //Return: none, it will simply pass the information on to the next core for processing
@@ -134,13 +150,13 @@ void TaskAnalogRead(void *pvParameters)
   analogSetAttenuation(ADC_11db); 
   analogReadResolution(12);
 
-  // Finger Calibration value, max flex
+  /* Finger Calibration value, max flex
   int thumbClosed  = mapFlex(readSmooth(thumbPin));
   int indexClosed  = mapFlex(readSmooth(indexPin));
   int middleClosed = mapFlex(readSmooth(middlePin));
   int ringClosed   = mapFlex(readSmooth(ringPin));
   int pinkieClosed = mapFlex(readSmooth(pinkiePin));
-  
+  */
   // Fetch analog data from sensors forever
   for (;;) 
   {

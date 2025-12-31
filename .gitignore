@@ -1,0 +1,20 @@
+# Espressif IDF
+**/build/
+**/sdkconfig.old
+**/managed_components/
+**/dependencies.lock
+
+# VS Code
+**/.vscode/
+**/.clangd
+
+# Ignore Schematics Backups and Cache
+*.zip
+fp-info-cache
+*.bak
+
+# Ignore Compiled Binaries (Simulator)
+*.exe
+*.dll
+*.a
+*.lib
