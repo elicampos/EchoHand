@@ -1,0 +1,254 @@
+{
+  "version": 1,
+  "author": "Eli Campos",
+  "editor": "wokwi",
+  "parts": [{
+      "type": "wokwi-breadboard",
+      "id": "bb1",
+      "top": 43.4,
+      "left": -629.6,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 191.82,
+      "left": -139.43,
+      "attrs": {
+        "builder": "esp-idf"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 407.15,
+      "left": -316.8,
+      "attrs": {
+        "value": "22000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 387.95,
+      "left": -316.8,
+      "attrs": {
+        "value": "22000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 368.75,
+      "left": -316.8,
+      "attrs": {
+        "value": "22000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": 330.35,
+      "left": -316.8,
+      "attrs": {
+        "value": "22000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r5",
+      "top": 349.55,
+      "left": -316.8,
+      "attrs": {
+        "value": "22000"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 200.3,
+      "left": -912.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot2",
+      "top": 200.3,
+      "left": -816.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot3",
+      "top": 200.3,
+      "left": -720.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot4",
+      "top": 200.3,
+      "left": -624.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot5",
+      "top": 200.3,
+      "left": -528.2,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-analog-joystick",
+      "id": "joystick1",
+      "top": 9,
+      "left": -13.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -70.6,
+      "left": -336,
+      "attrs": {
+        "color": "green",
+        "xray": "1"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": -13,
+      "left": -336,
+      "attrs": {
+        "color": "green",
+        "xray": "1"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r6",
+      "top": -5.65,
+      "left": -393.6,
+      "attrs": {
+        "value": "10000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r7",
+      "top": -63.25,
+      "left": -393.6,
+      "attrs": {
+        "value": "10000"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text1",
+      "top": 163.2,
+      "left": -806.4,
+      "attrs": {
+        "text": "Index"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text2",
+      "top": 163.2,
+      "left": -902.4,
+      "attrs": {
+        "text": "Thumb"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text3",
+      "top": 163.2,
+      "left": -710.4,
+      "attrs": {
+        "text": "Middle\n"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text4",
+      "top": 163.2,
+      "left": -604.8,
+      "attrs": {
+        "text": "Ring"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text5",
+      "top": 163.2,
+      "left": -508.8,
+      "attrs": {
+        "text": "Pinkie"
+      }
+    }
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+    ["bb1:tn.1", "bb1:bn.1", "black", ["v-68", "h-9.5"]],
+    ["pot5:SIG", "bb1:52b.j", "green", ["v0"]],
+    ["pot4:SIG", "bb1:54b.j", "green", ["v0"]],
+    ["pot3:SIG", "bb1:56b.j", "green", ["v0"]],
+    ["pot2:SIG", "bb1:58b.j", "green", ["v0"]],
+    ["pot1:SIG", "bb1:60b.j", "green", ["v0"]],
+    ["pot1:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-86.4"]],
+    ["pot2:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-76.8"]],
+    ["pot3:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-76.8"]],
+    ["pot4:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-76.8"]],
+    ["pot5:VCC", "bb1:bp.30", "red", ["v0", "h47.2", "v-76.8"]],
+    ["bb1:52t.a", "bb1:tn.42", "black", ["h0"]],
+    ["bb1:54t.a", "bb1:tn.44", "black", ["h0"]],
+    ["bb1:56t.a", "bb1:tn.45", "black", ["h0"]],
+    ["bb1:58t.a", "bb1:tn.47", "black", ["h0"]],
+    ["bb1:60t.a", "bb1:tn.49", "black", ["h0"]],
+    ["bb1:52b.g", "esp:9", "white", ["h9.6", "v182.4", "h124.8", "v-163.2"]],
+    ["bb1:60b.i", "esp:13", "gold", ["v153.6", "h192", "v-172.8"]],
+    ["bb1:54b.g", "esp:10", "gray", ["h19.2", "v134.4", "h124.8", "v-124.8"]],
+    ["bb1:56b.g", "esp:11", "violet", ["h0", "v153.6", "h153.6", "v-153.6"]],
+    ["bb1:58b.h", "esp:12", "blue", ["h0", "v144", "h172.8", "v-153.6"]],
+    ["esp:GND.2", "bb1:tn.3", "black", ["v-336", "h-67.2", "v-48"]],
+    ["esp:3V3.1", "bb1:bp.3", "red", ["v-451.2", "h-316.85", "v105.6"]],
+    ["esp:5V", "bb1:tp.41", "red", ["h-9.65", "v-96"]],
+    ["bb1:tp.25", "joystick1:VCC", "red", ["h0"]],
+    ["joystick1:VERT", "esp:6", "blue", ["v28.8", "h-182.4", "v115.2"]],
+    ["joystick1:HORZ", "esp:5", "violet", ["v38.4", "h-201.6", "v96"]],
+    ["joystick1:GND", "bb1:tn.26", "black", ["v19.2", "h-278.5"]],
+    ["joystick1:SEL", "esp:4", "green", ["v48", "h-220.8", "v76.8"]],
+    ["bb1:11t.b", "esp:7", "gold", ["h76.8", "v336"]],
+    ["bb1:11t.a", "bb1:11t.b", "green", ["h0"]],
+    ["bb1:13b.i", "bb1:tp.11", "red", ["v19.2", "h134.7"]],
+    ["bb1:19b.i", "bb1:tp.16", "red", ["v19.2", "h134.7"]],
+    ["r1:1", "bb1:60b.f", "", ["$bb"]],
+    ["r1:2", "bb1:60t.b", "", ["$bb"]],
+    ["r2:1", "bb1:58b.f", "", ["$bb"]],
+    ["r2:2", "bb1:58t.b", "", ["$bb"]],
+    ["r3:1", "bb1:56b.f", "", ["$bb"]],
+    ["r3:2", "bb1:56t.b", "", ["$bb"]],
+    ["r4:1", "bb1:52b.f", "", ["$bb"]],
+    ["r4:2", "bb1:52t.b", "", ["$bb"]],
+    ["r5:1", "bb1:54b.f", "", ["$bb"]],
+    ["r5:2", "bb1:54t.b", "", ["$bb"]],
+    ["btn1:1.l", "bb1:11b.h", "", ["$bb"]],
+    ["btn1:2.l", "bb1:13b.h", "", ["$bb"]],
+    ["btn1:1.r", "bb1:11t.c", "", ["$bb"]],
+    ["btn1:2.r", "bb1:13t.c", "", ["$bb"]],
+    ["btn2:1.l", "bb1:17b.h", "", ["$bb"]],
+    ["btn2:2.l", "bb1:19b.h", "", ["$bb"]],
+    ["btn2:1.r", "bb1:17t.c", "", ["$bb"]],
+    ["btn2:2.r", "bb1:19t.c", "", ["$bb"]],
+    ["r6:1", "bb1:bn.13", "", ["$bb"]],
+    ["r6:2", "bb1:17b.h", "", ["$bb"]],
+    ["r7:1", "bb1:bn.8", "", ["$bb"]],
+    ["r7:2", "bb1:11b.h", "", ["$bb"]],
+    ["bb1:17t.b", "esp:15", "blue", ["h67.2", "v288"]]
+  ],
+  "dependencies": {}
+}
