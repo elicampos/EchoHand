@@ -1,6 +1,6 @@
 idf_component_register(
     # Source files to compile
-    SRCS "main.cpp" "Bluetooth_task.cpp"
+    SRCS "DataBrokerPrint.cpp" "ServoControl_task.cpp" "AnalogRead_task.cpp" "main.cpp" "Communication_task.cpp" 
 
     # Header files to compile
     INCLUDE_DIRS "."

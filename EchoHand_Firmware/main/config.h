@@ -6,3 +6,6 @@
 
 // Serial Plot values instead of having a readable format
 #define USE_SERIAL_PLOTTER 0
+
+// Enable Bluetooth Serial Communication instead of USB Serial
+#define USE_BLUETOOTH_SERIAL 0

@@ -1,0 +1,43 @@
+#include "ServoControl_task.h"
+
+// Description: Commands all haptic spools
+// Parameters: pvParameters which is a place holder for any pointer to any type
+// Return: none, it will simply pass the information on to the next core for processing
+void TaskServoControl(void *pvParameters)
+{
+
+    // Servo finger pins
+    static const int thumbPin = 47;
+    static const int indexPin = 48;
+    static const int middlePin = 45;
+    static const int ringPin = 35;
+    static const int pinkiePin = 38;
+
+    // Setup servo objects
+    Servo thumbServo;
+    Servo indexServo;
+    Servo middleServo;
+    Servo ringServo;
+    Servo pinkieServo;
+
+    thumbServo.attach(thumbPin);
+    indexServo.attach(indexPin);
+    middleServo.attach(middlePin);
+    ringServo.attach(ringPin);
+    pinkieServo.attach(pinkiePin);
+
+    // To not get compiler unused variable error
+    (void)pvParameters;
+
+    // Fetch analog data from sensors forever
+    for (;;)
+    {
+        // Read persistant state and command servos
+        thumbServo.write(DataBroker::instance().getServoTargetAngle(0));
+        indexServo.write(DataBroker::instance().getServoTargetAngle(1));
+        middleServo.write(DataBroker::instance().getServoTargetAngle(2));
+        ringServo.write(DataBroker::instance().getServoTargetAngle(3));
+        pinkieServo.write(DataBroker::instance().getServoTargetAngle(4));
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
