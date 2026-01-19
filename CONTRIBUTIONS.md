@@ -41,3 +41,6 @@ Eli Campos | 12/2/2025 | 1:00 AM | 4:39 AM | 4:39 | Add more stable configuratio
 Eli Campos | 12/29/2025 | 12:00 AM | 6:00 AM | 6:00 | Migrating to ESP-IDF instead of only using Ardunio to get access to more stuff on esp32
 Eli Campos | 12/30/2025 | 1:00 AM | 5:00 AM | 4:00 | Writing socket and serial driver to parse through opengloves
 Eli Campos | 12/31/2025 | 1:00 AM | 5:20 AM | 4:20 | Creating 3d enviornment simulation of glove flexing based off simulated circuit data from Wokwi
+Eli Campos | 1/17/2025 | 12:00 AM | 6:00 AM | 6:00 | Rebuilding Circuit to accomdate bluetooth serial and refactoring code
+Eli Campos | 1/17/2025 | 11:00 AM | 5:00 AM | 6:00 | Getting bluetooth to finally work and adding config option for either serial or bluetooth
+
