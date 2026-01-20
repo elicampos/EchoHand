@@ -19,7 +19,7 @@ SerialDevice::~SerialDevice()
 bool SerialDevice::connect()
 {
     // Open serial port using windows stuff
-    // 1st: port name (e.g., "COM3")
+    // 1st: port name ("COM3", "COM4", etc)
     // 2nd: access mode (read and write)
     // 3rd: share mode (0 = no sharing)
     // 4th: security attributes (NULL = default)
@@ -99,11 +99,13 @@ std::string SerialDevice::readLine()
     {
         if (!ReadFile(hSerial, &ch, 1, &bytesRead, NULL) || bytesRead == 0)
         {
-            break; // Error or no data
+            // Error or no data
+            break;
         }
         if (ch == '\n')
         {
-            break; // End of line
+            // End of line(TRON)
+            break;
         }
         line += ch;
     }

@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                portName = argv[2];
+                portName = R"(\\.\)" + std::string(argv[2]);
                 baudRate = std::stoi(argv[3]);
                 parity = (std::stoi(argv[4]) != 0);
                 databits = std::stoi(argv[5]);
@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
         }
     }
     printf("Starting OpenGloves Echo Hand Simulator...\n");
+    printf("Using serial port: %s\n", portName.c_str());
 
     // Declare Raylib initialization flag
     bool isRaylibInit = false;

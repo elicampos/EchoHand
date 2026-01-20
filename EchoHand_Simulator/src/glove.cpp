@@ -8,6 +8,7 @@ static OpenGlovesData g_gloveData;
 static ProceduralHand g_hand;
 static RenderTexture2D g_renderTarget;
 static bool g_windowInitialized = false;
+
 // Toggle with D key
 static bool g_showProtocolDiagram = false; 
 
@@ -141,7 +142,7 @@ void drawFinger(const ProceduralFinger &finger, Vector3 palmPos, int fingerIndex
         dir = Vector3Transform(dir, splay);
     }
     
-    // Metacarpal (thumb)
+    // Metacarpal (thumb only)
     if (finger.hasMetacarpal && finger.metacarpal.length > 0.01f)
     {
         Vector3 endPos = Vector3Add(pos, Vector3Scale(dir, finger.metacarpal.length));
@@ -249,7 +250,10 @@ void drawPalm(const ProceduralHand &hand, Matrix handRotation)
 
 void drawProceduralHand(const ProceduralHand &hand)
 {
-    if (!hand.isInitialized) return;
+    if (!hand.isInitialized) 
+    {
+        return;
+    }
     
     Matrix handRotation = MatrixRotateX(hand.rotation.x);
     
