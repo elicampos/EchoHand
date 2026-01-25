@@ -46,4 +46,4 @@ Eli Campos | 1/17/2025 | 11:00 AM | 5:00 AM | 6:00 | Getting bluetooth to finall
 Eli Campos | 1/21/2025 | 2:00 AM | 6:00 AM | 4:00 | Modified code to poll the adc more accurately and added a calibration phase
 Eli Campos | 1/22/2025 | 1:00 AM | 3:00 AM | 3:00 | Modified circuit to use insulated wires to help reduce noise 
 Gabriella Conde| 1/22/2025 | 1:00 AM | 6:25 AM | 5:25 | Assembled haptic spool system onto left glove
-
+Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 3:00 | Modified circuit to read potentiometers as finger positions
