@@ -48,4 +48,4 @@ Eli Campos | 1/22/2025 | 1:00 AM | 3:00 AM | 3:00 | Modified circuit to use insu
 Gabriella Conde| 1/22/2025 | 1:00 AM | 6:25 AM | 5:25 | Assembled haptic spool system onto left glove
 Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 3:00 | Modified circuit to read potentiometers as finger positions
 Eli Campos | 1/26/2025 | 11:00 PM | 7:40 AM | 8:40 | Added new buttons, resembled haptic spools and added servos
-Gabriella Conde| 11:00 PM | 7:44 AM | 8:44 | Crimped wires
+Gabriella Conde | 1/26/25 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
