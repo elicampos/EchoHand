@@ -49,4 +49,4 @@ Gabriella Conde| 1/22/2025 | 1:00 AM | 6:25 AM | 5:25 | Assembled haptic spool s
 Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 3:00 | Modified circuit to read potentiometers as finger positions
 Eli Campos | 1/26/2025 | 11:00 PM | 7:40 AM | 8:40 | Added new buttons, resembled haptic spools and added servos
 Gabriella Conde | 1/26/25 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
-Michal Knauf | 1/29/25 | 12:03 PM | -- | -- | Installing and Learning CAD
+Michal Knauf | 1/29/25 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
