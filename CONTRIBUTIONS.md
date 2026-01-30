@@ -50,4 +50,4 @@ Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 3:00 | Modified circuit to read pot
 Eli Campos | 1/26/2025 | 11:00 PM | 7:40 AM | 8:40 | Added new buttons, resembled haptic spools and added servos
 Gabriella Conde | 1/26/25 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
 Michal Knauf | 1/29/25 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
-Michael Knauf | 1/29/25 | 6:19 | -- | -- | -- | Starting CAD desing 
+Michael Knauf | 1/29/25 | 6:19 | 11:46 | 5:27 | Starting CAD design, made initial design for joystick holder
