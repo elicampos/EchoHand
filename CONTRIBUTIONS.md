@@ -46,8 +46,9 @@ Eli Campos | 1/17/2025 | 11:00 AM | 5:00 AM | 6:00 | Getting bluetooth to finall
 Eli Campos | 1/21/2025 | 2:00 AM | 6:00 AM | 4:00 | Modified code to poll the adc more accurately and added a calibration phase
 Eli Campos | 1/22/2025 | 1:00 AM | 3:00 AM | 3:00 | Modified circuit to use insulated wires to help reduce noise 
 Gabriella Conde| 1/22/2025 | 1:00 AM | 6:25 AM | 5:25 | Assembled haptic spool system onto left glove
-Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 3:00 | Modified circuit to read potentiometers as finger positions
+Eli Campos | 1/22/2025 | 3:00 AM | 7:00 AM | 4:00 | Modified circuit to read potentiometers as finger positions
 Eli Campos | 1/26/2025 | 11:00 PM | 7:40 AM | 8:40 | Added new buttons, resembled haptic spools and added servos
 Gabriella Conde | 1/26/25 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
 Michal Knauf | 1/29/25 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
-Michael Knauf | 1/29/25 | 6:19 | 11:46 | 5:27 | Starting CAD design, made initial design for joystick holder
+Michael Knauf | 1/29/25 | 6:19 PM | 11:46 PM | 5:27 | Starting CAD design, made initial design for joystick holder
+Michael Knauf | 1/30/25 | 12:20 AM | -- | -- | Starting initial design for button holder
