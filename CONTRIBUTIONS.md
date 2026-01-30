@@ -49,8 +49,9 @@ Gabriella Conde| 1/22/2026 | 1:00 AM | 6:25 AM | 5:25 | Assembled haptic spool s
 Eli Campos | 1/22/2026 | 3:00 AM | 7:00 AM | 4:00 | Modified circuit to read potentiometers as finger positions
 Eli Campos | 1/26/2026 | 11:00 PM | 7:40 AM | 8:40 | Added new buttons, resembled haptic spools and added servos
 Gabriella Conde | 1/26/26 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
-Michal Knauf | 1/29/26 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
+Michael Knauf | 1/29/26 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
 Michael Knauf | 1/29/26 | 6:19 PM | 11:46 PM | 5:27 | Starting CAD design, made initial design for joystick holder
-Michael Knauf | 1/30/26 | 12:20 AM | -- | -- | Starting initial design for button holder
-Gabriella Conde | 1/30/2026| 4:40 AM | 7:15 AM | 2:35 | Worked on Aplaj Bukd and Alpha Test documents.
+Michael Knauf | 1/30/26 | 12:20 AM | 6:00 AM | 5:40 | Starting initial design for button holder
+Gabriella Conde | 1/30/206| 4:40 AM | 7:15 AM | 2:35 | Worked on Aplaj Bukd and Alpha Test documents.
 Eli Campos | 1/30/26 | 4:00 AM | 7:20 AM | 3:20 | Finalize haptic spool circuit.
+Michael Knauf | 1/30/26 | 6:20 AM | 12:04 AM | 5:44 | finished first iteration of button holder
