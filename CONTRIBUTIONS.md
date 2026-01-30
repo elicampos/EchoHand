@@ -52,3 +52,5 @@ Gabriella Conde | 1/26/25 | 11:00 PM | 7:44 AM | 8:44 | Crimped wires
 Michal Knauf | 1/29/25 | 12:03 PM | 12:59 PM | 0:56 | Start Installing and Learning CAD
 Michael Knauf | 1/29/25 | 6:19 PM | 11:46 PM | 5:27 | Starting CAD design, made initial design for joystick holder
 Michael Knauf | 1/30/25 | 12:20 AM | -- | -- | Starting initial design for button holder
+Gabriella Conde | 1/30/2026| 4:40 AM | 7:15 AM | 2:35 | Worked on Aplaj Bukd and Alpha Test documents.
+Eli Campos | 1/30/26 | 4:00 AM | 7:20 AM | 3:20 | Finalize haptic spool circuit.
