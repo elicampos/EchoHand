@@ -58,3 +58,4 @@ Michael Knauf | 1/30/26 | 6:20 AM | 12:04 AM | 5:44 | finished first iteration o
 Shawn Rhoads | 1/30/26 | 1:48 PM | 7:57 PM | 6:09 | Building and running the simulator and ESP IDF, debugging the Joystick issue
 Gabriella Conde | 1/30/26 | 10:00 PM | 11:30 | 1:30 | Work on Alpha Build and Alpha Test documents.
 Eli Campos | 1/30/26 | 8:30 PM | 11:30 | 3:00 | Work on Alpha Build and Alpha Test documents.
+Michael Knauf | 1/31/26 | 2:08 PM | - | - | Adjusting and reprinting current button rig design
