@@ -7,17 +7,16 @@
 int readSmooth(int pin)
 {
     //--Basic Average
-    /*
+
     long long sum = 0;
     for (int i = 0; i < FLEX_SENSOR_SAMPLE_RATE; i++)
     {
-        sum += analogReadMilliVolts(pin);
+        sum += analogRead(pin);
     }
     return sum / FLEX_SENSOR_SAMPLE_RATE;
-    */
 
     //--Median filter
-
+    /*
     // Store all readings in dynamic array and sort then take median value to avoid outliers
     std::vector<int> readings;
     readings.reserve(FLEX_SENSOR_SAMPLE_RATE);
@@ -38,7 +37,7 @@ int readSmooth(int pin)
     {
         return readings[readings.size() / 2];
     }
-
+        */
     /*
     // --Trimmed mean filter
     std::vector<int> readings;
@@ -87,16 +86,22 @@ void TaskAnalogRead(void *pvParameters)
 {
 
     // Pin locations for fingers
-    const int thumbPin = 13;
-    const int indexPin = 12;
-    const int middlePin = 11;
-    const int ringPin = 10;
-    const int pinkiePin = 9;
+    const int thumbPin = 8;
+    const int indexPin = 3;
+    const int middlePin = 12;
+    const int ringPin = 13;
+    const int pinkiePin = 14;
+
+    pinMode(thumbPin, INPUT);
+    pinMode(indexPin, INPUT);
+    pinMode(middlePin, INPUT);
+    pinMode(ringPin, INPUT);
+    pinMode(pinkiePin, INPUT);
 
     // Controller button pins
     const int joystick_button_pin = 4;
-    const int joystick_x_pin = 5;
-    const int joystick_y_pin = 6;
+    const int joystick_x_pin = 6;
+    const int joystick_y_pin = 5;
     const int a_button_pin = 7;
     const int b_button_pin = 15;
 
@@ -108,7 +113,7 @@ void TaskAnalogRead(void *pvParameters)
     (void)pvParameters;
 
     // Get range from 0.0V to 3.3V
-    analogSetAttenuation(ADC_2_5db);
+    analogSetAttenuation(ADC_11db);
     analogReadResolution(12);
 
     /* Finger Calibration value, max flex
@@ -165,7 +170,35 @@ void TaskAnalogRead(void *pvParameters)
         maxMiddleValue += currentMiddle;
         maxRingValue += currentRing;
         maxPinkieValue += currentPinkie;
+
+        /*
+        // Get max and pin values for this time period
+        // Track max values
+        if (currentThumb > maxThumbValue)
+            maxThumbValue = currentThumb;
+        if (currentIndex > maxIndexValue)
+            maxIndexValue = currentIndex;
+        if (currentMiddle > maxMiddleValue)
+            maxMiddleValue = currentMiddle;
+        if (currentRing > maxRingValue)
+            maxRingValue = currentRing;
+        if (currentPinkie > maxPinkieValue)
+            maxPinkieValue = currentPinkie;
+
+        // Track min values separately
+        if (currentThumb < minThumbValue)
+            minThumbValue = currentThumb;
+        if (currentIndex < minIndexValue)
+            minIndexValue = currentIndex;
+        if (currentMiddle < minMiddleValue)
+            minMiddleValue = currentMiddle;
+        if (currentRing < minRingValue)
+            minRingValue = currentRing;
+        if (currentPinkie < minPinkieValue)
+            minPinkieValue = currentPinkie;
+        */
     }
+
     maxThumbValue /= counter;
     maxIndexValue /= counter;
     maxMiddleValue /= counter;
@@ -200,8 +233,34 @@ void TaskAnalogRead(void *pvParameters)
         minMiddleValue += currentMiddle;
         minRingValue += currentRing;
         minPinkieValue += currentPinkie;
-    }
 
+        /*
+        // Get max and pin values for this time period
+        // Track max values
+        if (currentThumb > maxThumbValue)
+            maxThumbValue = currentThumb;
+        if (currentIndex > maxIndexValue)
+            maxIndexValue = currentIndex;
+        if (currentMiddle > maxMiddleValue)
+            maxMiddleValue = currentMiddle;
+        if (currentRing > maxRingValue)
+            maxRingValue = currentRing;
+        if (currentPinkie > maxPinkieValue)
+            maxPinkieValue = currentPinkie;
+
+        // Track min values separately
+        if (currentThumb < minThumbValue)
+            minThumbValue = currentThumb;
+        if (currentIndex < minIndexValue)
+            minIndexValue = currentIndex;
+        if (currentMiddle < minMiddleValue)
+            minMiddleValue = currentMiddle;
+        if (currentRing < minRingValue)
+            minRingValue = currentRing;
+        if (currentPinkie < minPinkieValue)
+            minPinkieValue = currentPinkie;
+        */
+    }
     minThumbValue /= counter;
     minIndexValue /= counter;
     minMiddleValue /= counter;
@@ -213,36 +272,35 @@ void TaskAnalogRead(void *pvParameters)
     vTaskDelay(pdMS_TO_TICKS(100));
     digitalWrite(LED_BUILTIN, LOW);
     vTaskDelay(pdMS_TO_TICKS(100));
-
     for (;;)
     {
 
-        // Raw adc voltage values
-        int rawThumb = readSmooth(thumbPin);
-        int rawIndex = readSmooth(indexPin);
-        int rawMiddle = readSmooth(middlePin);
-        int rawRing = readSmooth(ringPin);
-        int rawPinkie = readSmooth(pinkiePin);
+        // Raw adc voltage values // Use smoothed read or raw voltage
+        int rawThumb = analogRead(thumbPin);
+        int rawIndex = analogRead(indexPin);
+        int rawMiddle = analogRead(middlePin);
 
+        int rawRing = analogRead(ringPin);
+        int rawPinkie = analogRead(pinkiePin);
         // Now map the values based on calibration
         // Note flip for opengloves (4095->0) and constrain to valid range
-        int thumbAngle = constrain(4095 - static_cast<int>(map(rawThumb, minThumbValue, maxThumbValue, 0, 4095)), 0, 4095);
-        int indexAngle = constrain(4095 - static_cast<int>(map(rawIndex, minIndexValue, maxIndexValue, 0, 4095)), 0, 4095);
-        int middleAngle = constrain(4095 - static_cast<int>(map(rawMiddle, minMiddleValue, maxMiddleValue, 0, 4095)), 0, 4095);
-        int ringAngle = constrain(4095 - static_cast<int>(map(rawRing, minRingValue, maxRingValue, 0, 4095)), 0, 4095);
-        int pinkieAngle = constrain(4095 - static_cast<int>(map(rawPinkie, minPinkieValue, maxPinkieValue, 0, 4095)), 0, 4095);
+        int thumbAngle = 4095 - constrain(map(rawThumb, minThumbValue, maxThumbValue, 0, 4095), 0, 4095);
+        int indexAngle = 4095 - constrain(map(rawIndex, minIndexValue, maxIndexValue, 0, 4095), 0, 4095);
+        int middleAngle = 4095 - constrain(map(rawMiddle, minMiddleValue, maxMiddleValue, 0, 4095), 0, 4095);
+        int ringAngle = 4095 - constrain(map(rawRing, minRingValue, maxRingValue, 0, 4095), 0, 4095);
+        int pinkieAngle = 4095 - constrain(map(rawPinkie, minPinkieValue, maxPinkieValue, 0, 4095), 0, 4095);
 
         // Debug print that show's a finger's raw current value and it's minumum and max recorded value during calibration
+
+        // Arduino Serial Plotter format (label:value pairs)
         /*
-        Serial.printf("Thumb Raw: %d Min: %lld Max: %lld Mapped Angle: %d\n", rawThumb, minThumbValue, maxThumbValue, thumbAngle);
-        Serial.printf("Index Raw: %d Min: %lld Max: %lld Mapped Angle: %d\n", rawIndex, minIndexValue, maxIndexValue, indexAngle);
-        Serial.printf("Middle Raw: %d Min: %lld Max: %lld Mapped Angle: %d\n", rawMiddle, minMiddleValue, maxMiddleValue, middleAngle);
-        Serial.printf("Ring Raw: %d Min: %lld Max: %lld Mapped Angle: %d\n", rawRing, minRingValue, maxRingValue, ringAngle);
-        Serial.printf("Pinkie Raw: %d Min: %lld Max: %lld Mapped Angle: %d\n", rawPinkie, minPinkieValue, maxPinkieValue, pinkieAngle);
+        Serial.printf("Thumb:%d,Index:%d,Middle:%d,Ring:%d,Pinkie:%d\n",
+                      rawThumb, rawIndex, rawMiddle, rawRing, rawPinkie);
         */
+
         // Read controller button values
-        float joystick_x = map(analogRead(joystick_x_pin), 0, 4095, 0, 1024);
-        float joystick_y = map(analogRead(joystick_y_pin), 0, 4095, 0, 1024);
+        float joystick_x = analogRead(joystick_x_pin);
+        float joystick_y = analogRead(joystick_y_pin);
         int joystick_pressed = digitalRead(joystick_button_pin);
         int a_button = digitalRead(a_button_pin);
         int b_button = digitalRead(b_button_pin);
@@ -265,6 +323,6 @@ void TaskAnalogRead(void *pvParameters)
         DataBroker::instance().setJoystick(joystick_x, joystick_y);
         DataBroker::instance().setButtonsBitmask(buttonMask);
 
-        vTaskDelay(pdMS_TO_TICKS(30));
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }

@@ -7,11 +7,18 @@ void TaskServoControl(void *pvParameters)
 {
 
     // Servo finger pins
-    static const int thumbPin = 47;
-    static const int indexPin = 48;
-    static const int middlePin = 45;
-    static const int ringPin = 35;
+    static const int thumbPin = 45;
+    static const int indexPin = 35;
+    static const int middlePin = 36;
+    static const int ringPin = 37;
     static const int pinkiePin = 38;
+
+    // Set pin modes
+    pinMode(thumbPin, OUTPUT);
+    pinMode(indexPin, OUTPUT);
+    pinMode(middlePin, OUTPUT);
+    pinMode(ringPin, OUTPUT);
+    pinMode(pinkiePin, OUTPUT);
 
     // Setup servo objects
     Servo thumbServo;
@@ -33,11 +40,11 @@ void TaskServoControl(void *pvParameters)
     for (;;)
     {
         // Read persistant state and command servos
-        thumbServo.write(DataBroker::instance().getServoTargetAngle(0));
-        indexServo.write(DataBroker::instance().getServoTargetAngle(1));
-        middleServo.write(DataBroker::instance().getServoTargetAngle(2));
-        ringServo.write(DataBroker::instance().getServoTargetAngle(3));
-        pinkieServo.write(DataBroker::instance().getServoTargetAngle(4));
-        vTaskDelay(pdMS_TO_TICKS(50));
+        thumbServo.write(180 - DataBroker::instance().getServoTargetAngle(0));
+        indexServo.write(180 - DataBroker::instance().getServoTargetAngle(1));
+        middleServo.write(180 - DataBroker::instance().getServoTargetAngle(2));
+        ringServo.write(180 - DataBroker::instance().getServoTargetAngle(3));
+        pinkieServo.write(180 - DataBroker::instance().getServoTargetAngle(4));
+        vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
