@@ -56,3 +56,5 @@ Gabriella Conde | 1/30/206| 4:40 AM | 7:15 AM | 2:35 | Worked on Aplaj Bukd and 
 Eli Campos | 1/30/26 | 4:00 AM | 7:20 AM | 3:20 | Finalize haptic spool circuit.
 Michael Knauf | 1/30/26 | 6:20 AM | 12:04 AM | 5:44 | finished first iteration of button holder
 Shawn Rhoads | 1/30/26 | 1:48 PM | 7:57 PM | 6:09 | Building and running the simulator and ESP IDF, debugging the Joystick issue
+Gabriella Conde | 1/30/26 | 10:00 PM | 11:30 | 1:30 | Work on Alpha Build and Alpha Test documents.
+Eli Campos | 1/30/26 | 8:30 PM | 11:30 | 3:00 | Work on Alpha Build and Alpha Test documents.
