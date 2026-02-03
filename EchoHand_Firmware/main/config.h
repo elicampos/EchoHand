@@ -1,11 +1,45 @@
 // Stops outputting in openglove format and outputs the persistant state values read
 #define DEBUG_PRINT 0
 
-// Averages values read from flex sensor by x amount
-#define FLEX_SENSOR_SAMPLE_RATE 16
-
 // Serial Plot values instead of having a readable format
 #define USE_SERIAL_PLOTTER 0
 
 // Enable Bluetooth Serial Communication instead of USB Serial
 #define USE_BLUETOOTH_SERIAL 0
+
+// Averages values read from flex sensor by x amount
+#define POT_SAMPLE_RATE 16
+
+// Enable which noise reducation algo for flex sensor adc polling
+// 0-> No average
+// 1-> Average
+// 2-> Median
+// 3->Trimmed Mean
+#define POLL_METHOD 1
+
+// Circuit Pin Connections
+
+// Potentiometers
+#define THUMB_POT 8
+#define INDEX_POT 3
+#define MIDDLE_POT 12
+#define RING_POT 13
+#define PINKIE_POT 14
+
+// Servos
+#define THUMB_SERVO 45
+#define INDEX_SERVO 35
+#define MIDDLE_SERVO 36
+#define RING_SERVO 37
+#define PINKIE_SERVO 38
+
+// Calibration Phase Method
+// 0 -> Average
+// 1-> Most extreme value
+#define CALIBRATION_METHOD 0
+
+// If running Wokawai Simulation
+#define SIMULATION 0
+
+// Servo deadzone used for haptics
+#define SERVO_DEADZONE 30

@@ -78,6 +78,10 @@ void TaskDataBrokerPrint(void *pvParameters)
                 Serial.printf("Battery: %d%%\n", DataBroker::instance().getBatteryPercent());
             }
         }
+        else
+        {
+            vTaskDelete(NULL);
+        }
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }

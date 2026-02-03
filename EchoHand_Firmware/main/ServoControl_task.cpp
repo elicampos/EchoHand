@@ -6,19 +6,12 @@
 void TaskServoControl(void *pvParameters)
 {
 
-    // Servo finger pins
-    static const int thumbPin = 45;
-    static const int indexPin = 35;
-    static const int middlePin = 36;
-    static const int ringPin = 37;
-    static const int pinkiePin = 38;
-
     // Set pin modes
-    pinMode(thumbPin, OUTPUT);
-    pinMode(indexPin, OUTPUT);
-    pinMode(middlePin, OUTPUT);
-    pinMode(ringPin, OUTPUT);
-    pinMode(pinkiePin, OUTPUT);
+    pinMode(THUMB_SERVO, OUTPUT);
+    pinMode(INDEX_SERVO, OUTPUT);
+    pinMode(MIDDLE_SERVO, OUTPUT);
+    pinMode(RING_SERVO, OUTPUT);
+    pinMode(PINKIE_SERVO, OUTPUT);
 
     // Setup servo objects
     Servo thumbServo;
@@ -27,11 +20,11 @@ void TaskServoControl(void *pvParameters)
     Servo ringServo;
     Servo pinkieServo;
 
-    thumbServo.attach(thumbPin);
-    indexServo.attach(indexPin);
-    middleServo.attach(middlePin);
-    ringServo.attach(ringPin);
-    pinkieServo.attach(pinkiePin);
+    thumbServo.attach(THUMB_SERVO);
+    indexServo.attach(INDEX_SERVO);
+    middleServo.attach(MIDDLE_SERVO);
+    ringServo.attach(RING_SERVO);
+    pinkieServo.attach(PINKIE_SERVO);
 
     // To not get compiler unused variable error
     (void)pvParameters;
@@ -39,12 +32,39 @@ void TaskServoControl(void *pvParameters)
     // Fetch analog data from sensors forever
     for (;;)
     {
+        // Get servo angle from openhaptics
+        int thumbAngle = DataBroker::instance().getServoTargetAngle(0);
+        int indexAngle = DataBroker::instance().getServoTargetAngle(1);
+        int middleAngle = DataBroker::instance().getServoTargetAngle(2);
+        int ringAngle = DataBroker::instance().getServoTargetAngle(3);
+        int pinkieAngle = DataBroker::instance().getServoTargetAngle(4);
+
+        if (thumbAngle < SERVO_DEADZONE)
+        {
+            thumbAngle = 0;
+        }
+        if (indexAngle < SERVO_DEADZONE)
+        {
+            indexAngle = 0;
+        }
+        if (middleAngle < SERVO_DEADZONE)
+        {
+            middleAngle = 0;
+        }
+        if (ringAngle < SERVO_DEADZONE)
+        {
+            ringAngle = 0;
+        }
+        if (pinkieAngle < SERVO_DEADZONE)
+        {
+            pinkieAngle = 0;
+        }
         // Read persistant state and command servos
-        thumbServo.write(180 - DataBroker::instance().getServoTargetAngle(0));
-        indexServo.write(180 - DataBroker::instance().getServoTargetAngle(1));
-        middleServo.write(180 - DataBroker::instance().getServoTargetAngle(2));
-        ringServo.write(180 - DataBroker::instance().getServoTargetAngle(3));
-        pinkieServo.write(180 - DataBroker::instance().getServoTargetAngle(4));
+        thumbServo.write(180 - thumbAngle);
+        indexServo.write(180 - indexAngle);
+        middleServo.write(180 - middleAngle);
+        ringServo.write(180 - ringAngle);
+        pinkieServo.write(180 - pinkieAngle);
         vTaskDelay(pdMS_TO_TICKS(5));
     }
 }

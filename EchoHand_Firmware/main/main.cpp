@@ -39,9 +39,9 @@ void setup()
         "Communication",   // Name of Task
         8192,              // Stack size (bytes) for task
         NULL,              // Parameters(none)
-        1,                 // Priority level(1->highest)
+        2,                 // Priority level(1->highest)
         NULL,              // Task handle(for RTOS API maniuplation)
-        1                  // Run on core 1
+        0                  // Run on core 1
     );
 
     xTaskCreatePinnedToCore(
@@ -49,7 +49,7 @@ void setup()
         "ServoControl",   // Name of Task
         8192,             // Stack size (bytes) for task
         NULL,             // Parameters(none)
-        2,                // Priority level(1->highest)
+        1,                // Priority level(1->highest)
         NULL,             // Task handle(for RTOS API maniuplation)
         0                 // Run on core 0
     );

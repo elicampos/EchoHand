@@ -6,58 +6,69 @@
 // Note: This will be deprecated if we move to ExpressIf Ide as we can do this via hardware
 int readSmooth(int pin)
 {
-    //--Basic Average
+    switch (POLL_METHOD)
+    {
+    case 0:
+        return analogReadMilliVolts(pin);
+    case 1:
+    {
+        //--Basic Average
+        long long sum = 0;
+        for (int i = 0; i < POT_SAMPLE_RATE; i++)
+        {
+            sum += analogReadMilliVolts(pin);
+        }
+        return sum / POT_SAMPLE_RATE;
+    }
+    case 2:
+    {
+        //--Median filter
 
-    long long sum = 0;
-    for (int i = 0; i < FLEX_SENSOR_SAMPLE_RATE; i++)
-    {
-        sum += analogRead(pin);
-    }
-    return sum / FLEX_SENSOR_SAMPLE_RATE;
+        // Store all readings in dynamic array and sort then take median value to avoid outliers
+        std::vector<int> readings;
+        readings.reserve(POT_SAMPLE_RATE);
+        for (int i = 0; i < POT_SAMPLE_RATE; i++)
+        {
+            readings.push_back(analogReadMilliVolts(pin));
+        }
 
-    //--Median filter
-    /*
-    // Store all readings in dynamic array and sort then take median value to avoid outliers
-    std::vector<int> readings;
-    readings.reserve(FLEX_SENSOR_SAMPLE_RATE);
-    for (int i = 0; i < FLEX_SENSOR_SAMPLE_RATE; i++)
-    {
-        readings.push_back(analogReadMilliVolts(pin));
-    }
+        std::sort(readings.begin(), readings.end());
 
-    std::sort(readings.begin(), readings.end());
+        // If even
+        if (readings.size() % 2 == 0)
+        {
+            return (readings[readings.size() / 2 - 1] + readings[readings.size() / 2]) / 2;
+        }
+        // if odd
+        else
+        {
+            return readings[readings.size() / 2];
+        }
+    }
+    case 3:
+    {
+        // --Trimmed mean filter
+        std::vector<int> readings;
+        readings.reserve(POT_SAMPLE_RATE);
+        for (int i = 0; i < POT_SAMPLE_RATE; i++)
+        {
+            readings.push_back(analogReadMilliVolts(pin));
+        }
+        std::sort(readings.begin(), readings.end());
 
-    // If even
-    if (readings.size() % 2 == 0)
-    {
-        return (readings[readings.size() / 2 - 1] + readings[readings.size() / 2]) / 2;
+        // Remove top and bottom 25% of readings to avoid outliers
+        long long sum = 0;
+        int trimIndexStart = POT_SAMPLE_RATE / 4;
+        int trimIndexEnd = POT_SAMPLE_RATE - trimIndexStart;
+        for (int i = trimIndexStart; i < trimIndexEnd; i++)
+        {
+            sum += readings[i];
+        }
+        return sum / (trimIndexEnd - trimIndexStart);
     }
-    // if odd
-    else
-    {
-        return readings[readings.size() / 2];
+    default:
+        return analogReadMilliVolts(pin);
     }
-        */
-    /*
-    // --Trimmed mean filter
-    std::vector<int> readings;
-    readings.reserve(FLEX_SENSOR_SAMPLE_RATE);
-    for (int i = 0; i < FLEX_SENSOR_SAMPLE_RATE; i++)
-    {
-        readings.push_back(analogReadMilliVolts(pin));
-    }
-    std::sort(readings.begin(), readings.end());
-
-    // Remove top and bottom 25% of readings to avoid outliers
-    long long sum = 0;
-    int trimIndexStart = FLEX_SENSOR_SAMPLE_RATE / 4;
-    int trimIndexEnd = FLEX_SENSOR_SAMPLE_RATE - trimIndexStart;
-    for (int i = trimIndexStart; i < trimIndexEnd; i++)
-    {
-        sum += readings[i];
-    }
-    return sum / (trimIndexEnd - trimIndexStart);
-    */
 }
 
 // Description: Converts adc range of 400->1250 to 0->4250
@@ -85,18 +96,11 @@ int mapFlex(int raw)
 void TaskAnalogRead(void *pvParameters)
 {
 
-    // Pin locations for fingers
-    const int thumbPin = 8;
-    const int indexPin = 3;
-    const int middlePin = 12;
-    const int ringPin = 13;
-    const int pinkiePin = 14;
-
-    pinMode(thumbPin, INPUT);
-    pinMode(indexPin, INPUT);
-    pinMode(middlePin, INPUT);
-    pinMode(ringPin, INPUT);
-    pinMode(pinkiePin, INPUT);
+    pinMode(THUMB_POT, INPUT);
+    pinMode(INDEX_POT, INPUT);
+    pinMode(MIDDLE_POT, INPUT);
+    pinMode(RING_POT, INPUT);
+    pinMode(PINKIE_POT, INPUT);
 
     // Controller button pins
     const int joystick_button_pin = 4;
@@ -116,180 +120,174 @@ void TaskAnalogRead(void *pvParameters)
     analogSetAttenuation(ADC_11db);
     analogReadResolution(12);
 
-    /* Finger Calibration value, max flex
-    int thumbClosed  = mapFlex(readSmooth(thumbPin));
-    int indexClosed  = mapFlex(readSmooth(indexPin));
-    int middleClosed = mapFlex(readSmooth(middlePin));
-    int ringClosed   = mapFlex(readSmooth(ringPin));
-    int pinkieClosed = mapFlex(readSmooth(pinkiePin));
-    */
-    // Fetch analog data from sensors forever
-
-    /*
-    // OpenGloves just wants raw adc val, however we will sample each pin 500 times and average the values, and subtract it by the calibration value, and if somehow negative,
-    // due to noise, we will simply round it up to 0
-    int rawThumb = max(0, (readSmooth(thumbPin)));
-    int rawIndex = max(0, (readSmooth(indexPin)));
-    int rawMiddle = max(0, (readSmooth(middlePin)));
-    int rawRing = max(0, (readSmooth(ringPin)));
-    int rawPinkie = max(0, (readSmooth(pinkiePin)));
-
-
-    // Convert angles to map to desired range for Opengloves(4095->0)
-    int thumbAngle = max(0, (4095 - mapFlex(rawThumb)));
-    int indexAngle = max(0, (4095 - mapFlex(rawIndex)));
-    int middleAngle = max(0, (4095 - mapFlex(rawMiddle)));
-    int ringAngle = max(0, (4095 - mapFlex(rawRing)));
-    int pinkieAngle = max(0, (4095 - mapFlex(rawPinkie)));
-    */
-
-    // Calibration phase - sum values then average
-    long long maxThumbValue = 0, maxIndexValue = 0, maxMiddleValue = 0, maxRingValue = 0, maxPinkieValue = 0;
+    // Calibration phase
+    long long maxThumbValue = 4095, maxIndexValue = 4095, maxMiddleValue = 4095, maxRingValue = 4095, maxPinkieValue = 4095;
     long long minThumbValue = 0, minIndexValue = 0, minMiddleValue = 0, minRingValue = 0, minPinkieValue = 0;
     long long currentThumb = 0, currentIndex = 0, currentMiddle = 0, currentRing = 0, currentPinkie = 0;
 
-    // For first 5 seconds, assume hand is flexed(open as hard as possible) and record that as max flex
-    // Get current time
-    unsigned long long startTime = millis();
-    long long counter = 0;
-
-    // Check if 5 seconds has passed
-    while (millis() - startTime < 5000)
+    // If not simulation don't calibration
+    if (!SIMULATION)
     {
-        // Read current values
-        currentThumb = analogReadMilliVolts(thumbPin);
-        currentIndex = analogReadMilliVolts(indexPin);
-        currentMiddle = analogReadMilliVolts(middlePin);
-        currentRing = analogReadMilliVolts(ringPin);
-        currentPinkie = analogReadMilliVolts(pinkiePin);
 
-        counter++;
+        maxThumbValue = 0, maxIndexValue = 0, maxMiddleValue = 0, maxRingValue = 0, maxPinkieValue = 0;
+        minThumbValue = 0, minIndexValue = 0, minMiddleValue = 0, minRingValue = 0, minPinkieValue = 0;
+        currentThumb = 0, currentIndex = 0, currentMiddle = 0, currentRing = 0, currentPinkie = 0;
 
-        maxThumbValue += currentThumb;
-        maxIndexValue += currentIndex;
-        maxMiddleValue += currentMiddle;
-        maxRingValue += currentRing;
-        maxPinkieValue += currentPinkie;
+        // For first 5 seconds, assume hand is flexed(open as hard as possible) and record that as max flex
+        // Get current time
+        unsigned long long startTime = millis();
+        long long counter = 0;
 
-        /*
-        // Get max and pin values for this time period
-        // Track max values
-        if (currentThumb > maxThumbValue)
-            maxThumbValue = currentThumb;
-        if (currentIndex > maxIndexValue)
-            maxIndexValue = currentIndex;
-        if (currentMiddle > maxMiddleValue)
-            maxMiddleValue = currentMiddle;
-        if (currentRing > maxRingValue)
-            maxRingValue = currentRing;
-        if (currentPinkie > maxPinkieValue)
-            maxPinkieValue = currentPinkie;
+        // If we are getting the extreme set a values to opposites
+        if (CALIBRATION_METHOD == 1)
+        {
+            maxThumbValue = LONG_LONG_MIN;
+            maxIndexValue = LONG_LONG_MIN;
+            maxMiddleValue = LONG_LONG_MIN;
+            maxRingValue = LONG_LONG_MIN;
+            maxPinkieValue = LONG_LONG_MIN;
 
-        // Track min values separately
-        if (currentThumb < minThumbValue)
-            minThumbValue = currentThumb;
-        if (currentIndex < minIndexValue)
-            minIndexValue = currentIndex;
-        if (currentMiddle < minMiddleValue)
-            minMiddleValue = currentMiddle;
-        if (currentRing < minRingValue)
-            minRingValue = currentRing;
-        if (currentPinkie < minPinkieValue)
-            minPinkieValue = currentPinkie;
-        */
+            minThumbValue = LONG_LONG_MAX;
+            minIndexValue = LONG_LONG_MAX;
+            minMiddleValue = LONG_LONG_MAX;
+            minRingValue = LONG_LONG_MAX;
+            minPinkieValue = LONG_LONG_MAX;
+        }
+
+        // Check if 5 seconds has passed
+        while (millis() - startTime < 5000)
+        {
+            // Read current values
+            currentThumb = readSmooth(THUMB_POT);
+            currentIndex = readSmooth(INDEX_POT);
+            currentMiddle = readSmooth(MIDDLE_POT);
+            currentRing = readSmooth(RING_POT);
+            currentPinkie = readSmooth(PINKIE_POT);
+
+            if (CALIBRATION_METHOD == 0)
+            {
+                counter++;
+
+                maxThumbValue += currentThumb;
+                maxIndexValue += currentIndex;
+                maxMiddleValue += currentMiddle;
+                maxRingValue += currentRing;
+                maxPinkieValue += currentPinkie;
+            }
+            else
+            {
+                // Capture Observed Min and Max for each finger and update it ehere
+
+                // Update Maximums
+                if (currentThumb > maxThumbValue)
+                    maxThumbValue = currentThumb;
+                if (currentIndex > maxIndexValue)
+                    maxIndexValue = currentIndex;
+                if (currentMiddle > maxMiddleValue)
+                    maxMiddleValue = currentMiddle;
+                if (currentRing > maxRingValue)
+                    maxRingValue = currentRing;
+                if (currentPinkie > maxPinkieValue)
+                    maxPinkieValue = currentPinkie;
+            }
+        }
+        if (CALIBRATION_METHOD == 0)
+        {
+            maxThumbValue /= counter;
+            maxIndexValue /= counter;
+            maxMiddleValue /= counter;
+            maxRingValue /= counter;
+            maxPinkieValue /= counter;
+        }
+
+        // Blink LED to let user know to start closing hand
+        digitalWrite(LED_BUILTIN, HIGH);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        digitalWrite(LED_BUILTIN, LOW);
+        vTaskDelay(pdMS_TO_TICKS(100));
+
+        // For next 5 seconds, assume hand is closed(clench as hard as possible) and record that as min flex
+        // Get current time
+        startTime = millis();
+        counter = 0;
+
+        // Check if 5 seconds has passed
+        while (millis() - startTime < 5000)
+        {
+            // Read current values
+            currentThumb = readSmooth(THUMB_POT);
+            currentIndex = readSmooth(INDEX_POT);
+            currentMiddle = readSmooth(MIDDLE_POT);
+            currentRing = readSmooth(RING_POT);
+            currentPinkie = readSmooth(PINKIE_POT);
+
+            if (CALIBRATION_METHOD == 0)
+            {
+                counter++;
+
+                minThumbValue += currentThumb;
+                minIndexValue += currentIndex;
+                minMiddleValue += currentMiddle;
+                minRingValue += currentRing;
+                minPinkieValue += currentPinkie;
+            }
+            else
+            {
+                // Update Minimums
+                if (currentThumb < minThumbValue)
+                    minThumbValue = currentThumb;
+                if (currentIndex < minIndexValue)
+                    minIndexValue = currentIndex;
+                if (currentMiddle < minMiddleValue)
+                    minMiddleValue = currentMiddle;
+                if (currentRing < minRingValue)
+                    minRingValue = currentRing;
+                if (currentPinkie < minPinkieValue)
+                    minPinkieValue = currentPinkie;
+            }
+        }
+        if (CALIBRATION_METHOD == 0)
+        {
+            minThumbValue /= counter;
+            minIndexValue /= counter;
+            minMiddleValue /= counter;
+            minRingValue /= counter;
+            minPinkieValue /= counter;
+        }
+
+        // Blink LED to let user know calibration is done
+        digitalWrite(LED_BUILTIN, HIGH);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        digitalWrite(LED_BUILTIN, LOW);
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 
-    maxThumbValue /= counter;
-    maxIndexValue /= counter;
-    maxMiddleValue /= counter;
-    maxRingValue /= counter;
-    maxPinkieValue /= counter;
-
-    // Blink LED to let user know to start closing hand
-    digitalWrite(LED_BUILTIN, HIGH);
-    vTaskDelay(pdMS_TO_TICKS(100));
-    digitalWrite(LED_BUILTIN, LOW);
-    vTaskDelay(pdMS_TO_TICKS(100));
-
-    // For next 5 seconds, assume hand is closed(clench as hard as possible) and record that as min flex
-    // Get current time
-    startTime = millis();
-    counter = 0;
-
-    // Check if 5 seconds has passed
-    while (millis() - startTime < 5000)
-    {
-        // Read current values
-        currentThumb = analogReadMilliVolts(thumbPin);
-        currentIndex = analogReadMilliVolts(indexPin);
-        currentMiddle = analogReadMilliVolts(middlePin);
-        currentRing = analogReadMilliVolts(ringPin);
-        currentPinkie = analogReadMilliVolts(pinkiePin);
-
-        counter++;
-
-        minThumbValue += currentThumb;
-        minIndexValue += currentIndex;
-        minMiddleValue += currentMiddle;
-        minRingValue += currentRing;
-        minPinkieValue += currentPinkie;
-
-        /*
-        // Get max and pin values for this time period
-        // Track max values
-        if (currentThumb > maxThumbValue)
-            maxThumbValue = currentThumb;
-        if (currentIndex > maxIndexValue)
-            maxIndexValue = currentIndex;
-        if (currentMiddle > maxMiddleValue)
-            maxMiddleValue = currentMiddle;
-        if (currentRing > maxRingValue)
-            maxRingValue = currentRing;
-        if (currentPinkie > maxPinkieValue)
-            maxPinkieValue = currentPinkie;
-
-        // Track min values separately
-        if (currentThumb < minThumbValue)
-            minThumbValue = currentThumb;
-        if (currentIndex < minIndexValue)
-            minIndexValue = currentIndex;
-        if (currentMiddle < minMiddleValue)
-            minMiddleValue = currentMiddle;
-        if (currentRing < minRingValue)
-            minRingValue = currentRing;
-        if (currentPinkie < minPinkieValue)
-            minPinkieValue = currentPinkie;
-        */
-    }
-    minThumbValue /= counter;
-    minIndexValue /= counter;
-    minMiddleValue /= counter;
-    minRingValue /= counter;
-    minPinkieValue /= counter;
-
-    // Blink LED to let user know calibration is done
-    digitalWrite(LED_BUILTIN, HIGH);
-    vTaskDelay(pdMS_TO_TICKS(100));
-    digitalWrite(LED_BUILTIN, LOW);
-    vTaskDelay(pdMS_TO_TICKS(100));
     for (;;)
     {
 
         // Raw adc voltage values // Use smoothed read or raw voltage
-        int rawThumb = analogRead(thumbPin);
-        int rawIndex = analogRead(indexPin);
-        int rawMiddle = analogRead(middlePin);
+        int rawThumb = readSmooth(THUMB_POT);
+        int rawIndex = readSmooth(INDEX_POT);
+        int rawMiddle = readSmooth(MIDDLE_POT);
+        int rawRing = readSmooth(RING_POT);
+        int rawPinkie = readSmooth(PINKIE_POT);
 
-        int rawRing = analogRead(ringPin);
-        int rawPinkie = analogRead(pinkiePin);
         // Now map the values based on calibration
         // Note flip for opengloves (4095->0) and constrain to valid range
-        int thumbAngle = 4095 - constrain(map(rawThumb, minThumbValue, maxThumbValue, 0, 4095), 0, 4095);
-        int indexAngle = 4095 - constrain(map(rawIndex, minIndexValue, maxIndexValue, 0, 4095), 0, 4095);
-        int middleAngle = 4095 - constrain(map(rawMiddle, minMiddleValue, maxMiddleValue, 0, 4095), 0, 4095);
-        int ringAngle = 4095 - constrain(map(rawRing, minRingValue, maxRingValue, 0, 4095), 0, 4095);
-        int pinkieAngle = 4095 - constrain(map(rawPinkie, minPinkieValue, maxPinkieValue, 0, 4095), 0, 4095);
+        int thumbAngle = constrain(map(rawThumb, minThumbValue, maxThumbValue, 0, 4095), 0, 4095);
+        int indexAngle = constrain(map(rawIndex, minIndexValue, maxIndexValue, 0, 4095), 0, 4095);
+        int middleAngle = constrain(map(rawMiddle, minMiddleValue, maxMiddleValue, 0, 4095), 0, 4095);
+        int ringAngle = constrain(map(rawRing, minRingValue, maxRingValue, 0, 4095), 0, 4095);
+        int pinkieAngle = constrain(map(rawPinkie, minPinkieValue, maxPinkieValue, 0, 4095), 0, 4095);
 
+        if (CALIBRATION_METHOD == 0)
+        {
+            thumbAngle = max(0, 4095 - thumbAngle);
+            indexAngle = max(0, 4095 - indexAngle);
+            middleAngle = max(0, 4095 - middleAngle);
+            ringAngle = max(0, 4095 - ringAngle);
+            pinkieAngle = max(0, 4095 - pinkieAngle);
+        }
         // Debug print that show's a finger's raw current value and it's minumum and max recorded value during calibration
 
         // Arduino Serial Plotter format (label:value pairs)
@@ -308,7 +306,8 @@ void TaskAnalogRead(void *pvParameters)
         uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) | (b_button);
 
         // Calculate trigger button passed of value of bending
-        if (thumbAngle > 150 && indexAngle > 150)
+        // If index and thumb is more than 50% bent
+        if (thumbAngle > 4095 * 0.33 && indexAngle > 4095 * 0.33)
         {
             // Set current 4 bit of bit mask to have trigger button
             buttonMask |= (1 << 3);
