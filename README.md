@@ -56,28 +56,26 @@ Future security and reliability features include:
 
 ## Known Bugs
 
-### 1. Joystick Drift
-**Description**: Doesn't read joystick movement other than right movement.
+### 1. Random Jitter
+**Description**: Due to everything still being on a breadboard there is some noise when polling the ADCs.
+
+### 1.Grabbing Hitter
+**Description**: Held objects can sometimes fall randomly due to the "L" not being set in the payload consistently. 
 
 ## Future Work
 
-#### 1. Implement Haptic Feedback(Currently in-testing)
-- **Servo Motor System**: Implement servo motors with spool-and-cable mechanism
-  - Provides active resistance feedback to simulate object interaction
-  - Finger Angle approach: Servo encoders for improved angle accuracy over flex sensors
-
-#### 2. Solder or PCB Development(Waiting for final beta 3d-printed parts)
+#### 1. Solder or PCB Development(Waiting for final beta 3d-printed parts)
 - **Compact Size**: To be able to sit on the hand and arm comfortably, we will need to reduce the size of the circuit 
   - Allow better heat dissapation
   - Lighter weight
   - Less potential circuit damage from heavy use
 
-#### 3. Vibration Motors
+#### 2. Vibration Motors
 Attach vibration motors on the fingertips of the user to simulate touching an object.
 - **Custom Unity Enviornment**: A custom Unity enviornment will send the current texture that the user's finger is touching, to the ESP32.
 - **ESP32 Hashamp**: The ESP32 will receive the texture along with the finger index, and lookup the appropriate rpm to send the vibration motor.  
 
-#### 4. 3D Printed Components
+#### 3. 3D Printed Components
 Design and print custom mounting solutions:
 - **Adjustable Joystick Mount and Button Placement**: Ergonomic positioning based on hand size
   - Uses clamp mechanism around index finger
