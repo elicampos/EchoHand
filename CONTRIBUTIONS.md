@@ -60,3 +60,4 @@ Gabriella Conde | 1/30/26 | 10:00 PM | 11:30 | 1:30 | Work on Alpha Build and Al
 Eli Campos | 1/30/26 | 8:30 PM | 11:30 | 3:00 | Work on Alpha Build and Alpha Test documents.
 Michael Knauf | 1/31/26 | 2:08 PM | 6:28 PM | 4:20 | Adjusting and reprinting current button rig design
 Eli Campos | 2/3/26 | 12:00 AM | 2:30AM | 2:30 | Update RTOS scheme, refactor code for more user set defintions and fix slight bugs
+Gabriella Conde | 2/3/26 | 3:00 AM | 4:30 AM | 1:30 | Secure servo motors in place. Re-glue finger cap.
