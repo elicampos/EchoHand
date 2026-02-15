@@ -63,4 +63,4 @@ Eli Campos | 2/3/26 | 12:00 AM | 2:30AM | 2:30 | Update RTOS scheme, refactor co
 Gabriella Conde | 2/3/26 | 3:00 AM | 4:30 AM | 1:30 | Secure servo motors in place. Re-glue finger cap.
 Michael Knauf | 2/6/2026 | 12:57 PM | 4:07 | 3:10 | First iteration of new Joystick rig w/o straps.
 Eli Campos | 2/11/26 | 10:00 PM | 12:00AM | 1:00 | Take apart Alpha build, place on prototype board for upcoming soldering. 
-Michael Knauf | 2/14/2026 | 5:00 PM | -- | -- | Printing and prototyping joystick casing
+Michael Knauf | 2/14/2026 | 5:00 PM | 7:00 PM | 2:00 | Printing and prototyping joystick casing
