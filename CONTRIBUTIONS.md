@@ -64,3 +64,4 @@ Gabriella Conde | 2/3/26 | 3:00 AM | 4:30 AM | 1:30 | Secure servo motors in pla
 Michael Knauf | 2/6/2026 | 12:57 PM | 4:07 | 3:10 | First iteration of new Joystick rig w/o straps.
 Eli Campos | 2/11/26 | 10:00 PM | 12:00AM | 1:00 | Take apart Alpha build, place on prototype board for upcoming soldering. 
 Michael Knauf | 2/14/2026 | 5:00 PM | 7:00 PM | 2:00 | Printing and prototyping joystick casing
+Gabriella Conde | 2/17/26 | 4:00 PM | 7:00 PM | 3:00 | Solder protoboard.
