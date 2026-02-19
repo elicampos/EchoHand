@@ -66,3 +66,4 @@ Eli Campos | 2/11/26 | 10:00 PM | 12:00AM | 1:00 | Take apart Alpha build, place
 Michael Knauf | 2/14/2026 | 5:00 PM | 7:00 PM | 2:00 | Printing and prototyping joystick casing
 Gabriella Conde | 2/17/26 | 4:00 PM | 7:00 PM | 3:00 | Solder protoboard.
 Gabriella Conde | 2/18/26 | 10 PM | 5 AM | 7 | Learn FreeCAD, design circuit casing, 3D printing.
+Gabriella Conde | 2/18 | 5 PM | 7P | 2 | solder protoboard 
