@@ -96,25 +96,18 @@ int mapFlex(int raw)
 void TaskAnalogRead(void *pvParameters)
 {
 
+    // To not get compiler unused variable error
+    (void)pvParameters;
+
+    // Setup pins as INPUT just in case
     pinMode(THUMB_POT, INPUT);
     pinMode(INDEX_POT, INPUT);
     pinMode(MIDDLE_POT, INPUT);
     pinMode(RING_POT, INPUT);
     pinMode(PINKIE_POT, INPUT);
-
-    // Controller button pins
-    const int joystick_button_pin = 4;
-    const int joystick_x_pin = 6;
-    const int joystick_y_pin = 5;
-    const int a_button_pin = 7;
-    const int b_button_pin = 15;
-
-    pinMode(joystick_button_pin, INPUT_PULLUP);
-    pinMode(a_button_pin, INPUT);
-    pinMode(b_button_pin, INPUT);
-
-    // To not get compiler unused variable error
-    (void)pvParameters;
+    pinMode(JOYSTICK_BUTTON, INPUT_PULLUP);
+    pinMode(A_BUTTON, INPUT);
+    pinMode(B_BUTTON, INPUT);
 
     // Get range from 0.0V to 3.3V
     analogSetAttenuation(ADC_11db);
@@ -297,11 +290,11 @@ void TaskAnalogRead(void *pvParameters)
         */
 
         // Read controller button values
-        float joystick_x = analogRead(joystick_x_pin);
-        float joystick_y = analogRead(joystick_y_pin);
-        int joystick_pressed = digitalRead(joystick_button_pin);
-        int a_button = digitalRead(a_button_pin);
-        int b_button = digitalRead(b_button_pin);
+        float joystick_x = analogRead(JOYSTICK_X);
+        float joystick_y = analogRead(JOYSTICK_Y);
+        int joystick_pressed = digitalRead(JOYSTICK_BUTTON);
+        int a_button = digitalRead(A_BUTTON);
+        int b_button = digitalRead(B_BUTTON);
 
         uint32_t buttonMask = (joystick_pressed << 2) | (a_button << 1) | (b_button);
 

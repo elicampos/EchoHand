@@ -29,7 +29,7 @@ void TaskCommunication(void *pvParameters)
     // Print to usb that we are starting bluetooth serial
     mySerial->println("Starting Bluetooth Serial on another COM port...");
     mySerial = &Serial1;
-    mySerial->begin(38400, SERIAL_8N1, 18, 17);
+    mySerial->begin(38400, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
 
     // Time to config
     vTaskDelay(pdMS_TO_TICKS(500));

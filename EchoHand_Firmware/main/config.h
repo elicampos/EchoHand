@@ -35,6 +35,17 @@ inline constexpr uint8_t MIDDLE_SERVO = 36;
 inline constexpr uint8_t RING_SERVO = 37;
 inline constexpr uint8_t PINKIE_SERVO = 38;
 
+// Joystick and buttons
+inline constexpr uint8_t JOYSTICK_BUTTON = 4;
+inline constexpr uint8_t JOYSTICK_X = 6;
+inline constexpr uint8_t JOYSTICK_Y = 5;
+inline constexpr uint8_t A_BUTTON = 7;
+inline constexpr uint8_t B_BUTTON = 15;
+
+// Bluetooth Buttons
+inline constexpr uint8_t BLUETOOTH_RX = 18;
+inline constexpr uint8_t BLUETOOTH_TX = 17;
+
 // Calibration Phase Method
 // 0 -> Average
 // 1-> Most extreme value
