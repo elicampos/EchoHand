@@ -1,0 +1,9 @@
+# EchoHand Testing Suite Requirements
+# Install with: pip install -r requirements.txt
+
+pyserial>=3.5
+colorama>=0.4.6
+
+# For Bluetooth Stress Test (will be added)
+matplotlib>=3.7.0
+numpy>=1.24.0
