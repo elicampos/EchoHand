@@ -69,3 +69,4 @@ Gabriella Conde | 2/18/26 | 10 PM | 5 AM | 7 | Learn FreeCAD, design circuit cas
 Gabriella Conde | 2/18 | 5 PM | 7P | 2 | solder protoboard 
 Gabriella Conde | 2/20 | 12 am | 5 am | 5:00 | Casing design
 Gabriella Conde| 2/20 | 4 pm | 6 pm | 2:00 | Solder protoboard 
+Eli Campos | 2/21/26 | 4:00 PM | 2:00 AM | 10:00 PM | Fix Simulation, Test Soldered Circuit and Fix Task Priority Bug
