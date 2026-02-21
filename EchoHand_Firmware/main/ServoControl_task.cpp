@@ -73,6 +73,6 @@ void TaskServoControl(void *pvParameters)
         middleServo.write(180 - middleAngle);
         ringServo.write(180 - ringAngle);
         pinkieServo.write(180 - pinkieAngle);
-        vTaskDelay(pdMS_TO_TICKS(5));
+        vTaskDelay(pdMS_TO_TICKS(25));
     }
 }

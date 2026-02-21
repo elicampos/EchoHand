@@ -1,3 +1,5 @@
+#pragma once
+
 // Stops outputting in openglove format and outputs the persistant state values read
 #define DEBUG_PRINT 0
 
@@ -5,7 +7,7 @@
 #define USE_SERIAL_PLOTTER 0
 
 // Enable Bluetooth Serial Communication instead of USB Serial
-#define USE_BLUETOOTH_SERIAL 0
+#define USE_BLUETOOTH_SERIAL 1
 
 // Averages values read from flex sensor by x amount
 #define POT_SAMPLE_RATE 16

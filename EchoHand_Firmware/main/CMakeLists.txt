@@ -1,6 +1,6 @@
 idf_component_register(
     # Source files to compile
-    SRCS "AnalogRead_task.cpp" "DataBrokerPrint.cpp" "ServoControl_task.cpp" "main.cpp" "Communication_task.cpp" 
+    SRCS "ServoControl_task.cpp" "AnalogRead_task.cpp" "DataBrokerPrint.cpp" "main.cpp" "Communication_task.cpp" 
 
     # Header files to compile
     INCLUDE_DIRS "."

@@ -22,8 +22,7 @@ void setup()
 
     // turn Wi-Fi off to make sure ADC2 doesn't get messed up
     WiFi.mode(WIFI_OFF);
-    
-    
+
     // Create the task
     xTaskCreatePinnedToCore(
         TaskAnalogRead, // Fucntion name of Task
@@ -42,7 +41,7 @@ void setup()
         NULL,              // Parameters(none)
         2,                 // Priority level(1->highest)
         NULL,              // Task handle(for RTOS API maniuplation)
-        0                  // Run on core 1
+        0                  // Run on core 0
     );
 
     xTaskCreatePinnedToCore(
