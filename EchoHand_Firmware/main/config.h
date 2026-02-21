@@ -20,18 +20,18 @@
 // Circuit Pin Connections
 
 // Potentiometers
-#define THUMB_POT 8
-#define INDEX_POT 3
-#define MIDDLE_POT 12
-#define RING_POT 13
-#define PINKIE_POT 14
+inline constexpr uint8_t THUMB_POT = 8;
+inline constexpr uint8_t INDEX_POT = 3;
+inline constexpr uint8_t MIDDLE_POT = 12;
+inline constexpr uint8_t RING_POT = 13;
+inline constexpr uint8_t PINKIE_POT = 14;
 
 // Servos
-#define THUMB_SERVO 45
-#define INDEX_SERVO 35
-#define MIDDLE_SERVO 36
-#define RING_SERVO 37
-#define PINKIE_SERVO 38
+inline constexpr uint8_t THUMB_SERVO = 45;
+inline constexpr uint8_t INDEX_SERVO = 35;
+inline constexpr uint8_t MIDDLE_SERVO = 36;
+inline constexpr uint8_t RING_SERVO = 37;
+inline constexpr uint8_t PINKIE_SERVO = 38;
 
 // Calibration Phase Method
 // 0 -> Average

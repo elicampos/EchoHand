@@ -22,7 +22,8 @@ void setup()
 
     // turn Wi-Fi off to make sure ADC2 doesn't get messed up
     WiFi.mode(WIFI_OFF);
-
+    
+    
     // Create the task
     xTaskCreatePinnedToCore(
         TaskAnalogRead, // Fucntion name of Task
@@ -70,7 +71,7 @@ extern "C" void app_main()
     // Initialize the Arduino framework
     initArduino();
 
-    // Call your standard setup
+    // Call the standard setup
     setup();
 
     // Delete task so that we don't hog any cpu time
