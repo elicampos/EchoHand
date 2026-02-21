@@ -41,7 +41,7 @@ inline constexpr uint8_t PINKIE_SERVO = 38;
 #define CALIBRATION_METHOD 0
 
 // If running Wokawai Simulation
-#define SIMULATION 1
+#define SIMULATION 0
 
 // Servo deadzone used for haptics
 #define SERVO_DEADZONE 30
