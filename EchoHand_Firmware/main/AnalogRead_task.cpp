@@ -32,18 +32,23 @@ int readSmooth(int pin)
             readings.push_back(analogReadMilliVolts(pin));
         }
 
-        std::sort(readings.begin(), readings.end());
+        // Get middle index(round down to middle value if even)
+        uint8_t n = readings.size() / 2;
 
-        // If even
-        if (readings.size() % 2 == 0)
+        // Sort vector to only have that value sorted
+        // Makes values to the left less than median and values to the right greater(still not ordered)
+        std::nth_element(readings.begin(), readings.begin() + n, readings.end());
+
+        int median = readings[n];
+
+        // If even, average two elements that would be in the mean
+        if (!(readings.size() & 1))
         {
-            return (readings[readings.size() / 2 - 1] + readings[readings.size() / 2]) / 2;
+            auto max_it = std::max_element(readings.begin(), readings.begin() + n);
+            median = (*max_it + median) / 2;
         }
-        // if odd
-        else
-        {
-            return readings[readings.size() / 2];
-        }
+
+        return median;
     }
     case 3:
     {
@@ -69,25 +74,6 @@ int readSmooth(int pin)
     default:
         return analogReadMilliVolts(pin);
     }
-}
-
-// Description: Converts adc range of 400->1250 to 0->4250
-// Parameters: rawanalog Value
-// Return: value that matches range
-int mapFlex(int raw)
-{
-    // Rought estimates from circuit
-    const int RAW_MIN = 400;
-    const int RAW_MAX = 1250;
-
-    // Clamp range to range expected for opengloves
-    if (raw < RAW_MIN)
-        raw = RAW_MIN;
-    if (raw > RAW_MAX)
-        raw = RAW_MAX;
-
-    // Map to 0–>4095
-    return (raw - RAW_MIN) * 4095L / (RAW_MAX - RAW_MIN);
 }
 
 // Description: Reads all Analog Data from sensors

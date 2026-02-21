@@ -19,7 +19,18 @@
 // 3->Trimmed Mean
 #define POLL_METHOD 1
 
-// Circuit Pin Connections
+// Calibration Phase Method
+// 0 -> Average
+// 1-> Most extreme value
+#define CALIBRATION_METHOD 0
+
+// If running Wokawai Simulation
+#define SIMULATION 0
+
+// Servo deadzone used for haptics
+#define SERVO_DEADZONE 30
+
+//-------Circuit Pin Connections-------//
 
 // Potentiometers
 inline constexpr uint8_t THUMB_POT = 8;
@@ -46,13 +57,3 @@ inline constexpr uint8_t B_BUTTON = 15;
 inline constexpr uint8_t BLUETOOTH_RX = 18;
 inline constexpr uint8_t BLUETOOTH_TX = 17;
 
-// Calibration Phase Method
-// 0 -> Average
-// 1-> Most extreme value
-#define CALIBRATION_METHOD 0
-
-// If running Wokawai Simulation
-#define SIMULATION 0
-
-// Servo deadzone used for haptics
-#define SERVO_DEADZONE 30
