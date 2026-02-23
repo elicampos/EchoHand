@@ -12,6 +12,9 @@
 #include "DataBrokerPrint_task.h"
 #include "ServoControl_task.h"
 
+// Allocate memory for servo task handler
+TaskHandle_t xServoTaskHandle = NULL;
+
 void setup()
 {
     // Set BaudRate
@@ -35,26 +38,6 @@ void setup()
     );
 
     xTaskCreatePinnedToCore(
-        TaskCommunication, // Fucntion name of Task
-        "Communication",   // Name of Task
-        8192,              // Stack size (bytes) for task
-        NULL,              // Parameters(none)
-        2,                 // Priority level(1->highest)
-        NULL,              // Task handle(for RTOS API maniuplation)
-        0                  // Run on core 0
-    );
-
-    xTaskCreatePinnedToCore(
-        TaskServoControl, // Fucntion name of Task
-        "ServoControl",   // Name of Task
-        8192,             // Stack size (bytes) for task
-        NULL,             // Parameters(none)
-        1,                // Priority level(1->highest)
-        NULL,             // Task handle(for RTOS API maniuplation)
-        0                 // Run on core 0
-    );
-
-    xTaskCreatePinnedToCore(
         TaskDataBrokerPrint, // Fucntion name of Task
         "DataBrokerPrint",   // Name of Task
         8192,                // Stack size (bytes) for task
@@ -62,6 +45,26 @@ void setup()
         1,                   // Priority level(1->highest)
         NULL,                // Task handle(for RTOS API maniuplation)
         1                    // Run on core 0
+    );
+
+    xTaskCreatePinnedToCore(
+        TaskCommunication, // Fucntion name of Task
+        "Communication",   // Name of Task
+        8192,              // Stack size (bytes) for task
+        NULL,              // Parameters(none)
+        0,                 // Priority level(1->highest)
+        NULL,              // Task handle(for RTOS API maniuplation)
+        0                  // Run on core 0
+    );
+
+    xTaskCreatePinnedToCore(
+        TaskServoControl,  // Fucntion name of Task
+        "ServoControl",    // Name of Task
+        8192,              // Stack size (bytes) for task
+        NULL,              // Parameters(none)
+        1,                 // Priority level(1->highest)
+        &xServoTaskHandle, // Task handle(for RTOS API maniuplation)
+        0                  // Run on core 0
     );
 }
 

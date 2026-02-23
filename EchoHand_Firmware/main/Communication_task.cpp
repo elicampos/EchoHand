@@ -42,7 +42,6 @@ void TaskCommunication(void *pvParameters)
   char command;
   int intValue = 0;
   float floatValue = 0.0f;
-  int8_t charCount = 0;
 
   // set finger splay and leave it
   mySerial->printf("(AB)511(BB)511(CB)511(DB)511(EB)511\n");
@@ -86,6 +85,12 @@ void TaskCommunication(void *pvParameters)
 
             // Apply servo angles to persistent state
             DataBroker::instance().setServoTargetAngle(command - 'A', (180 * intValue) / 1000);
+
+            // Once last byte of servo has been processed(E, wakeup thread instantly to update value)
+            if (command == 'E' && xServoTaskHandle != NULL)
+            {
+              xTaskNotifyGive(xServoTaskHandle);
+            }
           }
 
           // Check for Command F (Vibration)
@@ -177,6 +182,5 @@ void TaskCommunication(void *pvParameters)
         lastRevision = s.revision;
       }
     }
-    vTaskDelay(pdMS_TO_TICKS(25));
   }
 }

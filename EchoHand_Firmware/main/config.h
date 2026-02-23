@@ -56,4 +56,3 @@ inline constexpr uint8_t B_BUTTON = 15;
 // Bluetooth Buttons
 inline constexpr uint8_t BLUETOOTH_RX = 18;
 inline constexpr uint8_t BLUETOOTH_TX = 17;
-
