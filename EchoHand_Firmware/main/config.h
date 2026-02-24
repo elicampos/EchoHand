@@ -7,7 +7,7 @@
 #define USE_SERIAL_PLOTTER 0
 
 // Enable Bluetooth Serial Communication instead of USB Serial
-#define USE_BLUETOOTH_SERIAL 0
+#define USE_BLUETOOTH_SERIAL 1
 
 // Averages values read from flex sensor by x amount
 #define POT_SAMPLE_RATE 16
@@ -17,7 +17,7 @@
 // 1-> Average
 // 2-> Median
 // 3->Trimmed Mean
-#define POLL_METHOD 1
+#define POLL_METHOD 2
 
 // Calibration Phase Method
 // 0 -> Average
