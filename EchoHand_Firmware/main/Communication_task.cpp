@@ -26,6 +26,10 @@ void TaskCommunication(void *pvParameters)
 
   if (USE_BLUETOOTH_SERIAL)
   {
+    // Set pin 42 to off for non at mode
+    pinMode(42, OUTPUT);
+    digitalWrite(42, LOW);
+
     // Print to usb that we are starting bluetooth serial
     mySerial->println("Starting Bluetooth Serial on another COM port...");
     mySerial = &Serial1;

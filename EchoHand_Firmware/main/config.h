@@ -7,7 +7,7 @@
 #define USE_SERIAL_PLOTTER 0
 
 // Enable Bluetooth Serial Communication instead of USB Serial
-#define USE_BLUETOOTH_SERIAL 1
+#define USE_BLUETOOTH_SERIAL 0
 
 // Averages values read from flex sensor by x amount
 #define POT_SAMPLE_RATE 16
