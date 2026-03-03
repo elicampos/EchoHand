@@ -24,16 +24,35 @@ void TaskCommunication(void *pvParameters)
   // Initialize Bluetooth Serial if enabled in config.h
   HardwareSerial *mySerial = &Serial;
 
+  // Set pin for KEY pin on bluetooth serial module
+  pinMode(42, OUTPUT);
+
+  if (BLUETOOTH_SETUP)
+  {
+    // Set pin 42 to on for at mode
+    digitalWrite(42, HIGH);
+
+    // Set Bluetooth module up
+    mySerial->println("Setting up bluetooth module, power cycle device and disable BLUETOOTH_SETUP to continue...");
+    mySerial = &Serial1;
+    mySerial->begin(9600, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
+
+    // Set UP UART to 115200
+    mySerial->println("AT+UART=115200,0,0");
+
+    while (true)
+      vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+
   if (USE_BLUETOOTH_SERIAL)
   {
     // Set pin 42 to off for non at mode
-    pinMode(42, OUTPUT);
     digitalWrite(42, LOW);
 
     // Print to usb that we are starting bluetooth serial
     mySerial->println("Starting Bluetooth Serial on another COM port...");
     mySerial = &Serial1;
-    mySerial->begin(38400, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
+    mySerial->begin(115200, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
 
     // Time to config
     vTaskDelay(pdMS_TO_TICKS(500));

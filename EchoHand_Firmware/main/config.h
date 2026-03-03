@@ -7,7 +7,8 @@
 #define USE_SERIAL_PLOTTER 0
 
 // Enable Bluetooth Serial Communication instead of USB Serial
-#define USE_BLUETOOTH_SERIAL 0
+#define USE_BLUETOOTH_SERIAL 1
+#define BLUETOOTH_SETUP 0
 
 // Averages values read from flex sensor by x amount
 #define POT_SAMPLE_RATE 16
@@ -25,7 +26,7 @@
 #define CALIBRATION_METHOD 0
 
 // If running Wokawai Simulation
-#define SIMULATION 0
+#define SIMULATION 1
 
 // Servo deadzone used for haptics
 #define SERVO_DEADZONE 30

@@ -64,7 +64,7 @@ void setup()
         NULL,              // Parameters(none)
         1,                 // Priority level(1->highest)
         &xServoTaskHandle, // Task handle(for RTOS API maniuplation)
-        0                  // Run on core 0
+        1                  // Run on core 1
     );
 }
 
