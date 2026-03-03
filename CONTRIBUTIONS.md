@@ -73,3 +73,4 @@ Eli Campos | 2/21/26 | 4:00 PM | 2:00 AM | 10:00 | Fix Simulation, Test Soldered
 Eli Campos | 2/23/26 | 2:00 PM | 3:20 AM | 1:20 | Decrease servo action delay
 Eli Campos | 3/1/26  | 2:00 AM | 9:25 AM | 7:25 | Fix shorted circuit from Beta
 Eli Campos | 3/2/26  | 7:30 PM | 8:20 PM | 0:50 | Add new working bluetooth module
+Eli Campos | 3/3/26  | 3:00 AM | 7:00 AM | 5:00 | Debugging random pinkie jitters
