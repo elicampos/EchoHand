@@ -1,0 +1,76 @@
+==================================================
+  ECHOHAND PAYLOAD INTEGRITY TEST
+==================================================
+
+OK: SteamVR not running
+
+Available ports:
+  COM1: Communications Port (COM1)
+  COM5: Standard Serial over Bluetooth link (COM5)
+
+Enter COM port: COM5
+Bluetooth? (y/N): y
+
+--- Connection Test ---
+OK: Receiving data
+
+--- Data Range Test ---
+  Thumb: 287 - 3845
+  Index: 156 - 3912
+  Middle: 198 - 3876
+  Ring: 234 - 3798
+  Pinky: 312 - 3654
+OK: Ranges valid
+
+--- Gesture Tests ---
+
+Open Hand: extend all fingers
+Press ENTER when ready...
+  Fingers: [287, 156, 198, 234, 312]  
+OK: Open Hand
+
+Closed Fist: make a fist
+Press ENTER when ready...
+  Fingers: [3845, 3912, 3876, 3798, 3654]  
+OK: Closed Fist
+
+Thumbs Up: thumb up only
+Press ENTER when ready...
+  Fingers: [423, 3867, 3912, 3845, 3756]  
+OK: Thumbs Up
+
+Point: point with index
+Press ENTER when ready...
+  Fingers: [3723, 198, 3845, 3867, 3712]  
+OK: Point
+
+--- Button Tests ---
+
+Trigger: pinch thumb+index
+Press ENTER, then press button...
+OK: Trigger
+
+A Button: press A
+Press ENTER, then press button...
+OK: A Button
+
+B Button: press B
+Press ENTER, then press button...
+OK: B Button
+
+==================================================
+  RESULTS
+==================================================
+  [PASS] Connection
+  [PASS] Data Ranges
+  [PASS] Gesture: Open Hand
+  [PASS] Gesture: Closed Fist
+  [PASS] Gesture: Thumbs Up
+  [PASS] Gesture: Point
+  [PASS] Button: Trigger
+  [PASS] Button: A Button
+  [PASS] Button: B Button
+
+Total: 9/9
+
+PASSED

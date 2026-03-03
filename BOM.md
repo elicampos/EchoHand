@@ -7,4 +7,4 @@ Date | Name | Item | Price
 1/15/2025 | Eli Campos | 3-D printing end caps for prototype | ~$4
 11/13/2025 | Eli Campos | Gloves from Harbor Freight | $~6
 11/16/2025 | Eli Campos | Flex Sensor Secure Clamps | $11.09
-
+03/01/2026 | Gabriella Conde | Bluetooth module | $10.74

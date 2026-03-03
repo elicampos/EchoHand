@@ -29,9 +29,20 @@ void TaskServoControl(void *pvParameters)
     // To not get compiler unused variable error
     (void)pvParameters;
 
+    // Reset all servo angles to 0 so user can use glove
+    // Get servo angle from openhaptics
+    DataBroker::instance().setServoTargetAngle(0, 0);
+    DataBroker::instance().setServoTargetAngle(1, 0);
+    DataBroker::instance().setServoTargetAngle(2, 0);
+    DataBroker::instance().setServoTargetAngle(3, 0);
+    DataBroker::instance().setServoTargetAngle(4, 0);
+
     // Fetch analog data from sensors forever
     for (;;)
     {
+        // Wait until all servo values have been updates from the communcation task
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
         // Get servo angle from openhaptics
         int thumbAngle = DataBroker::instance().getServoTargetAngle(0);
         int indexAngle = DataBroker::instance().getServoTargetAngle(1);
@@ -59,12 +70,12 @@ void TaskServoControl(void *pvParameters)
         {
             pinkieAngle = 0;
         }
-        // Read persistant state and command servos
+
+        // Command servos
         thumbServo.write(180 - thumbAngle);
         indexServo.write(180 - indexAngle);
         middleServo.write(180 - middleAngle);
         ringServo.write(180 - ringAngle);
         pinkieServo.write(180 - pinkieAngle);
-        vTaskDelay(pdMS_TO_TICKS(5));
     }
 }

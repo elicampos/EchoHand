@@ -1,0 +1,38 @@
+=== EchoHand Bluetooth Stress Test ===
+
+Available ports:
+  COM1: Communications Port (COM1)
+  COM5: Standard Serial over Bluetooth link (COM5)
+
+Enter COM port: COM5
+Connected!
+
+Enter distance (m) after each move. Type 'done' to finish.
+
+Distance (m): 0.5
+[0.5m] Sent: 100  Recv: 100  Loss: 0.0%
+Distance (m): 1.0
+[1.0m] Sent: 100  Recv: 100  Loss: 0.0%
+Distance (m): 1.5
+[1.5m] Sent: 100  Recv: 99  Loss: 1.0%
+Distance (m): 2.0
+[2.0m] Sent: 100  Recv: 99  Loss: 1.0%
+Distance (m): 2.5
+[2.5m] Sent: 100  Recv: 98  Loss: 2.0%
+Distance (m): 3.0
+[3.0m] Sent: 100  Recv: 97  Loss: 3.0%
+Distance (m): 3.5
+[3.5m] Sent: 100  Recv: 97  Loss: 3.0%
+Distance (m): 4.0
+[4.0m] Sent: 100  Recv: 96  Loss: 4.0%
+Distance (m): 4.5
+[4.5m] Sent: 100  Recv: 96  Loss: 4.0%
+Distance (m): 5.0
+[5.0m] Sent: 100  Recv: 95  Loss: 5.0%
+
+5.0m reached with 5.0% loss
+
+--- RESULTS ---
+Max distance: 5.0m
+Final loss: 5.0%
+Status: PASS

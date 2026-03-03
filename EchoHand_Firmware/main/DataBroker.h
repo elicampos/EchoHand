@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+// Task signal to notify servo's to activate
+extern TaskHandle_t xServoTaskHandle;
+
 // This will be used as the basic data structure for the state of the EchoHand for when other tasks need to access the data
 struct EchoStateSnapshot
 {

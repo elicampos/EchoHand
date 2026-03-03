@@ -145,48 +145,90 @@
       }
     },
     {
+      "type": "wokwi-servo",
+      "id": "servo1",
+      "top": 74.8,
+      "left": 268.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo2",
+      "top": 190,
+      "left": 268.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo3",
+      "top": 314.8,
+      "left": 268.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo4",
+      "top": 439.6,
+      "left": 268.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo5",
+      "top": 564.4,
+      "left": 278.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-vcc",
+      "id": "vcc1",
+      "top": 77.56,
+      "left": 153.6,
+      "attrs": {}
+    },
+    {
       "type": "wokwi-text",
       "id": "text1",
-      "top": 163.2,
-      "left": -806.4,
+      "top": 124.8,
+      "left": 489.6,
       "attrs": {
-        "text": "Index"
+        "text": "Thumb\n"
       }
     },
     {
       "type": "wokwi-text",
       "id": "text2",
-      "top": 163.2,
-      "left": -902.4,
+      "top": 240,
+      "left": 499.2,
       "attrs": {
-        "text": "Thumb"
+        "text": "Index\n\n"
       }
     },
     {
       "type": "wokwi-text",
       "id": "text3",
-      "top": 163.2,
-      "left": -710.4,
+      "top": 364.8,
+      "left": 508.8,
       "attrs": {
-        "text": "Middle\n"
+        "text": "Middle\n\n\n"
       }
     },
     {
       "type": "wokwi-text",
       "id": "text4",
-      "top": 163.2,
-      "left": -604.8,
+      "top": 489.6,
+      "left": 508.8,
       "attrs": {
-        "text": "Ring"
+        "text": "Ring\n\n\n"
       }
     },
     {
       "type": "wokwi-text",
       "id": "text5",
-      "top": 163.2,
-      "left": -508.8,
+      "top": 614.4,
+      "left": 518.4,
       "attrs": {
-        "text": "Pinkie"
+        "text": "Pinkie\n\n\n"
       }
     }
   ],
@@ -204,28 +246,47 @@
     ["pot3:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-76.8"]],
     ["pot4:VCC", "bb1:bp.30", "red", ["v0", "h37.6", "v-76.8"]],
     ["pot5:VCC", "bb1:bp.30", "red", ["v0", "h47.2", "v-76.8"]],
+    ["pot1:GND", "pot1:SIG", "black", ["v0"]],
+    ["pot2:GND", "pot2:SIG", "black", ["v0"]],
+    ["pot3:GND", "pot3:SIG", "black", ["v0"]],
+    ["pot4:GND", "pot4:SIG", "black", ["v0"]],
+    ["pot5:GND", "pot5:SIG", "black", ["v0"]],
     ["bb1:52t.a", "bb1:tn.42", "black", ["h0"]],
     ["bb1:54t.a", "bb1:tn.44", "black", ["h0"]],
     ["bb1:56t.a", "bb1:tn.45", "black", ["h0"]],
     ["bb1:58t.a", "bb1:tn.47", "black", ["h0"]],
     ["bb1:60t.a", "bb1:tn.49", "black", ["h0"]],
-    ["bb1:52b.g", "esp:9", "white", ["h9.6", "v182.4", "h124.8", "v-163.2"]],
-    ["bb1:60b.i", "esp:13", "gold", ["v153.6", "h192", "v-172.8"]],
-    ["bb1:54b.g", "esp:10", "gray", ["h19.2", "v134.4", "h124.8", "v-124.8"]],
-    ["bb1:56b.g", "esp:11", "violet", ["h0", "v153.6", "h153.6", "v-153.6"]],
-    ["bb1:58b.h", "esp:12", "blue", ["h0", "v144", "h172.8", "v-153.6"]],
     ["esp:GND.2", "bb1:tn.3", "black", ["v-336", "h-67.2", "v-48"]],
     ["esp:3V3.1", "bb1:bp.3", "red", ["v-451.2", "h-316.85", "v105.6"]],
     ["esp:5V", "bb1:tp.41", "red", ["h-9.65", "v-96"]],
     ["bb1:tp.25", "joystick1:VCC", "red", ["h0"]],
-    ["joystick1:VERT", "esp:6", "blue", ["v28.8", "h-182.4", "v115.2"]],
-    ["joystick1:HORZ", "esp:5", "violet", ["v38.4", "h-201.6", "v96"]],
     ["joystick1:GND", "bb1:tn.26", "black", ["v19.2", "h-278.5"]],
-    ["joystick1:SEL", "esp:4", "green", ["v48", "h-220.8", "v76.8"]],
-    ["bb1:11t.b", "esp:7", "gold", ["h76.8", "v336"]],
-    ["bb1:11t.a", "bb1:11t.b", "green", ["h0"]],
+    ["joystick1:SEL", "esp:4", "green", ["v48", "h-201.6", "v76.8"]],
     ["bb1:13b.i", "bb1:tp.11", "red", ["v19.2", "h134.7"]],
     ["bb1:19b.i", "bb1:tp.16", "red", ["v19.2", "h134.7"]],
+    ["bb1:52b.g", "esp:14", "green", ["h0", "v124.8", "h124.8", "v-48"]],
+    ["bb1:54b.h", "esp:13", "yellow", ["h0", "v124.8", "h144", "v-86.4"]],
+    ["bb1:56b.i", "esp:12", "cyan", ["h0", "v115.2", "h163.2", "v-105.6"]],
+    ["bb1:58b.i", "esp:3", "magenta", ["h0", "v105.6", "h182.4", "v-163.2"]],
+    ["bb1:60b.i", "esp:8", "purple", ["h0", "v105.6", "h192", "v-192"]],
+    ["joystick1:VERT", "esp:5", "magenta", ["v38.4", "h-192", "v96"]],
+    ["joystick1:HORZ", "esp:6", "cyan", ["v28.8", "h-211.2", "v115.2"]],
+    ["vcc1:VCC", "servo1:V+", "red", ["v0"]],
+    ["vcc1:VCC", "servo2:V+", "red", ["v0"]],
+    ["vcc1:VCC", "servo3:V+", "red", ["v0"]],
+    ["vcc1:VCC", "servo4:V+", "red", ["v0"]],
+    ["vcc1:VCC", "servo5:V+", "red", ["v0"]],
+    ["esp:GND.2", "servo1:GND", "black", ["v-9.6", "h192", "v-38.4"]],
+    ["esp:GND.2", "servo2:GND", "black", ["v-9.6", "h192", "v28.8"]],
+    ["esp:GND.2", "servo3:GND", "black", ["v-9.6", "h192", "v153.6"]],
+    ["esp:GND.2", "servo4:GND", "black", ["v-9.6", "h192", "v278.4"]],
+    ["esp:GND.2", "servo5:GND", "black", ["h192", "v393.6"]],
+    ["servo1:PWM", "esp:45", "green", ["h-163.2", "v211.4"]],
+    ["servo2:PWM", "esp:35", "green", ["h-163.2", "v77"]],
+    ["servo3:PWM", "esp:36", "green", ["h-163.2", "v-57.4"]],
+    ["servo4:PWM", "esp:37", "green", ["h-153.6", "v0.2", "h-9.6", "v-192"]],
+    ["servo5:PWM", "esp:38", "green", ["h-172.8", "v-326.2"]],
+    ["bb1:11t.b", "esp:7", "green", ["h67.2", "v336"]],
     ["r1:1", "bb1:60b.f", "", ["$bb"]],
     ["r1:2", "bb1:60t.b", "", ["$bb"]],
     ["r2:1", "bb1:58b.f", "", ["$bb"]],
@@ -248,7 +309,7 @@
     ["r6:2", "bb1:17b.h", "", ["$bb"]],
     ["r7:1", "bb1:bn.8", "", ["$bb"]],
     ["r7:2", "bb1:11b.h", "", ["$bb"]],
-    ["bb1:17t.b", "esp:15", "blue", ["h67.2", "v288"]]
+    ["bb1:17t.b", "esp:15", "magenta", ["h67.2", "v297.6"]]
   ],
   "dependencies": {}
 }

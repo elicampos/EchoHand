@@ -24,12 +24,35 @@ void TaskCommunication(void *pvParameters)
   // Initialize Bluetooth Serial if enabled in config.h
   HardwareSerial *mySerial = &Serial;
 
+  // Set pin for KEY pin on bluetooth serial module
+  pinMode(42, OUTPUT);
+
+  if (BLUETOOTH_SETUP)
+  {
+    // Set pin 42 to on for at mode
+    digitalWrite(42, HIGH);
+
+    // Set Bluetooth module up
+    mySerial->println("Setting up bluetooth module, power cycle device and disable BLUETOOTH_SETUP to continue...");
+    mySerial = &Serial1;
+    mySerial->begin(9600, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
+
+    // Set UP UART to 115200
+    mySerial->println("AT+UART=115200,0,0");
+
+    while (true)
+      vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+
   if (USE_BLUETOOTH_SERIAL)
   {
+    // Set pin 42 to off for non at mode
+    digitalWrite(42, LOW);
+
     // Print to usb that we are starting bluetooth serial
     mySerial->println("Starting Bluetooth Serial on another COM port...");
     mySerial = &Serial1;
-    mySerial->begin(38400, SERIAL_8N1, 18, 17);
+    mySerial->begin(115200, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
 
     // Time to config
     vTaskDelay(pdMS_TO_TICKS(500));
@@ -42,7 +65,6 @@ void TaskCommunication(void *pvParameters)
   char command;
   int intValue = 0;
   float floatValue = 0.0f;
-  int8_t charCount = 0;
 
   // set finger splay and leave it
   mySerial->printf("(AB)511(BB)511(CB)511(DB)511(EB)511\n");
@@ -86,6 +108,12 @@ void TaskCommunication(void *pvParameters)
 
             // Apply servo angles to persistent state
             DataBroker::instance().setServoTargetAngle(command - 'A', (180 * intValue) / 1000);
+
+            // Once last byte of servo has been processed(E, wakeup thread instantly to update value)
+            if (command == 'E' && xServoTaskHandle != NULL)
+            {
+              xTaskNotifyGive(xServoTaskHandle);
+            }
           }
 
           // Check for Command F (Vibration)
@@ -177,6 +205,5 @@ void TaskCommunication(void *pvParameters)
         lastRevision = s.revision;
       }
     }
-    vTaskDelay(pdMS_TO_TICKS(25));
   }
 }
