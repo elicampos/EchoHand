@@ -286,7 +286,7 @@ void TaskAnalogRead(void *pvParameters)
 
         // Calculate trigger button passed of value of bending
         // If index and thumb is more than 50% bent
-        if (thumbAngle + indexAngle + middleAngle + ringAngle + pinkieAngle >= 4095 * 3)
+        if (thumbAngle + indexAngle + middleAngle + ringAngle + pinkieAngle >= 4095 * 2)
         {
             // Set current 4 bit of bit mask to have trigger button
             buttonMask |= (1 << 3);
