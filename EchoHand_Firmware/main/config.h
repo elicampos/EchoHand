@@ -23,13 +23,13 @@
 // Calibration Phase Method
 // 0 -> Average
 // 1-> Most extreme value
-#define CALIBRATION_METHOD 0
+#define CALIBRATION_METHOD 1
 
 // If running Wokawai Simulation
-#define SIMULATION 1
+#define SIMULATION 0
 
 // Servo deadzone used for haptics
-#define SERVO_DEADZONE 30
+#define SERVO_DEADZONE 0
 
 //-------Circuit Pin Connections-------//
 

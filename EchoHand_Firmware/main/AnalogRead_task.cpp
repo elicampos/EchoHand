@@ -259,7 +259,7 @@ void TaskAnalogRead(void *pvParameters)
         int ringAngle = constrain(map(rawRing, minRingValue, maxRingValue, 0, 4095), 0, 4095);
         int pinkieAngle = constrain(map(rawPinkie, minPinkieValue, maxPinkieValue, 0, 4095), 0, 4095);
 
-        if (CALIBRATION_METHOD == 0)
+        if (CALIBRATION_METHOD == 1)
         {
             thumbAngle = max(0, 4095 - thumbAngle);
             indexAngle = max(0, 4095 - indexAngle);

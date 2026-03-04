@@ -50,26 +50,28 @@ void TaskServoControl(void *pvParameters)
         int ringAngle = DataBroker::instance().getServoTargetAngle(3);
         int pinkieAngle = DataBroker::instance().getServoTargetAngle(4);
 
-        if (thumbAngle < SERVO_DEADZONE)
+        /*
+        if (thumbAngle <= SERVO_DEADZONE)
         {
             thumbAngle = 0;
         }
-        if (indexAngle < SERVO_DEADZONE)
+        if (indexAngle <= SERVO_DEADZONE)
         {
             indexAngle = 0;
         }
-        if (middleAngle < SERVO_DEADZONE)
+        if (middleAngle <= SERVO_DEADZONE)
         {
             middleAngle = 0;
         }
-        if (ringAngle < SERVO_DEADZONE)
+        if (ringAngle <= SERVO_DEADZONE)
         {
             ringAngle = 0;
         }
-        if (pinkieAngle < SERVO_DEADZONE)
+        if (pinkieAngle <= SERVO_DEADZONE)
         {
             pinkieAngle = 0;
         }
+        */
 
         // Command servos
         thumbServo.write(180 - thumbAngle);
