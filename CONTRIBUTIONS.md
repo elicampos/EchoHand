@@ -76,3 +76,4 @@ Eli Campos | 3/2/26  | 7:30 PM | 8:20 PM | 0:50 | Add new working bluetooth modu
 Eli Campos | 3/3/26  | 3:00 AM | 7:00 AM | 5:00 | Debugging random pinkie jitters
 Eli Campos | 3/3/26  | 8:00 PM | 12:00 AM | 4:00 | Creating Unity Enviornment for custom grabbing 
 Eli Campos | 3/4/26  | 4:00 AM | 6:00 AM | 2:00 | Finish Unity Enviornment for custom grabbing and change calibration algorithm
+Michael Knauf | 3/5/26 | 2:06 PM | 8:09 | 6:00 | adjusting holes to fit screws for joystick rig and added prototype holes for straps
