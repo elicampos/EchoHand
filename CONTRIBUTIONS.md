@@ -69,6 +69,8 @@ Gabriella Conde | 2/18/26 | 10 PM | 5 AM | 7 | Learn FreeCAD, design circuit cas
 Gabriella Conde | 2/18 | 5 PM | 7P | 2 | solder protoboard 
 Gabriella Conde | 2/20 | 12 am | 5 am | 5:00 | Casing design
 Gabriella Conde| 2/20 | 4 pm | 6 pm | 2:00 | Solder protoboard 
+Shawn Rhoads | 2/21/26 | 10:00 PM | 6:00 AM | Test gloves on personal computer, try to set up communication
+Shawn Rhoads | 2/22/26 | 6:00 PM | 9:00 PM | Attempts to get the glove to work on the computer; cant connect
 Eli Campos | 2/21/26 | 4:00 PM | 2:00 AM | 10:00 | Fix Simulation, Test Soldered Circuit and Fix Task Priority Bug
 Eli Campos | 2/23/26 | 2:00 PM | 3:20 AM | 1:20 | Decrease servo action delay
 Eli Campos | 3/1/26  | 2:00 AM | 9:25 AM | 7:25 | Fix shorted circuit from Beta
@@ -78,3 +80,7 @@ Eli Campos | 3/3/26  | 8:00 PM | 12:00 AM | 4:00 | Creating Unity Enviornment fo
 Eli Campos | 3/4/26  | 4:00 AM | 6:00 AM | 2:00 | Finish Unity Enviornment for custom grabbing and change calibration algorithm
 Michael Knauf | 3/5/26 | 2:06 PM | 8:09 | 6:00 | adjusting holes to fit screws for joystick rig and added prototype holes for straps
 Gabriella Conde | 3/ 13/26 | 11:30 am | 1:30 PM | 2:00 | pcb
+Shawn Rhoads | 3/15/26 | 3:00 PM | 6:00 PM | 3:00 | Testing haptic delay, looking for possible improvements on speed
+Shawn Rhoads | 3/16/26 | 6:00 PM | 7:30 PM | 1:30 | Trying to change timeout rate, program no longer working
+Shawn Rhoads | 3/19/26 | 5:00 PM | 10:00 PM | 5:00 | Trying to get the program to work, reverting to original code, trying hardware fixes
+Shawn Rhoads | 3/24/26 | 7:50 PM | 12:00 AM | 4:10 | Workin with Eli to find why it wont work on my PC, identifying causes of delay

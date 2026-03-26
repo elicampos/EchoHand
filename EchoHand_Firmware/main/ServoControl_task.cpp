@@ -31,11 +31,11 @@ void TaskServoControl(void *pvParameters)
 
     // Reset all servo angles to 0 so user can use glove
     // Get servo angle from openhaptics
-    DataBroker::instance().setServoTargetAngle(0, 0);
-    DataBroker::instance().setServoTargetAngle(1, 0);
-    DataBroker::instance().setServoTargetAngle(2, 0);
-    DataBroker::instance().setServoTargetAngle(3, 0);
-    DataBroker::instance().setServoTargetAngle(4, 0);
+    thumbServo.write(180);
+    indexServo.write(180);
+    middleServo.write(180);
+    ringServo.write(180);
+    pinkieServo.write(180);
 
     // Fetch analog data from sensors forever
     for (;;)
