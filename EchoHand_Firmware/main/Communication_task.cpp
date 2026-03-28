@@ -33,14 +33,29 @@ void TaskCommunication(void *pvParameters)
     digitalWrite(42, HIGH);
 
     // Set Bluetooth module up
-    mySerial->println("Setting up bluetooth module, power cycle device and disable BLUETOOTH_SETUP to continue...");
-    mySerial = &Serial1;
-    mySerial->begin(9600, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
+    Serial.println("Setting up bluetooth module, power cycle device and disable BLUETOOTH_SETUP to continue...");
 
-    // Set UP UART to 115200
-    mySerial->println("AT+UART=115200,0,0");
+    Serial1.begin(38400, SERIAL_8N1, BLUETOOTH_RX, BLUETOOTH_TX);
+    Serial1.println("AT+UART=115200,0,0");
+
+    char buffer[100];
+    size_t n = Serial1.readBytesUntil('\n', buffer, sizeof(buffer) - 1);
+    buffer[n] = '\0';
+
+    Serial.print("BT response: ");
+    Serial.println(buffer);
 
     while (true)
+    {
+      if (Serial.available())
+      {
+        Serial1.println(Serial.readStringUntil('\n'));
+        size_t n = Serial1.readBytesUntil('\n', buffer, sizeof(buffer) - 1);
+        buffer[n] = '\0';
+        Serial.print("BT response: ");
+        Serial.println(buffer);
+      }
+    }
       vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
