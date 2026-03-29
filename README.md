@@ -1,6 +1,6 @@
 # EchoHand
 
-A haptic feedback glove for VR applications utilizing an ESP32-S3 microcontroller. 
+A haptic feedback glove for VR applications utilizing an ESP32-S3 or ESP32-WROOM-32 microcontroller. 
 
 ## Project Overview
 
@@ -12,7 +12,6 @@ EchoHand is a wearable haptic glove that captures hand and finger movements, and
 
 The external interface layer is implemented in `main.cpp` and configures and runs every Freertos task. This component:
 
-- Polls ADC values from flex sensors or potentiometer on each finger
 - Configures the FreeRTOS settings, including task stack sizes and priorities
 - Configures serial communication settings for debugging and monitoring
 
@@ -28,7 +27,7 @@ Data storage is managed through `DataBroker.h`, which implements a singleton pat
 
 The internal processing layer handles data transformation and control logic. This component performs:
 
-- **Sensor Mapping**: Averages raw ADC values (0-4095) to get more accurate values
+- **Sensor Mapping**: Get's center of raw ADC values (0-4095) to get more accurate values
 - **Command Translation**: Translates serial commands PWM signals for servo motor control
 - **State Updates**: Continuously updates the DataBroker with processed sensor data
 - **Haptic Control**: Manages the relationship between virtual interactions and physical feedback through servo and vibration systems
@@ -51,32 +50,35 @@ Current security and reliability features include:
 - **RTOS Task Management**: FreeRTOS ensures deterministic behavior and prevents task conflicts
 
 Future security and reliability features include:
-- **Encryption**: All BLE packets are encrypted to prevent man-in-the-middle attacks
+- **Encryption**: All Bluetooth packets are encrypted(after pairing) to prevent man-in-the-middle attacks
 - **Pairing Protocol**: Only authenticated devices can connect and exchange data
 
 ## Known Bugs
 
-### 1. Random Jitter
-**Description**: Due to everything still being on a breadboard there is some noise when polling the ADCs.
+### 1. Random Finger position Jitter
+**Description**: Due to no low-pass filter on the slider pins. Implementing this via software will cause too much of a delay.
 
-### 1.Grabbing Hitter
-**Description**: Held objects can sometimes fall randomly due to the "L" not being set in the payload consistently. 
+### 2. Unstable SteamVR Connections
+**Description**: Sometimes SteamVR will crash or fail to connect to the Echohand requiring a restart on both devices.
 
 ## Future Work
 
-#### 1. Solder or PCB Development(Waiting for final beta 3d-printed parts)
-- **Compact Size**: To be able to sit on the hand and arm comfortably, we will need to reduce the size of the circuit 
-  - Allow better heat dissapation
-  - Lighter weight
-  - Less potential circuit damage from heavy use
+#### 1. Create a new PCB with an ESP32-WROOM-32
+- **New ESP32-WROOM-32 Circuit**: Reduce size, weight and cost
+  - Has Bluetooth Serial integrated in the chip itself (reducing cost, weight and size)
+  - More pins on ADC1 compared to the ESP32-S3 allowing use all components and use WIFI
 
-#### 2. Vibration Motors
-Attach vibration motors on the fingertips of the user to simulate touching an object.
-- **Custom Unity Enviornment**: A custom Unity enviornment will send the current texture that the user's finger is touching, to the ESP32.
-- **ESP32 Hashamp**: The ESP32 will receive the texture along with the finger index, and lookup the appropriate rpm to send the vibration motor.  
-
-#### 3. 3D Printed Components
-Design and print custom mounting solutions:
-- **Adjustable Joystick Mount and Button Placement**: Ergonomic positioning based on hand size
+#### 2. 3D Printed Components
+- **Design and print custom mounting solutions**: To be able to use the joystick and button comfortably 
   - Uses clamp mechanism around index finger
 
+#### 3. Improve Setup Time
+- **Develop or modify code**: Create software or update Unity enviornment to reduce user setup time
+  - Create a process that runs in the background to manage existing communcation between the ESP32 and Opengloves
+  or modify the Opengloves steam driver itself
+
+#### 4. Reduce Latency
+- **Modify current software stack**: Improve speed of packet generation and transmission on the ESP32
+  - Support ESP-NOW
+  - Make singleton more efficent
+  - Support DMA for ADC while still utilizing ESP32 efuse information
