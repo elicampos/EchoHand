@@ -84,3 +84,4 @@ Shawn Rhoads | 3/15/26 | 3:00 PM | 6:00 PM | 3:00 | Testing haptic delay, lookin
 Shawn Rhoads | 3/16/26 | 6:00 PM | 7:30 PM | 1:30 | Trying to change timeout rate, program no longer working
 Shawn Rhoads | 3/19/26 | 5:00 PM | 10:00 PM | 5:00 | Trying to get the program to work, reverting to original code, trying hardware fixes
 Shawn Rhoads | 3/24/26 | 7:50 PM | 12:00 AM | 4:10 | Workin with Eli to find why it wont work on my PC, identifying causes of delay
+Eli Campos   | 3/31/26 | 9:00 PM | 4:51 AM  | 7:51 | Created new haptic guide module, resoldering everything for ADC1 and getting ready for wifi-integration
