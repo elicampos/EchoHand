@@ -35,10 +35,10 @@
 
 // Potentiometers
 inline constexpr uint8_t THUMB_POT = 8;
-inline constexpr uint8_t INDEX_POT = 3;
-inline constexpr uint8_t MIDDLE_POT = 12;
-inline constexpr uint8_t RING_POT = 13;
-inline constexpr uint8_t PINKIE_POT = 14;
+inline constexpr uint8_t INDEX_POT = 4;
+inline constexpr uint8_t MIDDLE_POT = 7;
+inline constexpr uint8_t RING_POT = 5;
+inline constexpr uint8_t PINKIE_POT = 6;
 
 // Servos
 inline constexpr uint8_t THUMB_SERVO = 45;
@@ -48,10 +48,10 @@ inline constexpr uint8_t RING_SERVO = 37;
 inline constexpr uint8_t PINKIE_SERVO = 38;
 
 // Joystick and buttons
-inline constexpr uint8_t JOYSTICK_BUTTON = 4;
-inline constexpr uint8_t JOYSTICK_X = 6;
-inline constexpr uint8_t JOYSTICK_Y = 5;
-inline constexpr uint8_t A_BUTTON = 7;
+inline constexpr uint8_t JOYSTICK_BUTTON = 11;
+inline constexpr uint8_t JOYSTICK_X = 9;
+inline constexpr uint8_t JOYSTICK_Y = 10;
+inline constexpr uint8_t A_BUTTON = 12;
 inline constexpr uint8_t B_BUTTON = 15;
 
 // Bluetooth Buttons
