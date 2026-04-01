@@ -1,4 +1,4 @@
-#include "Communication_task.h"
+#include "SerialCommunication_task.h"
 
 // Defining packed payloads
 #pragma pack(push, 1) // pack the structs tp prevent padding between fields. this way the size of the struct is always the same.
@@ -7,16 +7,14 @@ struct InputsPayload
   int fingerAngles[5];
   int joystickXY[2];
   uint32_t buttonsBitmask;
-  uint8_t batteryPercent;
 };
 struct OutputsPayload
 {
-  uint16_t vibrationRPMs[5];
   int servoTargetAngles[5];
 };
 #pragma pack(pop)
 
-void TaskCommunication(void *pvParameters)
+void TaskSerialCommunication(void *pvParameters)
 {
   // uses parameter to avoid compiler error
   (void)pvParameters;
@@ -56,10 +54,10 @@ void TaskCommunication(void *pvParameters)
         Serial.println(buffer);
       }
     }
-      vTaskDelay(pdMS_TO_TICKS(1000));
+    vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
-  if (USE_BLUETOOTH_SERIAL)
+  if (COMMUNCATION == 1)
   {
     // Set pin 42 to off for non at mode
     digitalWrite(42, LOW);
@@ -190,7 +188,6 @@ void TaskCommunication(void *pvParameters)
         in.joystickXY[0] = s.joystickXY[0];
         in.joystickXY[1] = s.joystickXY[1];
         in.buttonsBitmask = s.buttonsBitmask;
-        in.batteryPercent = s.batteryPercent;
 
         // Send over payload over serial if not in debug print mode
         if (!DEBUG_PRINT)

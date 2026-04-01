@@ -6,9 +6,16 @@
 // Serial Plot values instead of having a readable format
 #define USE_SERIAL_PLOTTER 0
 
-// Enable Bluetooth Serial Communication instead of USB Serial
-#define USE_BLUETOOTH_SERIAL 1
+
+// Use for setting UP AT commands on external bluetooth device
 #define BLUETOOTH_SETUP 0
+
+// Setup communcation method
+// 0->Wired over Serial
+// 1->Bluetooth Serial
+// 2-> WIFI (ESPNOW)
+// Enable WIFI mode(note bluetooth serial must be set to 0)
+#define COMMUNCATION 2
 
 // Averages values read from flex sensor by x amount
 #define POT_SAMPLE_RATE 16

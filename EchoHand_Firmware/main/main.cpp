@@ -8,9 +8,10 @@
 
 // Import all tasks
 #include "AnalogRead_task.h"
-#include "Communication_task.h"
+#include "SerialCommunication_task.h"
 #include "DataBrokerPrint_task.h"
 #include "ServoControl_task.h"
+#include "WifiCommuncation.h"
 
 // Allocate memory for servo task handler
 TaskHandle_t xServoTaskHandle = NULL;
@@ -26,36 +27,54 @@ void setup()
     // turn Wi-Fi off to make sure ADC2 doesn't get messed up
     WiFi.mode(WIFI_OFF);
 
+    if (DEBUG_PRINT)
+    {
+        xTaskCreatePinnedToCore(
+            TaskDataBrokerPrint, // Fucntion name of Task
+            "DataBrokerPrint",   // Name of Task
+            8192,                // Stack size (bytes) for task
+            NULL,                // Parameters(none)
+            0,                   // Priority level(0->Lowest)
+            NULL,                // Task handle(for RTOS API maniuplation)
+            0                   // Run on core 0
+        );
+    }
+
     // Create the task
     xTaskCreatePinnedToCore(
         TaskAnalogRead, // Fucntion name of Task
         "AnalogRead",   // Name of Task
         8192,           // Stack size (bytes) for task
         NULL,           // Parameters(none)
-        1,              // Priority level(1->highest)
+        0,              // Priority level(0->lowest)
         NULL,           // Task handle(for RTOS API maniuplation)
         1               // Run on core 1
     );
 
-    xTaskCreatePinnedToCore(
-        TaskDataBrokerPrint, // Fucntion name of Task
-        "DataBrokerPrint",   // Name of Task
-        8192,                // Stack size (bytes) for task
-        NULL,                // Parameters(none)
-        1,                   // Priority level(1->highest)
-        NULL,                // Task handle(for RTOS API maniuplation)
-        1                    // Run on core 0
-    );
-
-    xTaskCreatePinnedToCore(
-        TaskCommunication, // Fucntion name of Task
-        "Communication",   // Name of Task
-        8192,              // Stack size (bytes) for task
-        NULL,              // Parameters(none)
-        0,                 // Priority level(1->highest)
-        NULL,              // Task handle(for RTOS API maniuplation)
-        0                  // Run on core 0
-    );
+   if(COMMUNCATION <= 1)
+   {
+       xTaskCreatePinnedToCore(
+           TaskSerialCommunication, // Fucntion name of Task
+           "SerialCommunication",   // Name of Task
+           8192,                    // Stack size (bytes) for task
+           NULL,                    // Parameters(none)
+           0,                       // Priority level(1->highest)
+           NULL,                    // Task handle(for RTOS API maniuplation)
+           0                        // Run on core 0
+       );
+   }
+   else
+   {
+       xTaskCreatePinnedToCore(
+           TaskWifiCommunication, // Fucntion name of Task
+           "WifiCommunication",   // Name of Task
+           8192,                  // Stack size (bytes) for task
+           NULL,                  // Parameters(none)
+           0,                     // Priority level(1->highest)
+           NULL,                  // Task handle(for RTOS API maniuplation)
+           0                      // Run on core 0
+       );
+   }
 
     xTaskCreatePinnedToCore(
         TaskServoControl,  // Fucntion name of Task
@@ -66,6 +85,7 @@ void setup()
         &xServoTaskHandle, // Task handle(for RTOS API maniuplation)
         1                  // Run on core 1
     );
+
 }
 
 extern "C" void app_main()
