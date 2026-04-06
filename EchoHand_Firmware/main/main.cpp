@@ -24,9 +24,6 @@ void setup()
     // Debug Print
     Serial.println("Starting FreeRTOS Setup...");
 
-    // turn Wi-Fi off to make sure ADC2 doesn't get messed up
-    WiFi.mode(WIFI_OFF);
-
     if (DEBUG_PRINT)
     {
         xTaskCreatePinnedToCore(
@@ -36,7 +33,7 @@ void setup()
             NULL,                // Parameters(none)
             0,                   // Priority level(0->Lowest)
             NULL,                // Task handle(for RTOS API maniuplation)
-            0                   // Run on core 0
+            0                    // Run on core 0
         );
     }
 
@@ -51,30 +48,30 @@ void setup()
         1               // Run on core 1
     );
 
-   if(COMMUNCATION <= 1)
-   {
-       xTaskCreatePinnedToCore(
-           TaskSerialCommunication, // Fucntion name of Task
-           "SerialCommunication",   // Name of Task
-           8192,                    // Stack size (bytes) for task
-           NULL,                    // Parameters(none)
-           0,                       // Priority level(1->highest)
-           NULL,                    // Task handle(for RTOS API maniuplation)
-           0                        // Run on core 0
-       );
-   }
-   else
-   {
-       xTaskCreatePinnedToCore(
-           TaskWifiCommunication, // Fucntion name of Task
-           "WifiCommunication",   // Name of Task
-           8192,                  // Stack size (bytes) for task
-           NULL,                  // Parameters(none)
-           0,                     // Priority level(1->highest)
-           NULL,                  // Task handle(for RTOS API maniuplation)
-           0                      // Run on core 0
-       );
-   }
+    if (COMMUNCATION <= 1)
+    {
+        xTaskCreatePinnedToCore(
+            TaskSerialCommunication, // Fucntion name of Task
+            "SerialCommunication",   // Name of Task
+            8192,                    // Stack size (bytes) for task
+            NULL,                    // Parameters(none)
+            0,                       // Priority level(1->highest)
+            NULL,                    // Task handle(for RTOS API maniuplation)
+            0                        // Run on core 0
+        );
+    }
+    else
+    {
+        xTaskCreatePinnedToCore(
+            TaskWifiCommunication, // Fucntion name of Task
+            "WifiCommunication",   // Name of Task
+            8192,                  // Stack size (bytes) for task
+            NULL,                  // Parameters(none)
+            0,                     // Priority level(1->highest)
+            NULL,                  // Task handle(for RTOS API maniuplation)
+            0                      // Run on core 0
+        );
+    }
 
     xTaskCreatePinnedToCore(
         TaskServoControl,  // Fucntion name of Task
@@ -85,7 +82,6 @@ void setup()
         &xServoTaskHandle, // Task handle(for RTOS API maniuplation)
         1                  // Run on core 1
     );
-
 }
 
 extern "C" void app_main()
