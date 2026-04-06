@@ -87,3 +87,4 @@ Shawn Rhoads | 3/24/26 | 7:50 PM | 12:00 AM | 4:10 | Workin with Eli to find why
 Eli Campos | 3/31/26 | 9:00 PM | 4:51 AM  | 7:51 | Created new haptic guide module, resoldering everything for ADC1 and getting ready for wifi-integration
 Gabriella Conde | 4/1/26 | 2:00 AM | 2:50 AM | 0:50 | Crimped a header JST pin for new circuit
 Eli Campos | 4/1/26 | 5:00 AM | 6:21 AM  | 1:21 | Wrote ESP-NOW master code
+Eli Campos | 4/6/26 | 12:00 AM | 3:00 AM  | 3:00 | Wrote ESP-NOW slave code
