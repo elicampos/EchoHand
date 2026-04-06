@@ -63,22 +63,17 @@ Future security and reliability features include:
 
 ## Future Work
 
-#### 1. Create a new PCB with an ESP32-WROOM-32
-- **New ESP32-WROOM-32 Circuit**: Reduce size, weight and cost
-  - Has Bluetooth Serial integrated in the chip itself (reducing cost, weight and size)
-  - More pins on ADC1 compared to the ESP32-S3 allowing use all components and use WIFI
 
-#### 2. 3D Printed Components
+#### 1. 3D Printed Components
 - **Design and print custom mounting solutions**: To be able to use the joystick and button comfortably 
   - Uses clamp mechanism around index finger
 
-#### 3. Improve Setup Time
+#### 2. Improve Setup Time
 - **Develop or modify code**: Create software or update Unity enviornment to reduce user setup time
   - Create a process that runs in the background to manage existing communcation between the ESP32 and Opengloves
   or modify the Opengloves steam driver itself
 
-#### 4. Reduce Latency
+#### 3. Reduce Latency
 - **Modify current software stack**: Improve speed of packet generation and transmission on the ESP32
-  - Support ESP-NOW
   - Make singleton more efficent
   - Support DMA for ADC while still utilizing ESP32 efuse information
