@@ -69,9 +69,26 @@ Gabriella Conde | 2/18/26 | 10 PM | 5 AM | 7 | Learn FreeCAD, design circuit cas
 Gabriella Conde | 2/18 | 5 PM | 7P | 2 | solder protoboard 
 Gabriella Conde | 2/20 | 12 am | 5 am | 5:00 | Casing design
 Gabriella Conde| 2/20 | 4 pm | 6 pm | 2:00 | Solder protoboard 
+Shawn Rhoads | 2/21/26 | 10:00 PM | 6:00 AM | Test gloves on personal computer, try to set up communication
+Shawn Rhoads | 2/22/26 | 6:00 PM | 9:00 PM | Attempts to get the glove to work on the computer; cant connect
 Eli Campos | 2/21/26 | 4:00 PM | 2:00 AM | 10:00 | Fix Simulation, Test Soldered Circuit and Fix Task Priority Bug
 Eli Campos | 2/23/26 | 2:00 PM | 3:20 AM | 1:20 | Decrease servo action delay
 Eli Campos | 3/1/26  | 2:00 AM | 9:25 AM | 7:25 | Fix shorted circuit from Beta
 Eli Campos | 3/2/26  | 7:30 PM | 8:20 PM | 0:50 | Add new working bluetooth module
 Eli Campos | 3/3/26  | 3:00 AM | 7:00 AM | 5:00 | Debugging random pinkie jitters
+<<<<<<< HEAD
 Gabriella Conde | 3/3/26 | 4:30 PM | 10:30 PM | 6:00 | Print spool holder, start schematic capture
+=======
+Eli Campos | 3/3/26  | 8:00 PM | 12:00 AM | 4:00 | Creating Unity Enviornment for custom grabbing 
+Eli Campos | 3/4/26  | 4:00 AM | 6:00 AM | 2:00 | Finish Unity Enviornment for custom grabbing and change calibration algorithm
+Michael Knauf | 3/5/26 | 2:06 PM | 8:09 | 6:00 | adjusting holes to fit screws for joystick rig and added prototype holes for straps
+Gabriella Conde | 3/ 13/26 | 11:30 am | 1:30 PM | 2:00 | pcb
+Shawn Rhoads | 3/15/26 | 3:00 PM | 6:00 PM | 3:00 | Testing haptic delay, looking for possible improvements on speed
+Shawn Rhoads | 3/16/26 | 6:00 PM | 7:30 PM | 1:30 | Trying to change timeout rate, program no longer working
+Shawn Rhoads | 3/19/26 | 5:00 PM | 10:00 PM | 5:00 | Trying to get the program to work, reverting to original code, trying hardware fixes
+Shawn Rhoads | 3/24/26 | 7:50 PM | 12:00 AM | 4:10 | Workin with Eli to find why it wont work on my PC, identifying causes of delay
+Eli Campos | 3/31/26 | 9:00 PM | 4:51 AM  | 7:51 | Created new haptic guide module, resoldering everything for ADC1 and getting ready for wifi-integration
+Gabriella Conde | 4/1/26 | 2:00 AM | 2:50 AM | 0:50 | Crimped a header JST pin for new circuit
+Eli Campos | 4/1/26 | 5:00 AM | 6:21 AM  | 1:21 | Wrote ESP-NOW master code
+Eli Campos | 4/6/26 | 12:00 AM | 3:00 AM  | 3:00 | Wrote ESP-NOW slave code
+>>>>>>> b20544111ac6414b7ceb460857ac5b64f2863c52
