@@ -6,7 +6,6 @@
 // Serial Plot values instead of having a readable format
 #define USE_SERIAL_PLOTTER 0
 
-
 // Use for setting UP AT commands on external bluetooth device
 #define BLUETOOTH_SETUP 0
 
@@ -37,6 +36,9 @@
 
 // Servo deadzone used for haptics
 #define SERVO_DEADZONE 0
+
+// Pot enabled
+#define JOYSTICK_ENABLE 0
 
 //-------Circuit Pin Connections-------//
 
