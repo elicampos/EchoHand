@@ -76,9 +76,6 @@ Eli Campos | 2/23/26 | 2:00 PM | 3:20 AM | 1:20 | Decrease servo action delay
 Eli Campos | 3/1/26  | 2:00 AM | 9:25 AM | 7:25 | Fix shorted circuit from Beta
 Eli Campos | 3/2/26  | 7:30 PM | 8:20 PM | 0:50 | Add new working bluetooth module
 Eli Campos | 3/3/26  | 3:00 AM | 7:00 AM | 5:00 | Debugging random pinkie jitters
-<<<<<<< HEAD
-Gabriella Conde | 3/3/26 | 4:30 PM | 10:30 PM | 6:00 | Print spool holder, start schematic capture
-=======
 Eli Campos | 3/3/26  | 8:00 PM | 12:00 AM | 4:00 | Creating Unity Enviornment for custom grabbing 
 Eli Campos | 3/4/26  | 4:00 AM | 6:00 AM | 2:00 | Finish Unity Enviornment for custom grabbing and change calibration algorithm
 Michael Knauf | 3/5/26 | 2:06 PM | 8:09 | 6:00 | adjusting holes to fit screws for joystick rig and added prototype holes for straps
@@ -93,4 +90,6 @@ Eli Campos | 4/1/26 | 5:00 AM | 6:21 AM  | 1:21 | Wrote ESP-NOW master code
 Eli Campos | 4/6/26 | 12:00 AM | 3:00 AM  | 3:00 | Wrote ESP-NOW slave code
 Gabriella Conde | 4/20/26 | 1 AM | 7 AM | 6:00 | new case
 Gabriella Conde | 4/20/26 | 8 PM | 7 AM | 11:00 | Fix case dimensions, 3D print parts, add straps
->>>>>>> b20544111ac6414b7ceb460857ac5b64f2863c52
+Michael Knauf | 4/3/26 | 5:00 PM | 12 AM | 7:00 | redesign joystick, adding in loop for strap that actually works
+Michael Knauf | 4/4/26 | 8:20 PM | 11:29 PM | 2:51 | reprint new joystick design
+Michael Knauf | 4/7/26 | 12:44 AM | 5 AM | 4:16 | redesigning and reprinting button rigor with strap
