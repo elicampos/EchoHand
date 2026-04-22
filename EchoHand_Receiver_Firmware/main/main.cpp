@@ -10,13 +10,19 @@
 char analog_data[56];
 
 // Is there valid data
-bool new_data = false;
+volatile bool new_data = false;
 
 // Global for received data(finger angles, buttons and etc)
 void on_data_receive(const esp_now_recv_info_t *esp_now_info, const uint8_t *incoming_data, int len)
 {
+  // Prevent buffer overflow and ensure null-termination
+  int copy_len = len < 55 ? len : 55;
+
   // Copy into output string
-  memcpy(analog_data, incoming_data, len);
+  memcpy(analog_data, incoming_data, copy_len);
+
+  // Ensure null-terminator
+  analog_data[copy_len] = '\0';
 
   // Print valid data
   new_data = true;
