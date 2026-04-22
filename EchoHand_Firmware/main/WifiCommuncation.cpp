@@ -140,12 +140,16 @@ void TaskWifiCommunication(void *pvParameters)
                                            "B" + std::to_string(analog_read_info.fingerAngles[1]) +
                                            "C" + std::to_string(analog_read_info.fingerAngles[2]) +
                                            "D" + std::to_string(analog_read_info.fingerAngles[3]) +
-                                           "E" + std::to_string(analog_read_info.fingerAngles[4]) +
-                                           "F" + std::to_string(analog_read_info.joystickXY[0]) +
-                                           "G" + std::to_string(analog_read_info.joystickXY[1]);
+                                           "E" + std::to_string(analog_read_info.fingerAngles[4]);
+                if (JOYSTICK_ENABLE)
+                {
+                    outputString += "F" + std::to_string(analog_read_info.joystickXY[0]) +
+                                    "G" + std::to_string(analog_read_info.joystickXY[1]);
+                }
+
                 if ((analog_read_info.buttonsBitmask & TRIGGER_BUTTON_BITMASK))
                     outputString += "L";
-                if (!(analog_read_info.buttonsBitmask & JOYSTICK_BUTTON_BITMASK))
+                if ((!(analog_read_info.buttonsBitmask & JOYSTICK_BUTTON_BITMASK)) && JOYSTICK_ENABLE)
                     outputString += "H";
                 if ((analog_read_info.buttonsBitmask & A_BUTTON_BITMASK))
                     outputString += "J";
