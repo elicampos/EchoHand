@@ -92,4 +92,5 @@ Gabriella Conde | 4/1/26 | 2:00 AM | 2:50 AM | 0:50 | Crimped a header JST pin f
 Eli Campos | 4/1/26 | 5:00 AM | 6:21 AM  | 1:21 | Wrote ESP-NOW master code
 Eli Campos | 4/6/26 | 12:00 AM | 3:00 AM  | 3:00 | Wrote ESP-NOW slave code
 Gabriella Conde | 4/20/26 | 1 AM | 7 AM | 6:00 | new case
+Gabriella Conde | 4/20/26 | 8 PM | 7 AM | 11:00 | Fix case dimensions, 3D print parts, add straps
 >>>>>>> b20544111ac6414b7ceb460857ac5b64f2863c52
