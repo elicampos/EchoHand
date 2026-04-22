@@ -1,27 +1,28 @@
 # EchoHand
 
-A haptic feedback glove for VR applications utilizing an ESP32-S3 or ESP32-WROOM-32 microcontroller. 
+A haptic feedback glove for VR applications utilizing ESP32-S3 microcontrollers. 
 
 ## Project Overview
 
-EchoHand is a wearable haptic glove that captures hand and finger movements, and provides haptic feedback through the servo motors and vibration systems. The system communicates via USB Serial and Bluetooth Serial to transmit all the sensor data to the computer in real-time.
+EchoHand is a wearable haptic glove that captures hand and finger movements, and provides haptic feedback through the servo motors. The system communicates primary through WI-FI but also supports USB and Bluetooth Serial to transmit all the sensor data to the computer in real-time through the OpenGloves application.
 
 ## System Architecture
 
 ### External Interface
 
-The external interface layer is implemented in `main.cpp` and configures and runs every Freertos task. This component:
+The external interface layer is executed primarily in `SerialCommunication.cpp` or `WifiCommuncation.cpp` and is responsible for receving and sending packets to the computer running the virtual reality enviornment.
 
-- Configures the FreeRTOS settings, including task stack sizes and priorities
-- Configures serial communication settings for debugging and monitoring
+- Configures Bluetooth Serial Communcation and has some variables to toggle AT mode for baudrates changes
+- Configures ESP-NOW which allows the ESP32-S3 to talk to the computer quickly and asynchronously.
+- Configures USB Serial by printing through default COM port
 
 ### DataBroker
 
 Data storage is managed through `DataBroker.h`, which implements a singleton pattern for centralized state management. This component:
 
-- Provides thread-safe getters and setters for all sensor and actuator values
+- Provides getters and setters for all sensor and actuator values
 - Implements a snapshot mechanism with revision counters for consistent multi-field reads
-- Stores current values for finger angles, servo positions, vibration motor RPMs, and button inputs
+- Stores current values for finger angles, servo positions, and button inputs
 
 ### Internal Systems
 
@@ -30,24 +31,26 @@ The internal processing layer handles data transformation and control logic. Thi
 - **Sensor Mapping**: Get's center of raw ADC values (0-4095) to get more accurate values
 - **Command Translation**: Translates serial commands PWM signals for servo motor control
 - **State Updates**: Continuously updates the DataBroker with processed sensor data
-- **Haptic Control**: Manages the relationship between virtual interactions and physical feedback through servo and vibration systems
+- **Haptic Control**: Manages the relationship between virtual interactions and physical feedback through servo systems
 
 ### Information Handling
 
 Data integrity is maintained through:
 - Validation of sensor data ranges before processing
 - Error checking on state updates to prevent corruption
+- Verifying presence of the null terminator character in strings to prevent overflows
+- Ensuring we never read outside of the bounds of C-style strings
 
 ### Communication
 
-Communication is done through USB Serial or Bluetooth Serial dependent on the value in `config.h`.
-- **Output Characteristic**: Transmits finger angle data and sensor readings
-- **Input Characteristic**: Receives haptic feedback commands for servos and vibration motors
+Communication is done through WI-FI, USB Serial, Bluetooth Serial and is dependent on the values in `config.h`.
+- **Output Characteristic**: Transmits finger angle data and button values
+- **Input Characteristic**: Receives haptic feedback commands for servos
 
 ### Integrity & Resilience
 
 Current security and reliability features include:
-- **RTOS Task Management**: FreeRTOS ensures deterministic behavior and prevents task conflicts
+- **RTOS Task Management**: FreeRTOS ensures deterministic behavior 
 
 Future security and reliability features include:
 - **Encryption**: All Bluetooth packets are encrypted(after pairing) to prevent man-in-the-middle attacks
@@ -58,22 +61,8 @@ Future security and reliability features include:
 ### 1. Random Finger position Jitter
 **Description**: Due to no low-pass filter on the slider pins. Implementing this via software will cause too much of a delay.
 
-### 2. Unstable SteamVR Connections
-**Description**: Sometimes SteamVR will crash or fail to connect to the Echohand requiring a restart on both devices.
-
 ## Future Work
 
+#### 1. User-facing application for easy firmware changes
+- **Description**: Create GUI software to allow users to send custom or pre-configured payloads to the EchoHand to update the current EchoHand settings during run-time.
 
-#### 1. 3D Printed Components
-- **Design and print custom mounting solutions**: To be able to use the joystick and button comfortably 
-  - Uses clamp mechanism around index finger
-
-#### 2. Improve Setup Time
-- **Develop or modify code**: Create software or update Unity enviornment to reduce user setup time
-  - Create a process that runs in the background to manage existing communcation between the ESP32 and Opengloves
-  or modify the Opengloves steam driver itself
-
-#### 3. Reduce Latency
-- **Modify current software stack**: Improve speed of packet generation and transmission on the ESP32
-  - Make singleton more efficent
-  - Support DMA for ADC while still utilizing ESP32 efuse information
